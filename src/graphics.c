@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include "graphics.h"
 
+// Define window width and height as macros
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
+
 // Function to load a texture from a file
 SDL_Texture* load_texture(const char *file, SDL_Renderer *renderer) {
     char filepath[256];
@@ -45,10 +49,7 @@ void render_dialog_box(SDL_Renderer *renderer, const char *text, int x, int y, i
     SDL_SetRenderDrawColor(renderer, 0, 0, 128, 255); // Dark blue
     SDL_Rect dialog_box = {x, y, w, h};
     SDL_RenderFillRect(renderer, &dialog_box);
-    // Set text color and render the text
-    // Note: You would typically use SDL_ttf to render text, but it's not covered here
-    // For simplicity, this example does not include text rendering
-    // SDL_RenderDrawText(renderer, text, x + 10, y + 10); // Example placeholder
+
     // Render the text inside the dialog box
     render_text(renderer, text, x + 10, y + 10, w - 20, h - 20);
 }
@@ -75,7 +76,6 @@ void render_text(SDL_Renderer *renderer, const char *text, int x, int y, int w, 
         printf("Failed to load font: %s\n", TTF_GetError());
         return;
     }
-
     SDL_Color color = {255, 255, 255, 255}; // White color
     SDL_Surface *surface = TTF_RenderUTF8_Blended_Wrapped(font, text, color, w);
     if (!surface) {
