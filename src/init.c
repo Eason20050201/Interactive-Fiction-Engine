@@ -3,10 +3,6 @@
 #include <stdio.h>
 #include "init.h"
 
-// Define window width and height as macros
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
-
 // Function to initialize SDL and create a window and renderer
 int initialize_window(SDL_Window **window, SDL_Renderer **renderer) {
     // Initialize SDL
@@ -18,7 +14,7 @@ int initialize_window(SDL_Window **window, SDL_Renderer **renderer) {
     // Create a window
     *window = SDL_CreateWindow("Interactive Fiction Engine",
                                SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                               WINDOW_WIDTH, WINDOW_HEIGHT,
+                               1280, 720,
                                SDL_WINDOW_SHOWN);
     if (!*window) {
         printf("Window creation failed: %s\n", SDL_GetError());
