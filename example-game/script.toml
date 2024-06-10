@@ -1,0 +1,171 @@
+# 場景設置
+[[scenes]]
+id = "school"
+background = "images/school_bg.png"
+description = "這是學校的場景。"
+
+[[scenes]]
+id = "park"
+background = "images/park_bg.png"
+description = "這是公園的場景。"
+
+[[scenes]]
+id = "cafe"
+background = "images/cafe_bg.png"
+description = "這是咖啡館的場景。"
+
+[[scenes]]
+id = "cinema"
+background = "images/cinema_bg.png"
+description = "這是電影院的場景。"
+
+# 人物設置
+[[characters]]
+id = "shido"
+name = "五河士道"
+avatar = "images/shido_avatar.png"
+sprite = "images/shido_sprite.png"
+affection = 50  # 士道的初始好感度
+
+[[characters]]
+id = "tohka"
+name = "夜刀神十香"
+avatar = "images/tohka_avatar.png"
+sprite = "images/tohka_sprite.png"
+affection = 50  # 十香的初始好感度
+
+[[characters]]
+id = "kurumi"
+name = "時崎狂三"
+avatar = "images/kurumi_avatar.png"
+sprite = "images/kurumi_sprite.png"
+affection = 50  # 狂三的初始好感度
+
+# 物品設置
+[[items]]
+id = "spiritual_energy"
+name = "靈力"
+icon = "images/spiritual_energy_icon.png"
+
+[[items]]
+id = "date_ticket"
+name = "約會券"
+icon = "images/date_ticket_icon.png"
+
+# 劇情設置
+[[events]]
+scene = "school"
+character = "shido"
+dialogue = "今天要和誰約會呢？"
+choices = [
+    { text = "夜刀神十香", next_event = "date_tohka" },
+    { text = "時崎狂三", next_event = "date_kurumi" }
+]
+
+[[events]]
+id = "date_tohka"
+scene = "park"
+character = "tohka"
+dialogue = "士道，你今天也在這裡嗎？"
+choices = [
+    { text = "是的，十香。我們一起去散步吧。", next_event = "walk_with_tohka", affection_change = 10 },
+    { text = "抱歉，十香。我有別的事。", next_event = "leave_tohka", affection_change = -10 }
+]
+
+[[events]]
+id = "walk_with_tohka"
+scene = "park"
+character = "tohka"
+dialogue = "散步真好，我們以後也常常這樣吧。"
+choices = [
+    { text = "當然，十香。我們永遠在一起。", next_event = "happy_ending_tohka", affection_change = 10 },
+    { text = "其實，我有點事想和你談。", next_event = "conflict_with_tohka", affection_change = -5 }
+]
+
+[[events]]
+id = "leave_tohka"
+scene = "school"
+character = "shido"
+dialogue = "對不起，十香。"
+choices = [
+    { text = "也許下次吧。", next_event = "sad_ending_tohka", affection_change = -10 }
+]
+
+[[events]]
+id = "date_kurumi"
+scene = "park"
+character = "kurumi"
+dialogue = "呵呵，士道君，今天你想去哪裡？"
+choices = [
+    { text = "去咖啡館怎麼樣？", next_event = "cafe_with_kurumi", affection_change = 10 },
+    { text = "一起去看電影吧。", next_event = "movie_with_kurumi", affection_change = 10 }
+]
+
+[[events]]
+id = "cafe_with_kurumi"
+scene = "cafe"
+character = "kurumi"
+dialogue = "咖啡真香，我們聊聊吧。"
+choices = [
+    { text = "你覺得我們有未來嗎？", next_event = "deep_talk_with_kurumi", affection_change = 10 },
+    { text = "我們只是朋友吧？", next_event = "friend_zone_kurumi", affection_change = -10 }
+]
+
+[[events]]
+id = "movie_with_kurumi"
+scene = "cinema"
+character = "kurumi"
+dialogue = "這部電影真有意思。"
+choices = [
+    { text = "你喜歡這種類型嗎？", next_event = "talk_movie_with_kurumi", affection_change = 5 },
+    { text = "我們應該多出來這樣玩。", next_event = "more_dates_with_kurumi", affection_change = 10 }
+]
+
+[[events]]
+id = "happy_ending_tohka"
+scene = "park"
+character = "tohka"
+dialogue = "士道，我們永遠在一起。"
+# 結局
+
+[[events]]
+id = "conflict_with_tohka"
+scene = "park"
+character = "tohka"
+dialogue = "你說什麼？"
+# 結局或下一個劇情
+
+[[events]]
+id = "sad_ending_tohka"
+scene = "school"
+character = "shido"
+dialogue = "也許我們的緣分還沒到。"
+# 結局
+
+[[events]]
+id = "deep_talk_with_kurumi"
+scene = "cafe"
+character = "kurumi"
+dialogue = "未來是不可預測的，但我希望有你。"
+# 結局或下一個劇情
+
+[[events]]
+id = "friend_zone_kurumi"
+scene = "cafe"
+character = "kurumi"
+dialogue = "也許我們更適合當朋友。"
+# 結局
+
+[[events]]
+id = "talk_movie_with_kurumi"
+scene = "cinema"
+character = "kurumi"
+dialogue = "我很喜歡這種類型。"
+# 結局或下一個劇情
+
+[[events]]
+id = "more_dates_with_kurumi"
+scene = "cinema"
+character = "kurumi"
+dialogue = "是的，我們應該多這樣出去玩。"
+# 結局或下一個劇情
