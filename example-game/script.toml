@@ -25,14 +25,14 @@ background = "assets/MRT_bg.png"
 description = "這是MRT的場景。"
 
 [[scenes]]
-id = "universal_gate"
-background = "assets/universal_gate.png"
-description = "這是環球影城門口的場景。"
+id = "amusement_park"
+background = "assets/amusement_park.png"
+description = "這是遊樂園入口"
 
 [[scenes]]
-id = "little_yellow"
-background = "assets/little_yellow.png"
-description = "這是小小兵的場景。"
+id = "ghost_house"
+background = "assets/ghost_house.png"
+description = "鬼屋入口"
 
 [[scenes]]
 id = "mario"
@@ -145,7 +145,7 @@ character = "shido"
 dialogue = "(那邊那個人看起來好像狂三喔!要去確認看看嗎?)"
 choices = [
     { text = "直接去確認", next_event = "meet_kurumi_directly"},
-    { text = "直接忽視", next_event = "avoid_kurumi_but_meet"},
+    { text = "直接忽視", next_event = "avoid_kurumi_but_meet", affection_changes = { character = "kurumi", change = 5 } },
     { text = "偷偷跟蹤到他的旁邊嚇她一跳", next_event = "meet_kurumi_scary"}
 ]
 
@@ -162,9 +162,9 @@ scene = "universal_gate"
 character = "kurumi"
 dialogue = "對呀，居然能在這碰到你，真的是好巧阿!這麼巧的話那要不我們一起玩?"
 choices = [
-    { text = "毫不猶豫就說好啊!", next_event = "meet_kurumi_directly"},
-    { text = "思考個10秒才說好", next_event = "avoid_kurumi_but_meet"},
-    { text = "...", next_event = "meet_kurumi_scary"}
+    { text = "毫不猶豫就說好啊!", next_event = "yes_fast", affection_changes = { character = "kurumi", change = 5 }},
+    { text = "思考個10秒才說好", next_event = "yes_long", affection_changes = { character = "kurumi", change = -5 }},
+    { text = "...", next_event = "noreaction", affection_changes = { character = "kurumi", change = -5 }}
 ]
 
 [[events]]
@@ -179,18 +179,47 @@ choices = [
 ]
 
 [[events]]
-id = "avoid_kurumi_but_meet"
-scene = "universal"
+id = "yes_fast"
+scene = "universal_gate"
 character = "kurumi"
-dialogue = "哦？士道!真巧啊，你今天也來環球影城呀!我剛剛明明就看到你看到我，居然直接忽視啊..."
+dialogue = "太棒了那走吧!!"
 next_event = "continue_universal_with_kurumi"
+
+[[events]]
+id = "yes_long"
+scene = "universal_gate"
+character = "kurumi"
+dialogue = "有需要猶豫那麼久嗎...那我們出發吧..."
+next_event = "continue_universal_with_kurumi"
+
+[[events]]
+id = "noreaction"
+scene = "universal_gate"
+character = "kurumi"
+dialogue = "你不回答就當作是要囉，我們出發吧!"
+next_event = "continue_universal_with_kurumi"
+
+[[events]]
+id = "avoid_kurumi_but_meet"
+scene = "universal_gate"
+character = "kurumi"
+dialogue = "哦？士道!真巧啊，你今天也來環球影城呀!我剛剛明明就看到你看到我，居然直接忽視啊...怎麼樣要跟我同行嗎?"
+choices = [
+    { text = "毫不猶豫就說好啊!", next_event = "yes_fast", affection_changes = { character = "kurumi", change = 5 }},
+    { text = "思考個10秒才說好", next_event = "yes_long", affection_changes = { character = "kurumi", change = -5 }},
+    { text = "...", next_event = "noreaction", affection_changes = { character = "kurumi", change = -5 }}
+]
 
 [[events]]
 id = "continue_universal_with_kurumi"
 scene = "universal"
-character = "shido"
-dialogue = "那我們應該要先去哪裡玩呢?"
-next_event = "tohka_choose"
+character = "kurumi"
+dialogue = "那我們應該要先去哪裡玩呢?要去哈利"
+choices = [
+    { text = "毫不猶豫就說好啊!", next_event = "yes_fast", affection_changes = { character = "kurumi", change = 5 }},
+    { text = "思考個10秒才說好", next_event = "yes_long", affection_changes = { character = "kurumi", change = -5 }},
+    { text = "...", next_event = "noreaction", affection_changes = { character = "kurumi", change = -5 }}
+]
 
 [[events]]
 id = "tohka_choose"
