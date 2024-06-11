@@ -1,171 +1,243 @@
 # 場景設置
 [[scenes]]
-id = "school"
-background = "images/school_bg.png"
-description = "這是學校的場景。"
+id = "universal"
+background = "assets/universal.png"
+description = "環球影城場景"
 
 [[scenes]]
-id = "park"
-background = "images/park_bg.png"
-description = "這是公園的場景。"
+id = "home"
+background = "assets/home.png"
+description = "這是家的場景"
 
 [[scenes]]
-id = "cafe"
-background = "images/cafe_bg.png"
-description = "這是咖啡館的場景。"
+id = "popcorn_shop"
+background = "assets/popcorn_shop.png"
+description = "這是爆米花攤販的場景。"
 
 [[scenes]]
 id = "cinema"
-background = "images/cinema_bg.png"
+background = "assets/cinema_bg.png"
 description = "這是電影院的場景。"
+
+[[scenes]]
+id = "MRT"
+background = "assets/MRT_bg.png"
+description = "這是MRT的場景。"
+
+[[scenes]]
+id = "universal_gate"
+background = "assets/universal_gate.png"
+description = "這是環球影城門口的場景。"
+
+[[scenes]]
+id = "little_yellow"
+background = "assets/little_yellow.png"
+description = "這是小小兵的場景。"
+
+[[scenes]]
+id = "mario"
+background = "assets/mario.png"
+description = "這是Mario的場景。"
+
+[[scenes]]
+id = "hogwarts"
+background = "assets/hogwarts.png"
+description = "這是Hogwarts的場景。"
 
 # 人物設置
 [[characters]]
 id = "shido"
 name = "五河士道"
-avatar = "images/shido_avatar.png"
-sprite = "images/shido_sprite.png"
+avatar = "assets/shido_avatar.png"
+sprite = "assets/shido_sprite.png"
 affection = 50  # 士道的初始好感度
 
 [[characters]]
 id = "tohka"
 name = "夜刀神十香"
-avatar = "images/tohka_avatar.png"
-sprite = "images/tohka_sprite.png"
+avatar = "assets/tohka_avatar.png"
+sprite = "assets/tohka_sprite.png"
 affection = 50  # 十香的初始好感度
 
 [[characters]]
 id = "kurumi"
 name = "時崎狂三"
-avatar = "images/kurumi_avatar.png"
-sprite = "images/kurumi_sprite.png"
+avatar = "assets/kurumi_avatar.png"
+sprite = "assets/kurumi_sprite.png"
 affection = 50  # 狂三的初始好感度
 
 # 物品設置
 [[items]]
-id = "spiritual_energy"
-name = "靈力"
-icon = "images/spiritual_energy_icon.png"
+id = "popcorn_bucket"
+name = "爆米花桶"
+icon = "assets/popcorn_bucket_icon.png"
 
 [[items]]
 id = "date_ticket"
 name = "約會券"
-icon = "images/date_ticket_icon.png"
+icon = "assets/date_ticket_icon.png"
+
+[[items]]
+id = "money"
+name = "千元大鈔"
+icon = "assets/money_icon.png"
+quality = 5
+
+[[items]]
+id = "souvenir"
+name = "紀念品"
+icon = "assets/souvenir_icon.png"
 
 # 劇情設置
 [[events]]
-scene = "school"
+scene = "home"
 character = "shido"
-dialogue = "今天要和誰約會呢？"
+dialogue = "你們今天想要去環球影城玩嗎?"
 choices = [
-    { text = "夜刀神十香", next_event = "date_tohka" },
-    { text = "時崎狂三", next_event = "date_kurumi" }
+    { text = "環球影城", next_event = "to_universal" },
+    { text = "不要，環球影城這麼無聊。", next_event = "no_universal" },
+    { text = "什麼出去玩，我宅男在家睡。", next_event = "sleep_ending" } #還沒寫
 ]
 
 [[events]]
-id = "date_tohka"
-scene = "park"
-character = "tohka"
-dialogue = "士道，你今天也在這裡嗎？"
-choices = [
-    { text = "是的，十香。我們一起去散步吧。", next_event = "walk_with_tohka", affection_change = 10 },
-    { text = "抱歉，十香。我有別的事。", next_event = "leave_tohka", affection_change = -10 }
-]
-
-[[events]]
-id = "walk_with_tohka"
-scene = "park"
-character = "tohka"
-dialogue = "散步真好，我們以後也常常這樣吧。"
-choices = [
-    { text = "當然，十香。我們永遠在一起。", next_event = "happy_ending_tohka", affection_change = 10 },
-    { text = "其實，我有點事想和你談。", next_event = "conflict_with_tohka", affection_change = -5 }
-]
-
-[[events]]
-id = "leave_tohka"
-scene = "school"
+id = "to_universal"
+scene = "home"
 character = "shido"
-dialogue = "對不起，十香。"
+dialogue = "那我要怎麼過去嘞?"
 choices = [
-    { text = "也許下次吧。", next_event = "sad_ending_tohka", affection_change = -10 }
+    { text = "搭大眾運輸工具", next_event = "MRT_to_universal"},
+    { text = "自己開車", next_event = "drive_to_universal"},
+    { text = "搭乘計程車", next_event = "taxi_to_universal"}
 ]
 
 [[events]]
-id = "date_kurumi"
-scene = "park"
-character = "kurumi"
-dialogue = "呵呵，士道君，今天你想去哪裡？"
-choices = [
-    { text = "去咖啡館怎麼樣？", next_event = "cafe_with_kurumi", affection_change = 10 },
-    { text = "一起去看電影吧。", next_event = "movie_with_kurumi", affection_change = 10 }
-]
+id = "taxi_to_universal"
+scene = "home"
+character = 0
+dialogue = "(搭乘計程車金錢數量-1)"
+next_event = "arrive_universal"
 
 [[events]]
-id = "cafe_with_kurumi"
-scene = "cafe"
-character = "kurumi"
-dialogue = "咖啡真香，我們聊聊吧。"
-choices = [
-    { text = "你覺得我們有未來嗎？", next_event = "deep_talk_with_kurumi", affection_change = 10 },
-    { text = "我們只是朋友吧？", next_event = "friend_zone_kurumi", affection_change = -10 }
-]
-
-[[events]]
-id = "movie_with_kurumi"
-scene = "cinema"
-character = "kurumi"
-dialogue = "這部電影真有意思。"
-choices = [
-    { text = "你喜歡這種類型嗎？", next_event = "talk_movie_with_kurumi", affection_change = 5 },
-    { text = "我們應該多出來這樣玩。", next_event = "more_dates_with_kurumi", affection_change = 10 }
-]
-
-[[events]]
-id = "happy_ending_tohka"
-scene = "park"
-character = "tohka"
-dialogue = "士道，我們永遠在一起。"
-# 結局
-
-[[events]]
-id = "conflict_with_tohka"
-scene = "park"
-character = "tohka"
-dialogue = "你說什麼？"
-# 結局或下一個劇情
-
-[[events]]
-id = "sad_ending_tohka"
-scene = "school"
+id = "MRT_to_universal"
+scene = "MRT"
 character = "shido"
-dialogue = "也許我們的緣分還沒到。"
-# 結局
+dialogue = "(捷運上面好擠啊，怎麼這麼多人想要去環球影城。)"
+next_event = "MRT_to_universal2"
 
 [[events]]
-id = "deep_talk_with_kurumi"
-scene = "cafe"
-character = "kurumi"
-dialogue = "未來是不可預測的，但我希望有你。"
-# 結局或下一個劇情
+id = "MRT_to_universal2"
+scene = "MRT"
+character = "shido"
+dialogue = "(難以想像等下的環球影城有多少人...)"
+next_event = "arrive_universal"
 
 [[events]]
-id = "friend_zone_kurumi"
-scene = "cafe"
-character = "kurumi"
-dialogue = "也許我們更適合當朋友。"
-# 結局
+id = "arrive_universal"
+scene = "universal_gate"
+character = "shido"
+dialogue = "哇!入口處就這麼的華麗，好美麗啊!"
+next_event = "find_kurumi"
 
 [[events]]
-id = "talk_movie_with_kurumi"
-scene = "cinema"
-character = "kurumi"
-dialogue = "我很喜歡這種類型。"
-# 結局或下一個劇情
+id = "find_kurumi"
+scene = "universal_gate"
+character = "shido"
+dialogue = "(那邊那個人看起來好像狂三喔!要去確認看看嗎?)"
+choices = [
+    { text = "直接去確認", next_event = "meet_kurumi_directly"},
+    { text = "直接忽視", next_event = "avoid_kurumi_but_meet"},
+    { text = "偷偷跟蹤到他的旁邊嚇她一跳", next_event = "meet_kurumi_scary"}
+]
 
 [[events]]
-id = "more_dates_with_kurumi"
-scene = "cinema"
+id = "meet_kurumi_directly"
+scene = "universal_gate"
+character = "shido"
+dialogue = "狂三!是你嗎~你今天也來環球影城玩喔!"
+next_event = "meet_kurumi_directly1"
+
+[[events]]
+id = "meet_kurumi_directly1"
+scene = "universal_gate"
 character = "kurumi"
-dialogue = "是的，我們應該多這樣出去玩。"
-# 結局或下一個劇情
+dialogue = "對呀，居然能在這碰到你，真的是好巧阿!這麼巧的話那要不我們一起玩?"
+choices = [
+    { text = "毫不猶豫就說好啊!", next_event = "meet_kurumi_directly"},
+    { text = "思考個10秒才說好", next_event = "avoid_kurumi_but_meet"},
+    { text = "...", next_event = "meet_kurumi_scary"}
+]
+
+[[events]]
+id = "meet_kurumi_scary"
+scene = "universal_gate"
+character = "kurumi"
+dialogue = "啊!!!，原來是士道啊，突然出現嚇我一跳，你今天也來環球嗎!這麼巧的話那要不我們一起玩?"
+choices = [
+    { text = "毫不猶豫就說好啊!", next_event = "yes_fast", affection_changes = { character = "kurumi", change = 5 }},
+    { text = "思考個10秒才說好", next_event = "yes_long", affection_changes = { character = "kurumi", change = -5 }},
+    { text = "...", next_event = "noreaction", affection_changes = { character = "kurumi", change = -5 }}
+]
+
+[[events]]
+id = "avoid_kurumi_but_meet"
+scene = "universal"
+character = "kurumi"
+dialogue = "哦？士道!真巧啊，你今天也來環球影城呀!我剛剛明明就看到你看到我，居然直接忽視啊..."
+next_event = "continue_universal_with_kurumi"
+
+[[events]]
+id = "continue_universal_with_kurumi"
+scene = "universal"
+character = "shido"
+dialogue = "那我們應該要先去哪裡玩呢?"
+next_event = "tohka_choose"
+
+[[events]]
+id = "tohka_choose"
+scene = "universal"
+character = "tohka"
+dialogue = "我想要先去小小兵主題遊樂區，小小兵們都好可愛!"
+next_event = "kurumi_choose"
+
+[[events]]
+id = "kurumi_choose"
+scene = "universal"
+character = "kurumi"
+dialogue = "可是我想要去超級任天堂世界耶，士道你覺得哩?"
+choices = [
+    { text = "去小小兵主題遊樂區", next_event = "little_yellow", affection_changes = [{ character = "kurumi", change = -5 }, { character = "tohka", change = 5 }] },
+    { text = "去超級任天堂世界", next_event = "mario", affection_changes = [{ character = "kurumi", change = 5 }, { character = "tohka", change = -5 }] },
+    { text = "那我們去哈利波特的魔法世界吧!", next_event = "hogwarts", affection_changes = [{ character = "kurumi", change = -5 }, { character = "tohka", change = -5 }] }
+]
+
+[[events]]
+id = "little_yellow"
+scene = "little_yellow"
+character = "tohka"
+dialogue = "小小兵的佈景做的好美阿~"
+next_event = "kurumi_little_yellow"
+
+[[events]]
+id = "kurumi_little_yellow"
+scene = "little_yellow_"
+character = "kunumi"
+dialogue = "每個地方都做得好精緻，連我不怎喜歡小小兵的人都覺得好美~"
+next_event = "tohka_little_yellow"
+
+[[events]]
+id = "kunumi_little_yellow"
+scene = "little_yellow"
+character = "kunumi"
+dialogue = "我們要不要去玩那個小小兵的遊樂設施?"
+next_event = "yellow_play_tohka"
+
+[[events]]
+id = "yellow_play_tohka"
+scene = "little_yellow"
+character = "tohka"
+dialogue = "蛤~可是我想要先去吃飯，士道你覺得哩?"
+choices = [
+    { text = "先去吃飯", next_event = "yellow_eat", affection_changes = [{ character = "kurumi", change = -5 }, { character = "tohka", change = 5 }] },
+    { text = "先去玩遊樂設施", next_event = "yellow_play", affection_changes = [{ character = "kurumi", change = 5 }, { character = "tohka", change = -5 }] },
+    { text = "直接離開小小兵遊樂園區", next_event = "hogwarts", affection_changes = [{ character = "kurumi", change = -5 }, { character = "tohka", change = -5 }] }
+]
