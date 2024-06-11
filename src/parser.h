@@ -21,6 +21,7 @@ typedef struct {
     char* id;
     char* name;
     char* icon;
+    int quantity;   // 物品數量
 } Item;
 
 typedef struct {

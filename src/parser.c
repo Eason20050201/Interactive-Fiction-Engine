@@ -18,6 +18,7 @@ void parse_scenes(toml_table_t* conf);
 void parse_characters(toml_table_t* conf);
 void parse_items(toml_table_t* conf);
 void parse_events(toml_table_t* conf);
+void parse_choices(toml_table_t* event, Event* evt);
 
 // 解析TOML文件的函數
 int parse_toml(const char* filename) {
@@ -107,14 +108,19 @@ void parse_items(toml_table_t* conf) {
         char* id;
         char* name;
         char* icon;
+        int64_t quantity; // 新增數量字段
 
-        // 獲取物品的ID、名字和圖標
+        // 獲取物品的ID、名字、圖標和數量
         if (toml_rtos(toml_raw_in(item, "id"), &id) == 0 &&
             toml_rtos(toml_raw_in(item, "name"), &name) == 0 &&
-            toml_rtos(toml_raw_in(item, "icon"), &icon) == 0) {
+            toml_rtos(toml_raw_in(item, "icon"), &icon) == 0 &&
+            toml_rtoi(toml_raw_in(item, "quantity"), &quantity) == 0) {
             items[i].id = strdup(id); // 複製ID
             items[i].name = strdup(name); // 複製名字
             items[i].icon = strdup(icon); // 複製圖標
+            items[i].quantity = quantity; // 設置數量
+        } else {
+            items[i].quantity = 1; // 如果未設置數量，默認為1
         }
     }
 }
@@ -139,24 +145,32 @@ void parse_events(toml_table_t* conf) {
             events[i].character = strdup(character); // 複製角色
             events[i].dialogue = strdup(dialogue); // 複製對話
 
-            toml_array_t* choices_arr = toml_array_in(event, "choices"); // 獲取選擇數組
-            events[i].choice_count = toml_array_nelem(choices_arr); // 獲取選擇數量
-            events[i].choices = malloc(events[i].choice_count * sizeof(Choice)); // 分配內存
+            parse_choices(event, &events[i]); // 解析選擇
+        }
+    }
+}
 
-            for (int j = 0; j < events[i].choice_count; j++) {
-                toml_table_t* choice = toml_table_at(choices_arr, j); // 獲取每個選擇
-                char* text;
-                char* next_event;
-                int64_t affection_change;
+// 解析選擇的函數
+void parse_choices(toml_table_t* event, Event* evt) {
+    toml_array_t* choices_arr = toml_array_in(event, "choices"); // 獲取選擇數組
+    evt->choice_count = toml_array_nelem(choices_arr); // 獲取選擇數量
+    evt->choices = malloc(evt->choice_count * sizeof(Choice)); // 分配內存
 
-                // 獲取選擇的文本、下一事件和好感度變化
-                if (toml_rtos(toml_raw_in(choice, "text"), &text) == 0 &&
-                    toml_rtos(toml_raw_in(choice, "next_event"), &next_event) == 0 &&
-                    toml_rtoi(toml_raw_in(choice, "affection_change"), &affection_change) == 0) {
-                    events[i].choices[j].text = strdup(text); // 複製文本
-                    events[i].choices[j].next_event = strdup(next_event); // 複製下一事件
-                    events[i].choices[j].affection_change = affection_change; // 設置好感度變化
-                }
+    for (int j = 0; j < evt->choice_count; j++) {
+        toml_table_t* choice = toml_table_at(choices_arr, j); // 獲取每個選擇
+        char* text;
+        char* next_event;
+        int64_t affection_change = 0; // 默認為0，如果沒有該字段
+
+        // 獲取選擇的文本、下一事件和好感度變化
+        if (toml_rtos(toml_raw_in(choice, "text"), &text) == 0 &&
+            toml_rtos(toml_raw_in(choice, "next_event"), &next_event) == 0) {
+            evt->choices[j].text = strdup(text); // 複製文本
+            evt->choices[j].next_event = strdup(next_event); // 複製下一事件
+            if (toml_rtoi(toml_raw_in(choice, "affection_change"), &affection_change) == 0) {
+                evt->choices[j].affection_change = affection_change; // 設置好感度變化
+            } else {
+                evt->choices[j].affection_change = 0; // 如果沒有設置好感度變化，默認0
             }
         }
     }
