@@ -13,7 +13,7 @@ EXECUTABLE = $(BINDIR)/interactive_novel_engine
 
 # Flags
 CFLAGS = -I$(SRCDIR)
-LDFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
+LDFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -ltoml
 
 # Default target
 all: $(EXECUTABLE)
