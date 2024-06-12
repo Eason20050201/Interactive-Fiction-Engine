@@ -27,6 +27,11 @@ typedef struct {
 typedef struct {
     char* text;
     char* next_event;
+    char* character_id;
+    char* required_id;
+    char* optain_id;
+    int required;
+    int optain;
     int affection_change;
 } Choice;
 
