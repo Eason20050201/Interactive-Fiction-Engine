@@ -98,3 +98,27 @@ void render_text(SDL_Renderer *renderer, const char *text, int x, int y, int w, 
     SDL_DestroyTexture(texture);
     TTF_CloseFont(font);
 }
+
+void render_inventory_icon(SDL_Renderer *renderer, int x, int y) {
+    SDL_Texture *icon = load_texture("inventory_icon.png", renderer);
+    if (!icon) {
+        printf("Error: Could not load inventory_icon.png\n");
+        return;
+    }
+
+    SDL_Rect dest = {x, y, 50, 50}; // Example size, adjust as needed
+    SDL_RenderCopy(renderer, icon, NULL, &dest);
+    SDL_DestroyTexture(icon);
+}
+
+void render_inventory(SDL_Renderer *renderer, int x, int y, int w, int h, const char **items, int num_items) {
+    // Render inventory background
+    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255); // Dark grey background
+    SDL_Rect inventory_box = {x, y, w, h};
+    SDL_RenderFillRect(renderer, &inventory_box);
+
+    // Render each item
+    for (int i = 0; i < num_items; ++i) {
+        render_text(renderer, items[i], x + 10, y + 10 + i * 30, w - 20, 30);
+    }
+}
