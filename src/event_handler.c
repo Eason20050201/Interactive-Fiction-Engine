@@ -48,8 +48,9 @@ void render_new_game_screen(SDL_Renderer *renderer, GameState *game_state) {
     game_state->option3_text = "選項3";
     game_state->next_image1 = "A.png";
     game_state->next_image2 = "B.png";
-    game_state->next_image3 = "C.png";
-
+    game_state->next_image3 = "computer.png";
+    
+    SDL_RenderClear(renderer);  // Clear the renderer before drawing new content
     render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
     render_dialog_box(renderer, game_state->dialog_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
     render_button(renderer, game_state->option1_text, 340, 100, 200, 50);
@@ -70,6 +71,7 @@ void render_continue_game_screen(SDL_Renderer *renderer, GameState *game_state) 
     game_state->next_image2 = "B.png";
     game_state->next_image3 = "C.png";
 
+    SDL_RenderClear(renderer);  // Clear the renderer before drawing new content
     render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
     render_dialog_box(renderer, game_state->dialog_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
     render_button(renderer, game_state->option1_text, 340, 100, 200, 50);
@@ -101,12 +103,13 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
         if (next_image) {
             SDL_DestroyTexture(game_state->current_image);
             game_state->current_image = next_image;
-
+    
+            SDL_RenderClear(renderer);  // Clear the renderer before drawing new content
             render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
             render_dialog_box(renderer, game_state->dialog_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
-            render_button(renderer, "下一步1", 340, 200, 200, 50);
-            render_button(renderer, "下一步2", 540, 200, 200, 50);
-            render_button(renderer, "下一步3", 740, 200, 200, 50);
+            render_button(renderer, "下一步1", 340, 100, 200, 50);
+            render_button(renderer, "下一步2", 540, 100, 200, 50);
+            render_button(renderer, "下一步3", 740, 100, 200, 50);
 
             SDL_RenderPresent(renderer);
         }
