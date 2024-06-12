@@ -39,6 +39,7 @@ typedef struct {
     char* scene;
     char* character;
     char* dialogue;
+    char* next_event;
     Choice* choices;
     int choice_count;
 } Event;
