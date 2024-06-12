@@ -113,9 +113,9 @@ icon = "assets/little_yellow_toy_icon.png"
 quality = 0
 
 [[items]]
-id = "magic_stick"
-name = "哈利波特的魔仗"
-icon = "assets/magic_stick_icon.png"
+id = "cat_toy"
+name = "小貓玩偶"
+icon = "assets/cat_toy_icon.png"
 quality = 0
 
 [[items]]
@@ -378,9 +378,9 @@ scene = "lunch_place"
 character = "kurumi"
 dialogue = "好多種選擇喔!你想要吃什麼呢?"
 choices = [
-    { text = "吃八方雲集", next_event = "eight_square", affection_changes = 10 , character_id = "kurumi", required = 2, required_id = "money"},
-    { text = "吃麥當勞", next_event = "mc", affection_changes = 10 , character_id = "kurumi", required = 3, required_id = "money"},
-    { text = "吃超派雞排", next_event = "pai", affection_changes = -10 , character_id = "kurumi", required = 3, required_id = "money"}
+    { text = "吃八方雲集", next_event = "eight_square", affection_changes = 10 , character_id = "kurumi", required = 3, required_id = "money"},
+    { text = "吃麥當勞", next_event = "mc", affection_changes = 10 , character_id = "kurumi", required = 4, required_id = "money"},
+    { text = "吃超派雞排", next_event = "pai", affection_changes = -10 , character_id = "kurumi", required = 4, required_id = "money"}
 ]
 
 [[events]]
@@ -417,9 +417,9 @@ scene = "amusement_shop"
 character = "shopkeeper"
 dialogue = "這裡有三樣熱賣商品喔，有小小兵玩偶、哈利波特的魔仗、和玩具燧發槍。先生你想要什麼呢?"
 choices = [
-    { text = "小小兵玩偶", next_event = "three", required = 1},
-    { text = "哈利波特的魔仗", next_event = "three"},
-    { text = "玩具燧發槍", next_event = "three"}
+    { text = "小小兵玩偶", next_event = "three", required = 6, required_id = "money", optain = 1, optains_id = "little_yellow_toy"},
+    { text = "小貓玩偶", next_event = "three", required = 4, required_id = "money", optain = 1, optains_id = "cat_toy"},
+    { text = "玩具燧發槍", next_event = "three", required = 5, required_id = "money", optain = 1, optains_id = "flintlock"}
 ]
 
 [[events]]
@@ -435,10 +435,31 @@ scene = "bathroom"
 character = "kurumi"
 dialogue = "終於舒服多了，對了你剛剛去逛了什麼啊?"
 choices = [
-    { text = "送小小兵玩偶", next_event = "give_little_yellow", affection_changes = [{ character = "kurumi", change = 5 }]},
-    { text = "送哈利波特的魔仗", next_event = "give_magic_stick", affection_changes = [{ character = "kurumi", change = 10}]},
-    { text = "送玩具燧發槍", next_event = "give_gun", affection_changes = [{ character = "kurumi", change = 20 }]}
+    { text = "小小兵玩偶", next_event = "give_little_yellow", affection_changes = 2, character_id = "kurumi", required = 1, required_id = "little_yellow_toy"},
+    { text = "小貓玩偶", next_event = "give_cat_toy", affection_changes = 20, character_id = "kurumi", required = 1, required_id = "cat_toy"},
+    { text = "送玩具燧發槍", next_event = "give_gun", affection_changes = 10, character_id = "kurumi", required = 1, required_id = "flintlock"}
 ]
+
+[[events]]
+id = "give_little_yellow"
+scene = "bathroom"
+character = "kurumi"
+dialogue = "這是你送我的禮物???太好了吧...謝謝。"
+next_event = "find_a_lost_kid"
+
+[[events]]
+id = "give_cat_toy"
+scene = "bathroom"
+character = "kurumi"
+dialogue = "這是你送我的禮物?!太好了吧!你怎麼知道我最喜歡小貓了!!謝謝士道!"
+next_event = "find_a_lost_kid"
+
+[[events]]
+id = "give_gun"
+scene = "bathroom"
+character = "kurumi"
+dialogue = "這是你送我的禮物?!太好了吧!謝謝士道~"
+next_event = "find_a_lost_kid"
 
 [[events]]
 id = "find_a_lost_kid"
@@ -446,9 +467,9 @@ scene = "amusement_park2"
 character = "kurumi"
 dialogue = "(在去其他地方的路上)那邊有個小孩獨自一人在路上哭欸，旁邊都沒有看似家長的人，要去關心一下嗎?"
 choices = [
-    { text = "不要浪費時間", next_event = "dont_care", affection_changes = [{ character = "kurumi", change = -20 }]},
-    { text = "她看起來很不安全，我們去看看", next_event = "care", affection_changes = [{ character = "kurumi", change = 20}]},
-    { text = "...", next_event = "ignore", affection_changes = [{ character = "kurumi", change = -10 }]}
+    { text = "不要浪費時間", next_event = "dont_care", affection_changes = -20, character_id = "kurumi"},
+    { text = "她看起來很不安全，我們去看看", next_event = "care", affection_changes = 20, character_id = "kurumi"},
+    { text = "...", next_event = "ignore", affection_changes = -10, character_id = "kurumi"}
 ]
 
 [[events]]
@@ -469,18 +490,11 @@ next_event = "continue_play"
 id = "continue_play"
 scene = "amusement_park2"
 character = "kurumi"
-dialogue = "好吧...那我們現在要去哪裡哩?"
-next_event = "continue_play"
-
-[[events]]
-id = "continue_play"
-scene = "amusement_park2"
-character = "kurumi"
 dialogue = "好吧...那我們現在要去哪裡玩嘞?"
 choices = [
-    { text = "玩旋轉咖啡杯", next_event = "coffee_cup", affection_changes = [{ character = "kurumi", change = -10 }]},
-    { text = "玩密室逃脫", next_event = "secret", affection_changes = [{ character = "kurumi", change = 10}]},
-    { text = "去看表演吧", next_event = "show", affection_changes = [{ character = "kurumi", change = 10 }]}
+    { text = "玩旋轉咖啡杯", next_event = "coffee_cup", affection_changes = -10, character_id = "kurumi"},
+    { text = "玩密室逃脫", next_event = "secret", affection_changes = 10, character_id = "kurumi"},
+    { text = "去看表演吧", next_event = "show", affection_changes = 10, character_id = "kurumi"}
 ]
 
 [[events]]
@@ -551,7 +565,7 @@ id = "show3"
 scene = "show"
 character = "shido"
 dialogue = "對呀，真希望下次來的時候可以再看到他們更精彩的演出!!"
-next_event = "after_play"
+next_event = "after_play2"
 
 [[events]]
 id = "care"
@@ -606,8 +620,15 @@ next_event = "after_play"
 id = "after_play"
 scene = "show"
 character = "kurumi"
-dialogue = "今天也玩得差不多了，是時候到別分開了，士道..."
+dialogue = "今天也玩得差不多了，是時候到別分開了，士道...(準備走去門口)"
 next_event = "after_play2"
+
+[[events]]
+id = "after_play2"
+scene = "amusement_park_gate_afternoon"
+character = "kurumi"
+dialogue = "今天真的很開心呢!能夠在這裡遇見你真是太好了!"
+next_event = "after_play3"
 
 [[events]]
 id = "to_shopping_street"

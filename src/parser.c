@@ -154,7 +154,11 @@ void parse_choices(toml_table_t* event, Event* evt) {
         char* text;
         char* next_event;
         char* character_id = NULL;
+        char* optain_id = NULL;
+        char* required_id = NULL;
         int64_t affection_change = 0;
+        int64_t required = 0;
+        int64_t optain = 0;
 
         if (toml_rtos(toml_raw_in(choice, "text"), &text) == 0 &&
             toml_rtos(toml_raw_in(choice, "next_event"), &next_event) == 0) {
@@ -170,6 +174,26 @@ void parse_choices(toml_table_t* event, Event* evt) {
             } else {
                 evt->choices[j].affection_change = 0;
             }
+            if (toml_rtoi(toml_raw_in(choice, "required"), &required) == 0) {
+                evt->choices[j].required = required;
+            } else {
+                evt->choices[j].required = 0;
+            }
+            if (toml_rtos(toml_raw_in(choice, "required_id"), &required_id) == 0) {
+                evt->choices[j].required_id = strdup(required_id);
+            } else {
+                evt->choices[j].required_id = NULL;
+            }
+            if (toml_rtoi(toml_raw_in(choice, "optain"), &optain) == 0) {
+                evt->choices[j].optain = optain;
+            } else {
+                evt->choices[j].optain = 0;
+            }
+            if (toml_rtos(toml_raw_in(choice, "optain_id"), &optain_id) == 0) {
+                evt->choices[j].optain_id = optain_id;
+            } else {
+                evt->choices[j].optain_id = NULL;
+            }
         }
     }
 }
@@ -182,11 +206,26 @@ void update_affection(const char* character_id, int affection_change) {
         }
     }
 }
+void update_item(const char* optain_id, int optain, const char* required_id, int required) {
+    for (int i = 0; i < item_count; i++) {
+        if (strcmp(items[i].id, required_id) == 0) {
+            items[i].quantity -= required;
+            break;
+        }
+        if (strcmp(items[i].id, optain_id) == 0) {
+            items[i].quantity += optain;
+            break;
+        }
+    }
+}
 
 void handle_choice(Event* evt, int choice_index) {
     Choice* choice = &evt->choices[choice_index];
     if (choice->character_id) {
         update_affection(choice->character_id, choice->affection_change);
+    }
+    if (choice->required_id != NULL || choice->optain_id != NULL) {
+        update_item(choice->optain_id, choice->optain, choice->required_id, choice->required); 
     }
     // 跳转到下一个事件
     // next_event(choice->next_event);
