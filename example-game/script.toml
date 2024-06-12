@@ -107,9 +107,9 @@ affection = -1  # 小孩的初始好感度
 
 # 物品設置
 [[items]]
-id = "little_yellow_toy"
-name = "小小兵玩偶"
-icon = "assets/little_yellow_toy_icon.png"
+id = "great_cup"
+name = "高級馬克杯"
+icon = "assets/great_cup_icon.png"
 quality = 0
 
 [[items]]
@@ -149,7 +149,7 @@ dialogue = "那我要怎麼過去嘞?"
 choices = [
     { text = "搭大眾運輸工具", next_event = "MRT_to_universal"},
     { text = "自己開車", next_event = "arrive_universal"},
-    { text = "搭乘計程車(需要消耗1金幣)", next_event = "arrive_universal", required = 1, required_id = "money"}
+    { text = "搭乘計程車(需要1金幣)", next_event = "arrive_universal", required = 1, required_id = "money"}
 ]
 
 [[events]]
@@ -249,7 +249,7 @@ choices = [
 id = "continue_universal_with_kurumi"
 scene = "amusement_park"
 character = "kurumi"
-dialogue = "那我們應該要先去哪裡玩呢?要去完鬼屋還是雲霄飛車?"
+dialogue = "那我們應該要先去哪裡玩呢?要去玩鬼屋還是雲霄飛車?"
 choices = [
     { text = "雲霄飛車", next_event = "flycar", affection_changes = 5, character_id = "kurumi"},
     { text = "鬼屋", next_event = "ghost", affection_changes = 5, character_id = "kurumi"},
@@ -320,7 +320,7 @@ dialogue = "我快要吐了...(表情難受)"
 choices = [
     { text = "嘲笑她", next_event = "laugh", affection_changes = -10, character_id = "kurumi"},
     { text = "帶她去休息", next_event = "rest", affection_changes = 5, character_id = "kurumi"},
-    { text = "買藥給她吃(需要一個錢幣)", next_event = "medicine", affection_changes = 10, character_id = "kurumi", required = 1, required_id = "money"}
+    { text = "買藥給她吃(需要1錢幣)", next_event = "medicine", affection_changes = 10, character_id = "kurumi", required = 1, required_id = "money"}
 ]
 
 [[events]]
@@ -378,9 +378,9 @@ scene = "lunch_place"
 character = "kurumi"
 dialogue = "好多種選擇喔!你想要吃什麼呢?"
 choices = [
-    { text = "吃八方雲集", next_event = "eight_square", affection_changes = 10 , character_id = "kurumi", required = 3, required_id = "money"},
-    { text = "吃麥當勞", next_event = "mc", affection_changes = 10 , character_id = "kurumi", required = 4, required_id = "money"},
-    { text = "吃超派雞排", next_event = "pai", affection_changes = -10 , character_id = "kurumi", required = 4, required_id = "money"}
+    { text = "吃八方雲集(需要3錢幣)", next_event = "eight_square", affection_changes = 10 , character_id = "kurumi", required = 3, required_id = "money"},
+    { text = "吃麥當勞(需要4錢幣)", next_event = "mc", affection_changes = 10 , character_id = "kurumi", required = 4, required_id = "money"},
+    { text = "吃超派雞排(需要4錢幣)", next_event = "pai", affection_changes = -10 , character_id = "kurumi", required = 4, required_id = "money"}
 ]
 
 [[events]]
@@ -415,11 +415,11 @@ next_event = "buy_gifts"
 id = "buy_gifts"
 scene = "amusement_shop"
 character = "shopkeeper"
-dialogue = "這裡有三樣熱賣商品喔，有小小兵玩偶、哈利波特的魔仗、和玩具燧發槍。先生你想要什麼呢?"
+dialogue = "這裡有三樣熱賣商品喔，有高級馬克杯、小貓玩偶、和玩具燧發槍。先生你想要什麼呢?"
 choices = [
-    { text = "小小兵玩偶", next_event = "three", required = 6, required_id = "money", optain = 1, optains_id = "little_yellow_toy"},
-    { text = "小貓玩偶", next_event = "three", required = 4, required_id = "money", optain = 1, optains_id = "cat_toy"},
-    { text = "玩具燧發槍", next_event = "three", required = 5, required_id = "money", optain = 1, optains_id = "flintlock"}
+    { text = "高級馬克杯(需要6錢幣)", next_event = "three", required = 6, required_id = "money", optain = 1, optains_id = "great_cup"},
+    { text = "小貓玩偶(需要4錢幣)", next_event = "three", required = 4, required_id = "money", optain = 1, optains_id = "cat_toy"},
+    { text = "玩具燧發槍(需要5錢幣)", next_event = "three", required = 5, required_id = "money", optain = 1, optains_id = "flintlock"}
 ]
 
 [[events]]
@@ -435,13 +435,13 @@ scene = "bathroom"
 character = "kurumi"
 dialogue = "終於舒服多了，對了你剛剛去逛了什麼啊?"
 choices = [
-    { text = "小小兵玩偶", next_event = "give_little_yellow", affection_changes = 2, character_id = "kurumi", required = 1, required_id = "little_yellow_toy"},
-    { text = "小貓玩偶", next_event = "give_cat_toy", affection_changes = 20, character_id = "kurumi", required = 1, required_id = "cat_toy"},
-    { text = "送玩具燧發槍", next_event = "give_gun", affection_changes = 10, character_id = "kurumi", required = 1, required_id = "flintlock"}
+    { text = "送高級馬克杯(需要1個高級馬克杯)", next_event = "give_great_cup", affection_changes = 2, character_id = "kurumi", required = 1, required_id = "great_cup"},
+    { text = "送小貓玩偶(需要1個小貓玩偶)", next_event = "give_cat_toy", affection_changes = 20, character_id = "kurumi", required = 1, required_id = "cat_toy"},
+    { text = "送玩具燧發槍(需要1個玩具燧發槍)", next_event = "give_gun", affection_changes = 10, character_id = "kurumi", required = 1, required_id = "flintlock"}
 ]
 
 [[events]]
-id = "give_little_yellow"
+id = "give_great_cup"
 scene = "bathroom"
 character = "kurumi"
 dialogue = "這是你送我的禮物???太好了吧...謝謝。"
@@ -540,7 +540,7 @@ dialogue = "(玩完後)這個解謎難度挺難的耶，我們也花很久時間
 next_event = "secret3"
 
 [[events]]
-id = "secre3"
+id = "secret3"
 scene = "secret"
 character = "shido"
 dialogue = "對呀，真的是非常好玩呢，真希望下一次還可以再玩!"

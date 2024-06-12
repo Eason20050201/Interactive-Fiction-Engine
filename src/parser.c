@@ -116,7 +116,7 @@ void parse_items(toml_table_t* conf) {
             items[i].icon = strdup(icon);
             items[i].quantity = quantity;
         } else {
-            items[i].quantity = 1;
+            items[i].quantity = 0;
         }
     }
 }
@@ -128,13 +128,17 @@ void parse_events(toml_table_t* conf) {
 
     for (int i = 0; i < event_count; i++) {
         toml_table_t* event = toml_table_at(events_arr, i);
-        char* scene;
-        char* character;
-        char* dialogue;
+        char* scene = NULL;
+        char* character = NULL;
+        char* dialogue = NULL;;
+        char* next_event = NULL;;
 
         if (toml_rtos(toml_raw_in(event, "scene"), &scene) == 0 &&
             toml_rtos(toml_raw_in(event, "character"), &character) == 0 &&
             toml_rtos(toml_raw_in(event, "dialogue"), &dialogue) == 0) {
+            if(toml_rtos(toml_raw_in(event, "next_event"), &next_event) == 0){
+                events[i].next_event = strdup(next_event);
+            }
             events[i].scene = strdup(scene);
             events[i].character = strdup(character);
             events[i].dialogue = strdup(dialogue);
@@ -152,7 +156,7 @@ void parse_choices(toml_table_t* event, Event* evt) {
     for (int j = 0; j < evt->choice_count; j++) {
         toml_table_t* choice = toml_table_at(choices_arr, j);
         char* text;
-        char* next_event;
+        char* next_event = NULL;
         char* character_id = NULL;
         char* optain_id = NULL;
         char* required_id = NULL;
