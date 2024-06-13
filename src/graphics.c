@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include "graphics.h"
 
+// Define window width and height as macros
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
+
 // Function to load a texture from a file
 SDL_Texture* load_texture(const char *file, SDL_Renderer *renderer) {
     char filepath[256];
@@ -72,7 +76,6 @@ void render_text(SDL_Renderer *renderer, const char *text, int x, int y, int w, 
         printf("Failed to load font: %s\n", TTF_GetError());
         return;
     }
-
     SDL_Color color = {255, 255, 255, 255}; // White color
     SDL_Surface *surface = TTF_RenderUTF8_Blended_Wrapped(font, text, color, w);
     if (!surface) {
@@ -94,4 +97,28 @@ void render_text(SDL_Renderer *renderer, const char *text, int x, int y, int w, 
     SDL_RenderCopy(renderer, texture, NULL, &dest);
     SDL_DestroyTexture(texture);
     TTF_CloseFont(font);
+}
+
+void render_inventory_icon(SDL_Renderer *renderer, int x, int y) {
+    SDL_Texture *icon = load_texture("inventory_icon.png", renderer);
+    if (!icon) {
+        printf("Error: Could not load inventory_icon.png\n");
+        return;
+    }
+
+    SDL_Rect dest = {x, y, 50, 50}; // Example size, adjust as needed
+    SDL_RenderCopy(renderer, icon, NULL, &dest);
+    SDL_DestroyTexture(icon);
+}
+
+void render_inventory(SDL_Renderer *renderer, int x, int y, int w, int h, const char **items, int num_items) {
+    // Render inventory background
+    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255); // Dark grey background
+    SDL_Rect inventory_box = {x, y, w, h};
+    SDL_RenderFillRect(renderer, &inventory_box);
+
+    // Render each item
+    for (int i = 0; i < num_items; ++i) {
+        render_text(renderer, items[i], x + 10, y + 10 + i * 30, w - 20, 30);
+    }
 }
