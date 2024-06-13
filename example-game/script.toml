@@ -577,7 +577,7 @@ next_event = "children_talk"
 id = "ignore"
 scene = "amusement_park2"
 character = "kurumi"
-dialogue = "算了，我自己決定走吧去關心一下。"
+dialogue = "算了，我自己決定。走吧，去關心一下。"
 next_event = "children_talk"
 
 [[events]]
@@ -617,14 +617,56 @@ next_event = "after_play"
 
 [[events]]
 id = "after_play"
-scene = "show"
+scene = "service_place"
 character = "kurumi"
 dialogue = "今天也玩得差不多了，是時候到別分開了，士道...(準備走去門口)"
-next_event = "after_play2"
+next_event = "judge_end_first"
 
 [[events]]
-id = "after_play2"
+id = "judge_end_first"
 scene = "amusement_park_gate_afternoon"
 character = "kurumi"
-dialogue = "今天真的很開心呢!能夠在這裡遇見你真是太好了!"
-next_event = "after_play3"
+dialogue = "在分別之前我必須跟你說一些實話..."
+next_event = ""
+
+[[events]]
+id = "good_ending_1"
+scene = "amusement_park_gate_afternoon"
+character = "kurumi"
+dialogue = "這次可以在遊樂園遇見你真是太好了!下次有機會的話，一定要找我去其他地方喔~"
+next_event = "good_ending_2"
+
+[[events]]
+id = "good_ending_2"
+scene = "amusement_park_gate_afternoon"
+character = "shido"
+dialogue = "當然沒問題!能跟你出去玩真是太開心了!"
+next_event = "good_ending_3"
+
+[[events]]
+id = "good_ending_3"
+scene = "amusement_park_gate_afternoon"
+character = ""
+dialogue = "(恭喜你完成了好結局1，遊戲結束，感謝遊玩!!)"
+next_event = "end"
+
+[[events]]
+id = "bad_ending_1"
+scene = "amusement_park_gate_afternoon"
+character = "kurumi"
+dialogue = "這此的同行感覺非常的不自在也非常不愉快，你太自我為中心了，掰掰..."
+next_event = "bad_ending_2"
+
+[[events]]
+id = "bad_ending_2"
+scene = "amusement_park_gate_afternoon"
+character = "shido"
+dialogue = "好吧，那我也不能說什麼。再見了，狂三。"
+next_event = "bad_ending_3"
+
+[[events]]
+id = "good_ending_3"
+scene = "amusement_park_gate_afternoon"
+character = ""
+dialogue = "(恭喜你完成了壞結局1，遊戲結束，感謝遊玩!!)"
+next_event = "end"
