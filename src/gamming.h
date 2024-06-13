@@ -22,6 +22,7 @@ typedef struct {
     char *option3_event;
 
 
+    int have_choice;
     int inventory_visible;
 } GameState;
 
