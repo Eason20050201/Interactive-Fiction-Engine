@@ -11,7 +11,7 @@ typedef struct {
     char *event;
     char *next_event;
     char *scene;    // image name
-    char *charcter; // image name
+    char *character; // image name
     int affect_change;
     char *choice_a;
     char *choice_b;
