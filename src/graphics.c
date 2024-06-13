@@ -2,11 +2,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
+#include "macro.h"
 #include "graphics.h"
-
-// Define window width and height as macros
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
 
 // Function to load a texture from a file
 SDL_Texture* load_texture(const char *file, SDL_Renderer *renderer) {
@@ -213,4 +210,55 @@ void render_text_slowly(SDL_Renderer *renderer, const char *text, int x, int y, 
     }
 
     TTF_CloseFont(font);
+}
+
+
+void render_character_affinity(SDL_Renderer *renderer, const char *image_path, int affinity, int x, int y, int diameter) {
+    // Load character image
+    SDL_Texture *texture = load_texture(image_path, renderer);
+    if (!texture) {
+        printf("Error: Could not load %s\n", image_path);
+        return;
+    }
+
+    // Render the circular headshot
+    SDL_Rect dest = {x, y, diameter, diameter};
+    SDL_RenderCopy(renderer, texture, NULL, &dest);
+
+    // Render the affinity value
+    TTF_Font *font = TTF_OpenFont("example-game/assets/NotoSansCJKtc-Regular.ttf", 24); // Load a font with size 24
+    if (!font) {
+        printf("Failed to load font: %s\n", TTF_GetError());
+        SDL_DestroyTexture(texture);
+        return;
+    }
+
+    char affinity_text[10];
+    snprintf(affinity_text, sizeof(affinity_text), "%d", affinity);
+
+    SDL_Color color = {255, 255, 255, 255}; // White color
+    SDL_Surface *surface = TTF_RenderUTF8_Blended(font, affinity_text, color);
+    if (!surface) {
+        printf("Failed to create text surface: %s\n", TTF_GetError());
+        TTF_CloseFont(font);
+        SDL_DestroyTexture(texture);
+        return;
+    }
+
+    SDL_Texture *text_texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if (!text_texture) {
+        printf("Failed to create text texture: %s\n", SDL_GetError());
+        SDL_FreeSurface(surface);
+        TTF_CloseFont(font);
+        SDL_DestroyTexture(texture);
+        return;
+    }
+    
+    SDL_Rect text_rect = {x + diameter + 10, y + (diameter - surface->h) / 2, surface->w, surface->h}; // Position text next to the headshot
+    SDL_RenderCopy(renderer, text_texture, NULL, &text_rect);
+
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(text_texture);
+    TTF_CloseFont(font);
+    SDL_DestroyTexture(texture);
 }

@@ -1,16 +1,10 @@
 #include <SDL2/SDL.h>
+#include <stdlib.h>
+#include <string.h>
+#include "macro.h"
 #include "graphics.h"
 #include "event_handler.h"
-
-// Screen identifiers
-#define SCREEN_LOGIN 0
-#define SCREEN_NEW_GAME 1
-#define SCREEN_CONTINUE_GAME 2
-#define SCREEN_GAME_LOOP 3
-
-// Define window width and height as macros
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
+#include "gamming.h"
 
 // Function to handle events
 void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Renderer *renderer, GameState *game_state) {
@@ -25,19 +19,14 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                     if (y >= 200 && y <= 250) {
                         // Handle settings option
                     } else if (y >= 300 && y <= 350) {
-                        // new game 
+                        // new game
+                        // game_state->event = "start";
                         *current_screen = SCREEN_NEW_GAME;
                         render_game_screen(renderer, game_state);
-
-                        // render_new_game_screen(renderer, game_state);
                     } else if (y >= 400 && y <= 450) {
-                        // continue game 
-                        // maybe find a last record txt to get last event
-
+                        // continue game
                         *current_screen = SCREEN_CONTINUE_GAME;
                         render_game_screen(renderer, game_state);
-
-                        // render_continue_game_screen(renderer, game_state);
                     }
                 }
             } else if (*current_screen == SCREEN_GAME_LOOP) {
@@ -45,123 +34,107 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                     handle_inventory_icon_click(renderer, game_state);
                 } else if( !game_state->inventory_visible ) {
                     render_game_screen(renderer, game_state);
-
                     handle_option_buttons(renderer, event, game_state);
-                }
+                } 
             }
         }
     }
 }
 
 void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
+       
+    // next event_id
+    int is_find = search_event( game_state );
+    // if( !is_find ){
+    //     printf("not find next event\n");
+    // }
     
-    // need a function to search_event( game_state->event); to replace below image, text, etc
-    /* like
-    search_event( game_state ) {
-        game_state->scene = ...
-        game_state->character = ...
-        game_state->dialog_text = next_dialog;
-        game_state->option1_text = next_option_text;
-        game_state->option2_text = next_option_text;
-        game_state->option3_text = next_option_text;
-    }
-    */
+    // get the image of scene
+    game_state->current_image = load_texture(game_state->scene, renderer);
+    game_state->character_image = load_texture(game_state->character, renderer);
 
-    game_state->current_image = load_texture("example.png", renderer);
-    
-    // for test
-    if( game_state->event ) {
-        // game_state->current_image = load_texture("A.png", renderer);
-        SDL_Texture *next_image = load_texture("A.png", renderer);
-        fade_in(renderer, next_image, 50);
-        SDL_DestroyTexture(game_state->current_image);
-        // crossfade(renderer, game_state->current_image, next_image, 50); // Use crossfade effect
-        game_state->current_image = load_texture("A.png", renderer);  
-    }
-
-    game_state->dialog_text = "開始新遊戲。";
-    game_state->option1_text = "選項1";
-    game_state->option2_text = "選項2";
-    game_state->option3_text = "選項3";
-    game_state->next_image1 = "A.png";
-    game_state->next_image2 = "B.png";
-    game_state->next_image3 = "computer.png";
-    
     SDL_RenderClear(renderer);  // Clear the renderer before drawing new content
+
     render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
-    render_dialog_box(renderer, game_state->dialog_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
-
-
-    render_button(renderer, game_state->option1_text, 340, 100, 200, 50);
-    render_button(renderer, game_state->option2_text, 540, 100, 200, 50);
-    render_button(renderer, game_state->option3_text, 740, 100, 200, 50);
+    render_texture_fullscreen(game_state->character_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
+    
+    render_dialog_box(renderer, game_state->dialogue_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
+    
+    if( game_state->have_choice ) {
+        render_button(renderer, game_state->choice_a, 340, WINDOW_HEIGHT - 200, 200, 50);
+        render_button(renderer, game_state->choice_b, 540, WINDOW_HEIGHT - 200, 200, 50);
+        render_button(renderer, game_state->choice_c, 740, WINDOW_HEIGHT - 200, 200, 50);
+    }
     render_inventory_icon(renderer, 10, WINDOW_HEIGHT - 60); // Render inventory icon
-
+    
+    // not yet
     if (game_state->inventory_visible) {
         const char *items[] = {"道具1", "道具2", "道具3"};
         int num_items = sizeof(items) / sizeof(items[0]);
         render_inventory(renderer, 100, 100, 400, 300, items, num_items); // Example position and size
     }
 
-    SDL_RenderPresent(renderer);
+    // Render character affinity in the top left corner
+    render_character_affinity(renderer, "A.png", game_state->affect_change, 10, 10, 50);
+
 }
 
+void print( GameState *game_state) {
+    printf("event: %s\n", game_state->event);
+    printf("next_event: %s\n", game_state->next_event);
+    printf("scene: %s\n", game_state->scene);
+    printf("character: %s\n", game_state->character);
+    printf("affect_change: %d\n", game_state->affect_change);
+    printf("choice_a: %s\n", game_state->choice_a);
+    printf("choice_b: %s\n", game_state->choice_b);
+    printf("choice_c: %s\n", game_state->choice_c);
+    printf("dialogue_text: %s\n", game_state->dialogue_text);
+    printf("option1_event: %s\n", game_state->option1_event);
+    printf("option2_event: %s\n", game_state->option2_event);
+    printf("option3_event: %s\n", game_state->option3_event);
+}
 
 // Function to handle option buttons
 void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *game_state) {
     int x, y;
     SDL_GetMouseState(&x, &y);
 
-    if (event->type == SDL_MOUSEBUTTONDOWN) {
-        int next_event = 0;
+    if (event->type == SDL_MOUSEBUTTONDOWN ) {
+        int change_event = 0;
 
-        if (x >= 340 && x <= 540 && y >= 100 && y <= 150) {
-            next_event = 1;
-            game_state->event = game_state->choice_a; 
-            
-            // for test
-            // game_state->current_image = load_texture(game_state->next_image1, renderer);
-            // game_state->event = "a"; 
-
-            // next_image = load_texture(game_state->next_image1, renderer);
-            // game_state->dialog_text = "你選擇了選項1。";
-        } else if (x >= 540 && x <= 740 && y >= 100 && y <= 150) {
-            next_event = 1;
-            game_state->event = game_state->choice_b; 
-
-            // next_image = load_texture(game_state->next_image2, renderer);
-            // game_state->dialog_text = "你選擇了選項2。";
-        } else if (x >= 740 && x <= 940 && y >= 100 && y <= 150) {
-            next_event = 1;
-            game_state->event = game_state->choice_c; 
-
-            // next_image = load_texture(game_state->next_image3, renderer);
-            // game_state->dialog_text = "你選擇了選項3。";
+        printf("before:\n");
+        print( game_state);
+        printf("---\n");
+        
+        if (x >= 340 && x <= 540 && y >= WINDOW_HEIGHT - 200 && y <= WINDOW_HEIGHT - 150 && game_state->have_choice) {
+            change_event = 1;
+            // strcpy(game_state->event, game_state->option1_event);
+            game_state->event = game_state->option1_event;
+        } else if (x >= 540 && x <= 740 && y >= WINDOW_HEIGHT - 200 && y <= WINDOW_HEIGHT - 150 && game_state->have_choice) {
+            change_event = 1;
+            // strcpy(game_state->event, game_state->option2_event);
+            game_state->event = game_state->option2_event;
+        } else if (x >= 740 && x <= 940 && y >= WINDOW_HEIGHT - 200 && y <= WINDOW_HEIGHT - 150 && game_state->have_choice) {
+            change_event = 1;
+            // strcpy(game_state->event, game_state->option3_event);
+            game_state->event = game_state->option3_event;
         }
-        else {
-            next_event = 1;
-            game_state->event = "a"; 
-            // game_state->event = game_state->next_event;
-
+        else if ( !game_state->have_choice ) {
+            change_event = 1;
+            // strcpy(game_state->event, game_state->next_event);
+            game_state->event = game_state->next_event;
         }
 
-        if (next_event) {
+        if (change_event) {
             render_game_screen(renderer, game_state);
-    //         SDL_DestroyTexture(game_state->current_image);
-    //         game_state->current_image = next_image;
-    // 
-    //         SDL_RenderClear(renderer);  // Clear the renderer before drawing new content
-    //         render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
-    //         render_dialog_box(renderer, game_state->dialog_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
-    //         render_button(renderer, "下一步1", 340, 100, 200, 50);
-    //         render_button(renderer, "下一步2", 540, 100, 200, 50);
-    //         render_button(renderer, "下一步3", 740, 100, 200, 50);
-    //
-    //         SDL_RenderPresent(renderer);
+            printf("after\n");
+            print( game_state );
+            printf("---\n");
         }
     }
 }
 
+// not yet
 void handle_inventory_icon_click(SDL_Renderer *renderer, GameState *game_state) {
     game_state->inventory_visible = !game_state->inventory_visible; // Toggle visibility
 
@@ -170,16 +143,16 @@ void handle_inventory_icon_click(SDL_Renderer *renderer, GameState *game_state) 
         int num_items = sizeof(items) / sizeof(items[0]);
         render_inventory(renderer, 100, 100, 400, 300, items, num_items); // Example position and size
     }
-    else {
-        // Redraw game screen without inventory
-        render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
-        
-        render_inventory_icon(renderer, 10, WINDOW_HEIGHT - 60); // Render inventory icon
-        render_dialog_box(renderer, game_state->dialog_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
-        render_button(renderer, game_state->option1_text, 340, 100, 200, 50);
-        render_button(renderer, game_state->option2_text, 540, 100, 200, 50);
-        render_button(renderer, game_state->option3_text, 740, 100, 200, 50);
-    }
+    // else {
+    //     // Redraw game screen without inventory
+    //     render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
+    //     
+    //     render_inventory_icon(renderer, 10, WINDOW_HEIGHT - 60); // Render inventory icon
+    //     render_dialog_box(renderer, game_state->dialogue_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
+    //     render_button(renderer, game_state->choice_a, 340, 100, 200, 50);
+    //     render_button(renderer, game_state->choice_b, 540, 100, 200, 50);
+    //     render_button(renderer, game_state->choice_c, 740, 100, 200, 50);
+    // }
 
     SDL_RenderPresent(renderer);
 }
