@@ -132,6 +132,7 @@ quality = 0
 
 # 劇情設置
 [[events]]
+id = "start"
 scene = "home"
 character = "shido"
 dialogue = "今天要去哪裡玩呢?"
