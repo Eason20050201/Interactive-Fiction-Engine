@@ -70,8 +70,14 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
     game_state->current_image = load_texture("example.png", renderer);
     
     // for test
-    if( game_state->event )
-        game_state->current_image = load_texture("A.png", renderer);
+    if( game_state->event ) {
+        // game_state->current_image = load_texture("A.png", renderer);
+        SDL_Texture *next_image = load_texture("A.png", renderer);
+        fade_in(renderer, next_image, 50);
+        SDL_DestroyTexture(game_state->current_image);
+        // crossfade(renderer, game_state->current_image, next_image, 50); // Use crossfade effect
+        game_state->current_image = load_texture("A.png", renderer);  
+    }
 
     game_state->dialog_text = "開始新遊戲。";
     game_state->option1_text = "選項1";
@@ -84,6 +90,8 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
     SDL_RenderClear(renderer);  // Clear the renderer before drawing new content
     render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
     render_dialog_box(renderer, game_state->dialog_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
+
+
     render_button(renderer, game_state->option1_text, 340, 100, 200, 50);
     render_button(renderer, game_state->option2_text, 540, 100, 200, 50);
     render_button(renderer, game_state->option3_text, 740, 100, 200, 50);
@@ -98,50 +106,6 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
     SDL_RenderPresent(renderer);
 }
 
-/*
-// Function to render the new game screen
-void render_new_game_screen(SDL_Renderer *renderer, GameState *game_state) {
-    game_state->current_image = load_texture("example.png", renderer);
-    game_state->dialog_text = "開始新遊戲。";
-    game_state->option1_text = "選項1";
-    game_state->option2_text = "選項2";
-    game_state->option3_text = "選項3";
-    game_state->next_image1 = "A.png";
-    game_state->next_image2 = "B.png";
-    game_state->next_image3 = "computer.png";
-    
-    SDL_RenderClear(renderer);  // Clear the renderer before drawing new content
-    render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
-    render_dialog_box(renderer, game_state->dialog_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
-    render_button(renderer, game_state->option1_text, 340, 100, 200, 50);
-    render_button(renderer, game_state->option2_text, 540, 100, 200, 50);
-    render_button(renderer, game_state->option3_text, 740, 100, 200, 50);
-
-    SDL_RenderPresent(renderer);
-}
-
-// Function to render the continue game screen
-void render_continue_game_screen(SDL_Renderer *renderer, GameState *game_state) {
-    game_state->current_image = load_texture("example.png", renderer);
-    game_state->dialog_text = "繼續遊戲。";
-    game_state->option1_text = "選項1";
-    game_state->option2_text = "選項2";
-    game_state->option3_text = "選項3";
-    game_state->next_image1 = "A.png";
-    game_state->next_image2 = "B.png";
-    game_state->next_image3 = "C.png";
-
-    SDL_RenderClear(renderer);  // Clear the renderer before drawing new content
-    render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
-    render_dialog_box(renderer, game_state->dialog_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
-    render_button(renderer, game_state->option1_text, 340, 100, 200, 50);
-    render_button(renderer, game_state->option2_text, 540, 100, 200, 50);
-    render_button(renderer, game_state->option3_text, 740, 100, 200, 50);
-
-    SDL_RenderPresent(renderer);
-}
-
-*/
 
 // Function to handle option buttons
 void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *game_state) {
@@ -157,7 +121,7 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
             
             // for test
             // game_state->current_image = load_texture(game_state->next_image1, renderer);
-            game_state->event = "a"; 
+            // game_state->event = "a"; 
 
             // next_image = load_texture(game_state->next_image1, renderer);
             // game_state->dialog_text = "你選擇了選項1。";
@@ -173,6 +137,12 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
 
             // next_image = load_texture(game_state->next_image3, renderer);
             // game_state->dialog_text = "你選擇了選項3。";
+        }
+        else {
+            next_event = 1;
+            game_state->event = "a"; 
+            // game_state->event = game_state->next_event;
+
         }
 
         if (next_event) {

@@ -19,6 +19,28 @@ typedef struct {
     int inventory_visible;
 } GameState;
 
+
+// typedef struct {
+//     // SDL_Texture *current_scene;
+//     // SDL_Texture *character;
+//     char *event;
+//     char *scene;    // image name
+//     char *charcter; // image name
+//     int affect_change;
+//     char *choice_a;
+//     char *choice_b;
+//     char *choice_c;
+//     char *dialogue_text;
+//     char *option1_event; 
+//     char *option2_event;
+//     char *option3_event;
+//
+//
+//     int inventory_visible;
+// } GameState;
+
+
+
 // Function declarations
 void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Renderer *renderer, GameState *game_state);
 
