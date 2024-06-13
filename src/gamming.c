@@ -17,22 +17,24 @@ void search_event( GameState *game_state ) {
             }
             strcpy(game_state->dialogue_text, events[i].dialogue);
             if(events[i].choice_count > 0) {
+                game_state->have_choice = 1;
                 strcpy(game_state->choice_a, events[i].choices[0].text);
                 strcpy(game_state->choice_b, events[i].choices[1].text);
                 strcpy(game_state->choice_c, events[i].choices[2].text);
                 strcpy(game_state->option1_event, events[i].choices[0].next_event);
                 strcpy(game_state->option2_event, events[i].choices[1].next_event);
                 strcpy(game_state->option3_event, events[i].choices[2].next_event);
-                game_state->next_event = NULL;
+                game_state->next_event = "0";
             }
             else {
                 strcpy(game_state->next_event, events[i].next_event);
-                game_state->choice_a = NULL;
-                game_state->choice_b = NULL;
-                game_state->choice_c = NULL;
-                game_state->option1_event = NULL;
-                game_state->option2_event = NULL;
-                game_state->option3_event = NULL;
+                game_state->have_choice = 0;
+                game_state->choice_a = "0";
+                game_state->choice_b = "0";
+                game_state->choice_c = "0";
+                game_state->option1_event = "0";
+                game_state->option2_event = "0";
+                game_state->option3_event = "0";
             }
             game_state->affect_change = 50;
 
