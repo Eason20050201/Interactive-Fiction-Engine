@@ -141,6 +141,13 @@ choices = [
 ]
 
 [[events]]
+id = "sleep_ending"
+scene = "home"
+character = ""
+dialogue = "(後來你整天都在家裡當宅宅沒有任何事情發生，遊戲結束，感謝遊玩!)"
+next_event = "end"
+
+[[events]]
 id = "to_universal"
 scene = "home"
 character = "shido"
