@@ -1,131 +1,131 @@
 # 場景設置
 [[scenes]]
 id = "amusement_park"
-background = "assets/amusement_park.png"
+background = "amusement_park.png"
 
 [[scenes]]
 id = "amusement_park2"
-background = "assets/amusement_park2.png"
+background = "amusement_park2.png"
 
 [[scenes]]
 id = "coffee"
-background = "assets/coffee.png"
+background = "coffee.png"
 
 [[scenes]]
 id = "secret"
-background = "assets/secret.png"
+background = "secret.png"
 
 [[scenes]]
 id = "show"
-background = "assets/show.png"
+background = "show.png"
 
 [[scenes]]
 id = "home"
-background = "assets/home.png"
+background = "home.png"
 
 [[scenes]]
 id = "amusement_shop"
-background = "assets/amusement_shop.png"
+background = "amusement_shop.png"
 
 [[scenes]]
 id = "service_place"
-background = "assets/service_place.png"
+background = "service_place.png"
 
 [[scenes]]
 id = "lunch_place"
-background = "assets/lunch_place.png"
+background = "lunch_place.png"
 
 [[scenes]]
 id = "bathroom"
-background = "assets/bathroom.png"
+background = "bathroom.png"
 
 [[scenes]]
 id = "MRT"
-background = "assets/MRT_bg.png"
+background = "MRT_bg.png"
 
 [[scenes]]
 id = "amusement_park_gate"
-background = "assets/amusement_park_gate.png"
+background = "amusement_park_gate.png"
 
 [[scenes]]
 id = "amusement_park_gate_afternoon"
-background = "assets/amusement_park_gate_afternoon.png"
+background = "amusement_park_gate_afternoon.png"
 
 [[scenes]]
 id = "ghost_house"
-background = "assets/ghost_house.png"
+background = "ghost_house.png"
 
 [[scenes]]
 id = "flycar"
-background = "assets/flycar.png"
+background = "flycar.png"
 
 [[scenes]]
 id = "horse"
-background = "assets/horse.png"
+background = "horse.png"
 
 [[scenes]]
 id = "shopping_street_entry"
-background = "assets/shopping_street_entry.png"
+background = "shopping_street_entry.png"
 
 # 人物設置
 [[characters]]
 id = "shido"
 name = "五河士道"
-avatar = "assets/shido_avatar.png"
-sprite = "assets/shido_sprite.png"
+avatar = "shido_avatar.png"
+sprite = "shido_sprite.png"
 affection = -1  # 士道的初始好感度
 
 [[characters]]
 id = "tohka"
 name = "夜刀神十香"
-avatar = "assets/tohka_avatar.png"
-sprite = "assets/tohka_sprite.png"
+avatar = "tohka_avatar.png"
+sprite = "tohka_sprite.png"
 affection = -1  # 十香的初始好感度
 
 [[characters]]
 id = "kurumi"
 name = "時崎狂三"
-avatar = "assets/kurumi_avatar.png"
-sprite = "assets/kurumi_sprite.png"
+avatar = "kurumi_avatar.png"
+sprite = "kurumi_sprite.png"
 affection = -1  # 狂三的初始好感度
 
 [[characters]]
 id = "shopkeeper"
 name = "商人"
-avatar = "assets/shopkeeper_avatar.png"
-sprite = "assets/shopkeeper_sprite.png"
+avatar = "shopkeeper_avatar.png"
+sprite = "shopkeeper_sprite.png"
 affection = -1  # 商人的初始好感度
 
 [[characters]]
 id = "lost_kid"
 name = "迷路的小孩"
-avatar = "assets/lost_kid_avatar.png"
-sprite = "assets/lost_kid_sprite.png"
+avatar = "lost_kid_avatar.png"
+sprite = "lost_kid_sprite.png"
 affection = -1  # 小孩的初始好感度
 
 # 物品設置
 [[items]]
 id = "great_cup"
 name = "高級馬克杯"
-icon = "assets/great_cup_icon.png"
+icon = "great_cup_icon.png"
 quality = 0
 
 [[items]]
 id = "cat_toy"
 name = "小貓玩偶"
-icon = "assets/cat_toy_icon.png"
+icon = "cat_toy_icon.png"
 quality = 0
 
 [[items]]
 id = "money"
 name = "錢幣"
-icon = "assets/money_icon.png"
+icon = "money_icon.png"
 quality = 10
 
 [[items]]
 id = "flintlock"
 name = "玩具燧發槍"
-icon = "assets/flintlock_icon.png"
+icon = "flintlock_icon.png"
 quality = 0
 
 # 劇情設置
@@ -139,6 +139,13 @@ choices = [
     { text = "商店街", next_event = "to_shopping_street" , affection_changes = 51 , character_id = "tohka"},
     { text = "什麼出去玩，我宅男在家睡。", next_event = "sleep_ending" } #還沒寫
 ]
+
+[[events]]
+id = "sleep_ending"
+scene = "home"
+character = 0
+dialogue = "(後來你整天都在家裡當宅宅沒有任何事情發生，遊戲結束，感謝遊玩!)"
+next_event = "end"
 
 [[events]]
 id = "to_universal"
@@ -646,7 +653,7 @@ next_event = "good_ending_3"
 [[events]]
 id = "good_ending_3"
 scene = "amusement_park_gate_afternoon"
-character = ""
+character = 0
 dialogue = "(恭喜你完成了好結局1，遊戲結束，感謝遊玩!!)"
 next_event = "end"
 
@@ -667,6 +674,6 @@ next_event = "bad_ending_3"
 [[events]]
 id = "good_ending_3"
 scene = "amusement_park_gate_afternoon"
-character = ""
+character = 0
 dialogue = "(恭喜你完成了壞結局1，遊戲結束，感謝遊玩!!)"
 next_event = "end"
