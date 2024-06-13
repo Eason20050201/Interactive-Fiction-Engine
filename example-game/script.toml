@@ -67,8 +67,6 @@ background = "assets/horse.png"
 id = "shopping_street_entry"
 background = "assets/shopping_street_entry.png"
 
-[[scenes]]
-
 # 人物設置
 [[characters]]
 id = "shido"

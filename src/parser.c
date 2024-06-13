@@ -56,14 +56,11 @@ void parse_scenes(toml_table_t* conf) {
         toml_table_t* scene = toml_table_at(scenes_arr, i);
         char* id;
         char* background;
-        char* description;
 
         if (toml_rtos(toml_raw_in(scene, "id"), &id) == 0 &&
-            toml_rtos(toml_raw_in(scene, "background"), &background) == 0 &&
-            toml_rtos(toml_raw_in(scene, "description"), &description) == 0) {
+            toml_rtos(toml_raw_in(scene, "background"), &background) == 0) {
             scenes[i].id = strdup(id);
             scenes[i].background = strdup(background);
-            scenes[i].description = strdup(description);
         }
     }
 }
@@ -137,7 +134,7 @@ void parse_events(toml_table_t* conf) {
         if (toml_rtos(toml_raw_in(event, "scene"), &scene) == 0 &&
             toml_rtos(toml_raw_in(event, "character"), &character) == 0 &&
             toml_rtos(toml_raw_in(event, "dialogue"), &dialogue) == 0 &&
-            toml_rtos(toml_raw_at(event, "id"), &id) == 0){
+            toml_rtos(toml_raw_in(event, "id"), &id) == 0){
             if(toml_rtos(toml_raw_in(event, "next_event"), &next_event) == 0){
                 events[i].next_event = strdup(next_event);
             }
@@ -205,15 +202,15 @@ void parse_choices(toml_table_t* event, Event* evt) {
     }
 }
 
-void update_affection(const char* character_id, int affection_change) {
+/*void update_affection(const char* character_id, int affection_change) {
     for (int i = 0; i < character_count; i++) {
         if (strcmp(characters[i].id, character_id) == 0) {
             characters[i].affection += affection_change;
             break;
         }
     }
-}
-void update_item(const char* optain_id, int optain, const char* required_id, int required) {
+}*/
+/*void update_item(const char* optain_id, int optain, const char* required_id, int required) {
     for (int i = 0; i < item_count; i++) {
         if (strcmp(items[i].id, required_id) == 0) {
             items[i].quantity -= required;
@@ -224,9 +221,9 @@ void update_item(const char* optain_id, int optain, const char* required_id, int
             break;
         }
     }
-}
+}*/
 
-void handle_choice(Event* evt, int choice_index) {
+/*void handle_choice(Event* evt, int choice_index) {
     Choice* choice = &evt->choices[choice_index];
     if (choice->character_id) {
         update_affection(choice->character_id, choice->affection_change);
@@ -236,4 +233,4 @@ void handle_choice(Event* evt, int choice_index) {
     }
     // 跳转到下一个事件
     // next_event(choice->next_event);
-}
+}*/
