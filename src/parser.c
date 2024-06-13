@@ -135,15 +135,19 @@ void parse_events(toml_table_t* conf) {
             toml_rtos(toml_raw_in(event, "character"), &character) == 0 &&
             toml_rtos(toml_raw_in(event, "dialogue"), &dialogue) == 0 &&
             toml_rtos(toml_raw_in(event, "id"), &id) == 0){
-            if(toml_rtos(toml_raw_in(event, "next_event"), &next_event) == 0){
-                events[i].next_event = strdup(next_event);
-            }
             events[i].scene = strdup(scene);
             events[i].character = strdup(character);
             events[i].dialogue = strdup(dialogue);
             events[i].id = strdup(id);
-
-            parse_choices(event, &events[i]);
+            if(toml_rtos(toml_raw_in(event, "next_event"), &next_event) == 0){
+                events[i].next_event = strdup(next_event);
+                events[i].choice_count = 0;
+            }
+            else{
+                events[i].next_event = NULL;
+                parse_choices(event, &events[i]);
+            }
+            
         }
     }
 }
