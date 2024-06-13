@@ -3,6 +3,17 @@
 #include <stdio.h>
 #include "init.h"
 #include "graphics.h"
+#include "event_handler.h"
+
+// Screen identifiers
+#define SCREEN_LOGIN 0
+#define SCREEN_NEW_GAME 1
+#define SCREEN_CONTINUE_GAME 2
+#define SCREEN_GAME_LOOP 3
+
+// Define window width and height as macros
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
 
 // Function to render the login screen
 void render_login_screen(SDL_Renderer *renderer) {
@@ -15,12 +26,12 @@ void render_login_screen(SDL_Renderer *renderer) {
     }
 
     // Render the background image
-    render_texture_fullscreen(background, renderer, 1280, 720);
+    render_texture_fullscreen(background, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     // Render buttons
-    render_button(renderer, "新遊戲", 540, 200, 200, 50);
-    render_button(renderer, "設定", 540, 300, 200, 50);
-    render_button(renderer, "進入遊戲", 540, 400, 200, 50);
+    render_button(renderer, "設定", 540, 200, 200, 50);
+    render_button(renderer, "新遊戲", 540, 300, 200, 50);
+    render_button(renderer, "繼續遊戲", 540, 400, 200, 50);
 
     // Update the screen
     SDL_RenderPresent(renderer);
@@ -32,19 +43,35 @@ void render_login_screen(SDL_Renderer *renderer) {
 // Main game loop
 void main_loop(SDL_Renderer *renderer) {
     int running = 1;
+    int current_screen = SCREEN_LOGIN;
     SDL_Event event;
+    GameState game_state = {0};
+    game_state.inventory_visible = 0;
 
     // Render the login screen initially
     render_login_screen(renderer);
 
     while (running) {
-        // Handle events
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                running = 0;
-            }
-            // Additional event handling for button clicks can be added here
+        handle_events(&event, &running, &current_screen, renderer, &game_state);
+
+        if (current_screen == SCREEN_LOGIN) {
+            render_login_screen(renderer);
+        } else if (current_screen == SCREEN_NEW_GAME) {
+            render_game_screen(renderer, &game_state);
+            // render_new_game_screen(renderer, &game_state);
+            current_screen = SCREEN_GAME_LOOP;
+        } else if (current_screen == SCREEN_CONTINUE_GAME) {
+            render_game_screen(renderer, &game_state);
+            // render_continue_game_screen(renderer, &game_state);
+            current_screen = SCREEN_GAME_LOOP;
+        } else if (current_screen == SCREEN_GAME_LOOP) {
+            handle_option_buttons(renderer, &event, &game_state);
         }
+    }
+
+    // Clean up resources
+    if (game_state.current_image) {
+        SDL_DestroyTexture(game_state.current_image);
     }
 }
 

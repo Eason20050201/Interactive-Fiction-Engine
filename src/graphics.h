@@ -8,5 +8,7 @@ void render_texture_fullscreen(SDL_Texture *texture, SDL_Renderer *renderer, int
 void render_dialog_box(SDL_Renderer *renderer, const char *text, int x, int y, int w, int h);
 void render_button(SDL_Renderer *renderer, const char *text, int x, int y, int w, int h);
 void render_text(SDL_Renderer *renderer, const char *text, int x, int y, int w, int h);
+void render_inventory_icon(SDL_Renderer *renderer, int x, int y);
+void render_inventory(SDL_Renderer *renderer, int x, int y, int w, int h, const char **items, int num_items);
 
 #endif // GRAPHICS_H

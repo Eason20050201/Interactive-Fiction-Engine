@@ -5,14 +5,15 @@ CC = gcc
 SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
+THIRDPARTYDIR = third-party/tomlc99
 
 # Files
-SOURCES = $(wildcard $(SRCDIR)/*.c)
+SOURCES = $(wildcard $(SRCDIR)/*.c) $(THIRDPARTYDIR)/toml.c
 OBJECTS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SOURCES))
 EXECUTABLE = $(BINDIR)/interactive_novel_engine
 
 # Flags
-CFLAGS = -I$(SRCDIR)
+CFLAGS = -I$(SRCDIR) -I$(THIRDPARTYDIR)
 LDFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
 # Default target
@@ -25,6 +26,11 @@ $(EXECUTABLE): $(OBJECTS)
 
 # Compile source files to object files
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Compile third-party source files to object files
+$(OBJDIR)/%.o: $(THIRDPARTYDIR)/%.c
 	@mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
