@@ -141,16 +141,13 @@ choices = [
 ]
 
 [[events]]
-<<<<<<< HEAD
 id = "sleep_ending"
 scene = "home"
-character = 0
+character = "shido"
 dialogue = "(後來你整天都在家裡當宅宅沒有任何事情發生，遊戲結束，感謝遊玩!)"
 next_event = "end"
 
 [[events]]
-=======
->>>>>>> 15d5949 (version1.0)
 id = "to_universal"
 scene = "home"
 character = "shido"
@@ -587,11 +584,7 @@ next_event = "children_talk"
 id = "ignore"
 scene = "amusement_park2"
 character = "kurumi"
-<<<<<<< HEAD
 dialogue = "算了，我自己決定。走吧，去關心一下。"
-=======
-dialogue = "算了，我自己決定走吧去關心一下。"
->>>>>>> 15d5949 (version1.0)
 next_event = "children_talk"
 
 [[events]]
@@ -631,7 +624,6 @@ next_event = "after_play"
 
 [[events]]
 id = "after_play"
-<<<<<<< HEAD
 scene = "service_place"
 character = "kurumi"
 dialogue = "今天也玩得差不多了，是時候到別分開了，士道...(準備走去門口)"
@@ -661,7 +653,7 @@ next_event = "good_ending_3"
 [[events]]
 id = "good_ending_3"
 scene = "amusement_park_gate_afternoon"
-character = 0
+character = "shido"
 dialogue = "(恭喜你完成了好結局1，遊戲結束，感謝遊玩!!)"
 next_event = "end"
 
@@ -682,19 +674,6 @@ next_event = "bad_ending_3"
 [[events]]
 id = "good_ending_3"
 scene = "amusement_park_gate_afternoon"
-character = 0
+character = "shido"
 dialogue = "(恭喜你完成了壞結局1，遊戲結束，感謝遊玩!!)"
 next_event = "end"
-=======
-scene = "show"
-character = "kurumi"
-dialogue = "今天也玩得差不多了，是時候到別分開了，士道...(準備走去門口)"
-next_event = "after_play2"
-
-[[events]]
-id = "after_play2"
-scene = "amusement_park_gate_afternoon"
-character = "kurumi"
-dialogue = "今天真的很開心呢!能夠在這裡遇見你真是太好了!"
-next_event = "after_play3"
->>>>>>> 15d5949 (version1.0)
