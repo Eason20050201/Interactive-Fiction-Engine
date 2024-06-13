@@ -36,6 +36,7 @@ typedef struct {
 } Choice;
 
 typedef struct {
+    char* id;
     char* scene;
     char* character;
     char* dialogue;

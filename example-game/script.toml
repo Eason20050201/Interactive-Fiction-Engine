@@ -629,21 +629,3 @@ scene = "amusement_park_gate_afternoon"
 character = "kurumi"
 dialogue = "今天真的很開心呢!能夠在這裡遇見你真是太好了!"
 next_event = "after_play3"
-
-[[events]]
-id = "to_shopping_street"
-scene = "shopping_street_entry"
-character = "shido"
-dialogue = "(看起來真熱鬧)"
-next_event = "find_tohka"
-
-[[events]]
-id = "find_tohka"
-scene = "shopping_street_entry"
-character = "shido"
-dialogue = "那個背影看起來好像十香喔"
-choices = [
-    { text = "直接走過去打招呼", next_event = "say_hello_to_tohka" },
-    { text = "再觀察一下", next_event = "meet_tohka_normal" },
-    { text = ""}
-]
