@@ -20,7 +20,7 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                         // Handle settings option
                     } else if (y >= 300 && y <= 350) {
                         // new game
-                        // game_state->event = "start";
+                        game_state->event = "start";
                         *current_screen = SCREEN_NEW_GAME;
                         render_game_screen(renderer, game_state);
                     } else if (y >= 400 && y <= 450) {
@@ -30,8 +30,11 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                     }
                 }
             } else if (*current_screen == SCREEN_GAME_LOOP) {
+                if( strcmp(game_state->event, "end") == 0 ) {
+                    *current_screen = SCREEN_END;
+                }
                 if (x >= 10 && x <= 60 && y >= WINDOW_HEIGHT - 60 && y <= WINDOW_HEIGHT - 10) {
-                    handle_inventory_icon_click(renderer, game_state);
+                    // handle_inventory_icon_click(renderer, game_state);
                 } else if( !game_state->inventory_visible ) {
                     render_game_screen(renderer, game_state);
                     handle_option_buttons(renderer, event, game_state);
@@ -68,15 +71,17 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
     render_inventory_icon(renderer, 10, WINDOW_HEIGHT - 60); // Render inventory icon
     
     // not yet
-    if (game_state->inventory_visible) {
-        const char *items[] = {"道具1", "道具2", "道具3"};
-        int num_items = sizeof(items) / sizeof(items[0]);
-        render_inventory(renderer, 100, 100, 400, 300, items, num_items); // Example position and size
-    }
+    // if (game_state->inventory_visible) {
+    //     const char *items[] = {"道具1", "道具2", "道具3"};
+    //     int num_items = sizeof(items) / sizeof(items[0]);
+    //     render_inventory(renderer, 100, 100, 400, 300, items, num_items); // Example position and size
+    // }
 
     // Render character affinity in the top left corner
-    render_character_affinity(renderer, "A.png", game_state->affect_change, 10, 10, 50);
+    // render_character_affinity(renderer, "A.png", game_state->affect_change, 10, 10, 50);
 
+
+    SDL_RenderPresent(renderer);
 }
 
 void print( GameState *game_state) {

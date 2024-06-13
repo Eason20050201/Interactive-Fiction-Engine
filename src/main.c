@@ -58,6 +58,8 @@ void main_loop(SDL_Renderer *renderer, GameState *game_state) {
             current_screen = SCREEN_GAME_LOOP;
         } else if (current_screen == SCREEN_GAME_LOOP) {
             handle_option_buttons(renderer, &event, game_state);
+        } else if (current_screen == SCREEN_END ) {
+            running = 0;
         }
     }
 
