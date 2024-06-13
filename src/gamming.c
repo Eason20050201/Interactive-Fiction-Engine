@@ -5,7 +5,7 @@ void search_event( GameState *game_state ) {
         if(strcmp(game_state->event, events[i].id) == 0) {
             for(int j = 0; j < character_count; j++ ) {
                 if(strcmp(events[i].character, characters[j].id) == 0) {
-                    strcpy(game_state->charcter, characters[j].sprite);
+                    strcpy(game_state->character, characters[j].sprite);
                     break;
                 }
             }
@@ -24,17 +24,10 @@ void search_event( GameState *game_state ) {
                 strcpy(game_state->option1_event, events[i].choices[0].next_event);
                 strcpy(game_state->option2_event, events[i].choices[1].next_event);
                 strcpy(game_state->option3_event, events[i].choices[2].next_event);
-                game_state->next_event = "0";
             }
             else {
                 strcpy(game_state->next_event, events[i].next_event);
                 game_state->have_choice = 0;
-                game_state->choice_a = "0";
-                game_state->choice_b = "0";
-                game_state->choice_c = "0";
-                game_state->option1_event = "0";
-                game_state->option2_event = "0";
-                game_state->option3_event = "0";
             }
             game_state->affect_change = 50;
 
