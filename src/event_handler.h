@@ -52,4 +52,12 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state);
 void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *game_state);
 void handle_inventory_icon_click(SDL_Renderer *renderer, GameState *game_state);
 
+void render_game_screen(SDL_Renderer *renderer, GameState *game_state);
+
+// void render_new_game_screen(SDL_Renderer *renderer, GameState *game_state);
+// void render_continue_game_screen(SDL_Renderer *renderer, GameState *game_state);
+
+void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *game_state);
+void handle_inventory_icon_click(SDL_Renderer *renderer, GameState *game_state);
+
 #endif // EVENT_HANDLER_H

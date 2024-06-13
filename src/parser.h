@@ -21,18 +21,26 @@ typedef struct {
     char* id;
     char* name;
     char* icon;
+    int quantity;   // 物品數量
 } Item;
 
 typedef struct {
     char* text;
     char* next_event;
+    char* character_id;
+    char* required_id;
+    char* optain_id;
+    int required;
+    int optain;
     int affection_change;
 } Choice;
 
 typedef struct {
+    char* id;
     char* scene;
     char* character;
     char* dialogue;
+    char* next_event;
     Choice* choices;
     int choice_count;
 } Event;
