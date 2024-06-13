@@ -1,11 +1,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
+#include "macro.h"
 #include "init.h"
-
-// Define window width and height as macros
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
 
 // Function to initialize SDL and create a window and renderer
 int initialize_window(SDL_Window **window, SDL_Renderer **renderer) {
