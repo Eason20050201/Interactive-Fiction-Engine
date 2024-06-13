@@ -11,4 +11,8 @@ void render_text(SDL_Renderer *renderer, const char *text, int x, int y, int w, 
 void render_inventory_icon(SDL_Renderer *renderer, int x, int y);
 void render_inventory(SDL_Renderer *renderer, int x, int y, int w, int h, const char **items, int num_items);
 
+void fade_in(SDL_Renderer *renderer, SDL_Texture *texture, int duration);
+void crossfade(SDL_Renderer *renderer, SDL_Texture *old_texture, SDL_Texture *new_texture, int duration);
+void render_text_slowly(SDL_Renderer *renderer, const char *text, int x, int y, int w, int h, int delay);
+
 #endif // GRAPHICS_H
