@@ -98,3 +98,119 @@ void render_text(SDL_Renderer *renderer, const char *text, int x, int y, int w, 
     SDL_DestroyTexture(texture);
     TTF_CloseFont(font);
 }
+
+void render_inventory_icon(SDL_Renderer *renderer, int x, int y) {
+    SDL_Texture *icon = load_texture("inventory_icon.png", renderer);
+    if (!icon) {
+        printf("Error: Could not load inventory_icon.png\n");
+        return;
+    }
+
+    SDL_Rect dest = {x, y, 50, 50}; // Example size, adjust as needed
+    SDL_RenderCopy(renderer, icon, NULL, &dest);
+    SDL_DestroyTexture(icon);
+}
+
+void render_inventory(SDL_Renderer *renderer, int x, int y, int w, int h, const char **items, int num_items) {
+    // Render inventory background
+    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255); // Dark grey background
+    SDL_Rect inventory_box = {x, y, w, h};
+    SDL_RenderFillRect(renderer, &inventory_box);
+
+    // Render each item
+    for (int i = 0; i < num_items; ++i) {
+        render_text(renderer, items[i], x + 10, y + 10 + i * 30, w - 20, 30);
+    }
+}
+
+void fade_in(SDL_Renderer *renderer, SDL_Texture *texture, int duration) {
+    Uint8 alpha = 0;
+    int step = 255 / duration;
+
+    for (int i = 0; i <= duration; i++) {
+        SDL_SetTextureAlphaMod(texture, alpha);
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, texture, NULL, NULL);
+        SDL_RenderPresent(renderer);
+        alpha += step;
+        SDL_Delay(10); // Adjust delay for smoothness
+    }
+}
+
+void fade_out(SDL_Renderer *renderer, SDL_Texture *texture, int duration) {
+    Uint8 alpha = 255;
+    int step = 255 / duration;
+
+    for (int i = 0; i <= duration; i++) {
+        SDL_SetTextureAlphaMod(texture, alpha);
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, texture, NULL, NULL);
+        SDL_RenderPresent(renderer);
+        alpha -= step;
+        SDL_Delay(10); // Adjust delay for smoothness
+    }
+}
+
+void crossfade(SDL_Renderer *renderer, SDL_Texture *old_texture, SDL_Texture *new_texture, int duration) {
+    Uint8 alpha_old = 255;
+    Uint8 alpha_new = 0;
+    int step = 255 / duration;
+
+    for (int i = 0; i <= duration; i++) {
+        SDL_SetTextureAlphaMod(old_texture, alpha_old);
+        SDL_SetTextureAlphaMod(new_texture, alpha_new);
+
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, old_texture, NULL, NULL);
+        SDL_RenderCopy(renderer, new_texture, NULL, NULL);
+        SDL_RenderPresent(renderer);
+
+        alpha_old -= step;
+        alpha_new += step;
+        SDL_Delay(10); // Adjust delay for smoothness
+    }
+}
+
+void render_text_slowly(SDL_Renderer *renderer, const char *text, int x, int y, int w, int h, int delay) {
+    TTF_Font *font = TTF_OpenFont("example-game/assets/NotoSansCJKtc-Regular.ttf", 24); // Load a font with size 24
+    if (!font) {
+        printf("Failed to load font: %s\n", TTF_GetError());
+        return;
+    }
+
+    SDL_Color color = {255, 255, 255, 255}; // White color
+    char temp[1024] = {0}; // Temporary buffer to hold the substring
+    SDL_Surface *surface = NULL;
+    SDL_Texture *texture = NULL;
+
+    for (int i = 0; text[i] != '\0'; ++i) {
+        strncat(temp, &text[i], 1);
+
+        surface = TTF_RenderUTF8_Blended_Wrapped(font, temp, color, w);
+        if (!surface) {
+            printf("Failed to create text surface: %s\n", TTF_GetError());
+            TTF_CloseFont(font);
+            return;
+        }
+
+        texture = SDL_CreateTextureFromSurface(renderer, surface);
+        if (!texture) {
+            printf("Failed to create text texture: %s\n", SDL_GetError());
+            SDL_FreeSurface(surface);
+            TTF_CloseFont(font);
+            return;
+        }
+
+        SDL_Rect dest = {x, y, surface->w, surface->h};
+        
+        SDL_RenderCopy(renderer, texture, NULL, &dest); // Only update text
+        SDL_RenderPresent(renderer);
+
+        SDL_FreeSurface(surface);
+        SDL_DestroyTexture(texture);
+
+        SDL_Delay(delay);  // Delay to create the typing effect
+    }
+
+    TTF_CloseFont(font);
+}

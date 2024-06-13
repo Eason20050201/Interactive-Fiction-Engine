@@ -46,6 +46,7 @@ void main_loop(SDL_Renderer *renderer) {
     int current_screen = SCREEN_LOGIN;
     SDL_Event event;
     GameState game_state = {0};
+    game_state.inventory_visible = 0;
 
     // Render the login screen initially
     render_login_screen(renderer);
@@ -56,10 +57,12 @@ void main_loop(SDL_Renderer *renderer) {
         if (current_screen == SCREEN_LOGIN) {
             render_login_screen(renderer);
         } else if (current_screen == SCREEN_NEW_GAME) {
-            render_new_game_screen(renderer, &game_state);
+            render_game_screen(renderer, &game_state);
+            // render_new_game_screen(renderer, &game_state);
             current_screen = SCREEN_GAME_LOOP;
         } else if (current_screen == SCREEN_CONTINUE_GAME) {
-            render_continue_game_screen(renderer, &game_state);
+            render_game_screen(renderer, &game_state);
+            // render_continue_game_screen(renderer, &game_state);
             current_screen = SCREEN_GAME_LOOP;
         } else if (current_screen == SCREEN_GAME_LOOP) {
             handle_option_buttons(renderer, &event, &game_state);
