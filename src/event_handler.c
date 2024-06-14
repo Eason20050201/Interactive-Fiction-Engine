@@ -38,7 +38,7 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                 if (x >= 1180 && x <= 1255 && y >= 20 && y <= 95) {
                     handle_inventory_icon_click(renderer, game_state);
                 } else if( !game_state->inventory_visible ) {
-                    render_game_screen(renderer, game_state);
+                    //render_game_screen(renderer, game_state);
                     handle_option_buttons(renderer, event, game_state);
                 } 
             }
