@@ -713,7 +713,6 @@ id = "JUDGE_end_1"
 scene = "amusement_park_gate_afternoon"
 character = "kurumi"
 dialogue = "在分別之前我必須跟你說一些實話..."
-next_event = ""
 judge_event = [
     { next_event = "good_ending_1", required_affection = 60, character_id = "kurumi"},
     { next_event = "bad_ending_1", required_affection = 0, character_id = "kurumi"},
