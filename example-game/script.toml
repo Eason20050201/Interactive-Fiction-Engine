@@ -604,7 +604,7 @@ next_event = "children_talk3"
 [[events]]
 id = "children_talk3"
 scene = "amusement_park2"
-character = ""
+character = "shido"
 dialogue = "我們帶她去遊客服務中心吧，讓那邊的人幫忙找她的家長。"
 next_event = "children_talk4"
 
@@ -632,7 +632,7 @@ next_event = "JUDGE_end_1"
 [[events]]
 id = "JUDGE_end_1"
 scene = "amusement_park_gate_afternoon"
-character = ""
+character = "kurumi"
 dialogue = "在分別之前我必須跟你說一些實話..."
 next_event = ""
 judge_event = [
