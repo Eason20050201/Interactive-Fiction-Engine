@@ -67,6 +67,26 @@ background = "horse.png"
 id = "shopping_street_entry"
 background = "shopping_street_entry.png"
 
+[[scenes]]
+id = "shopping_street"
+background = "shopping_street.png"
+
+[[scenes]]
+id = "shopping_street_afternoon"
+background = "shopping_street_afternoon.png"
+
+[[scenes]]
+id = "lottery_machine"
+background = "lottery_machine.png"
+
+[[scenes]]
+id = "catch_fish"
+background = "catch_fish.png"
+
+[[scenes]]
+id = "beat_drum"
+background = "beat_drum.png"
+
 # 人物設置
 [[characters]]
 id = "shido"
@@ -110,6 +130,13 @@ avatar = "shido_sprite.png"
 sprite = "shido_sprite.png"
 affection = -1  # 系統的初始好感度
 
+[[characters]]
+id = "beggar"
+name = "年老的乞丐"
+avatar = "beggar_avatar.png"
+sprite = "beggar_sprite.png"
+affection = -1  # 乞丐的初始好感度
+
 # 物品設置
 [[items]]
 id = "great_cup"
@@ -133,6 +160,12 @@ quality = 10
 id = "flintlock"
 name = "玩具燧發槍"
 icon = "flintlock_icon.png"
+quality = 0
+
+[[items]]
+id = "ticket"
+name = "抽獎券"
+icon = "ticket_icon.png"
 quality = 0
 
 # 劇情設置
@@ -706,7 +739,7 @@ next_event = "END"
 id = "bad_ending_1"
 scene = "amusement_park_gate_afternoon"
 character = "kurumi"
-dialogue = "這此的同行感覺非常的不自在也非常不愉快，你太自我為中心了，掰掰..."
+dialogue = "這次的同行感覺非常的不自在也非常不愉快，你太自我為中心了，掰掰..."
 next_event = "bad_ending_2"
 
 [[events]]
@@ -721,4 +754,329 @@ id = "good_ending_3"
 scene = "amusement_park_gate_afternoon"
 character = "system"
 dialogue = "(恭喜你完成了壞結局1，遊戲結束，感謝遊玩!!)"
+next_event = "END"
+
+[[events]]
+id = "to_shopping_street"
+scene = "shopping_street_entry"
+character = "shido"
+dialogue = "(看起來真熱鬧)"
+next_event = "find_tohka"
+
+[[events]]
+id = "find_tohka"
+scene = "shopping_street_entry"
+character = "shido"
+dialogue = "那個背影看起來好像十香喔"
+choices = [
+    { text = "直接走過去打招呼", next_event = "say_hello_to_tohka" },
+    { text = "再觀察一下", next_event = "meet_tohka_normal" },
+    { text = "跟蹤她", next_event = "meet_tohka_normal" }
+]
+
+[[events]]
+id = "say_hello_to_tohka"
+scene = "shopping_street_entry"
+character = "shido"
+dialogue = "十香!"
+next_event = "whether_invite_tohka"
+
+[[events]]
+id = "meet_tohka_normal"
+scene = "shopping_street_entry"
+character = "tohka"
+dialogue = "(似乎感受到了某人的注視)"
+next_event = "whether_invite_tohka"
+
+[[events]]
+id = "whether_invite_tohka"
+scene = "shopping_street_entry"
+character = "tohka"
+dialogue = "士道!你也在這逛街嗎?"
+choices = [
+    { text = "恩恩，十香你要不要跟我一起逛。", next_event = "tohka_answer1", affection_changes = 5 , character_id = "tohka" },
+    { text = "我已經提前預知到你會逛街了，所以我來陪你了。", next_event = "tohka_answer2", affection_changes = 10 , character_id = "tohka" },
+    { text = "(...)", next_event = "tohka_invite", affection_changes = -5 , character_id = "tohka" }
+]
+
+[[events]]
+id = "tohka_answer1"
+scene = "shopping_street_entry"
+character = "tohka"
+dialogue = "那當然好啦!"
+next_event = "front_stores"
+
+[[events]]
+id = "tohka_answer2"
+scene = "shopping_street_entry"
+character = "tohka"
+dialogue = "太好了!"
+next_event = "front_stores"
+
+[[events]]
+id = "tohka_invite"
+scene = "shopping_street_entry"
+character = "tohka"
+dialogue = "看起來應該是了，那我可以跟你一起逛街嗎?"
+next_event = "shido_agree"
+
+[[events]]
+id = "shido_agree"
+scene = "shopping_street_entry"
+character = "shido"
+dialogue = "當然好啊!"
+next_event = "front_stores"
+
+[[events]]
+id = "front_stores"
+scene = "shopping_street"
+character = "tohka"
+dialogue = "肚子好餓喔，士道你想吃什麼啊?"
+choices = [
+    { text = "黃豆粉麵包(需要4錢幣)", next_event = "very_delicious", affection_changes = 10 , character_id = "tohka", required = 2, required_id = "money" },
+    { text = "咖哩拌飯(需要5錢幣)", next_event = "normal_delicious", required = 5, required_id = "money" },
+    { text = "章魚燒(需要3錢幣)", next_event = "normal_delicious", affection_changes = 5 , character_id = "tohka", required = 3, required_id = "money" }
+]
+
+[[events]]
+id = "very_delicious"
+scene = "shopping_street"
+character = "tohka"
+dialogue = "恩~~我最喜歡吃黃豆粉麵包了!"
+next_event = "keep_going"
+
+[[events]]
+id = "normal_delicious"
+scene = "shopping_street"
+character = "tohka"
+dialogue = "恩~~真好吃"
+next_event = "keep_going"
+
+[[events]]
+id = "keep_going"
+scene = "shopping_street"
+character = "shido"
+dialogue = "那我們就繼續走吧。"
+next_event = "meet_beggar"
+
+[[events]]
+id = "meet_beggar"
+scene = "shopping_street"
+character = "beggar"
+dialogue = "(他看起來好像很需要幫助)"
+choices = [
+    { text = "捐2塊錢(需要2錢幣)", next_event = "get_ticket", affection_changes = 10 , character_id = "tohka", required = 2, required_id = "money" },
+    { text = "捐1塊錢(需要1錢幣)", next_event = "good_mood", affection_changes = 5 , character_id = "tohka", required = 1, required_id = "money" },
+    { text = "當作沒看到，直接走過去", next_event = "where_to_play", affection_changes = -5 , character_id = "tohka" }
+]
+
+[[events]]
+id = "get_ticket"
+scene = "shopping_street"
+character = "beggar"
+dialogue = "謝謝你孩子們，這張抽獎券我用不到了，就送給你們吧。"
+next_event = "get_ticket2"
+
+[[events]]
+id = "get_ticket2"
+scene = "shopping_street"
+character = "shido"
+dialogue = "(獲得了1張抽獎券)"
+obtain = 1
+obtain_id = "ticket"
+next_event = "thanks"
+
+
+[[events]]
+id = "good_mood"
+scene = "shopping_street"
+character = "shido"
+dialogue = "(雖然他沒有說什麼，但就當作日行一善吧!)"
+next_event = "where_to_play"
+
+[[events]]
+id = "thanks"
+scene = "shopping_street"
+character = "tohka"
+dialogue = "真是太謝謝你了，老爺爺!"
+next_event = "where_to_play"
+
+[[events]]
+id = "where_to_play"
+scene = "shopping_street"
+character = "shido"
+dialogue = "(那接下來要去哪裡呢?)"
+choices = [
+    { text = "去抽獎(需要1抽獎券)", next_event = "to_lottery_machine", required = 1, required_id = "ticket" },
+    { text = "撈金魚(需要5錢幣)", next_event = "to_catch_fish", affection_changes = 5 , character_id = "tohka", required = 5, required_id = "money" },
+    { text = "打太鼓達人(需要3錢幣)", next_event = "to_beat_drum", required = 3, required_id = "money" }
+]
+
+[[events]]
+id = "to_lottery_machine"
+scene = "lottery_machine"
+character = "shopkeeper"
+dialogue = "走過路過不要錯過，只要有抽獎券就能夠抽獎!"
+next_event = "tohka_want_to_lottery"
+
+[[events]]
+id = "tohka_want_to_lottery"
+scene = "lottery_machine"
+character = "tohka"
+dialogue = "士道!我想要去抽獎!"
+next_event = "ok"
+
+[[events]]
+id = "ok"
+scene = "lottery_machine"
+character = "shido"
+dialogue = "當然沒問題，走吧。"
+next_event = "lottery"
+
+[[events]]
+id = "lottery"
+scene = "lottery_machine"
+character = "tohka"
+dialogue = "拜託拜託一定要中獎~"
+choices = [
+    { text = "轉1圈", next_event = "nothing" },
+    { text = "轉2圈", next_event = "nothing" },
+    { text = "轉3圈", next_event = "winning_prize", affection_changes = 20 , character_id = "tohka", obtain = 5, obtain_id = "money" }
+]
+
+[[events]]
+id = "winning_prize"
+scene = "lottery_machine"
+character = "shopkeeper"
+dialogue = "(叮鈴叮鈴)恭喜中獎,你獲得了黃豆粉麵包玩偶一個~"
+next_event = "tohka_cheer"
+
+[[events]]
+id = "tohka_cheer"
+scene = "lottery_machine"
+character = "tohka"
+dialogue = "好耶!"
+next_event = "JUDGE_2"
+
+[[events]]
+id = "nothing"
+scene = "lottery_machine"
+character = "tohka"
+dialogue = "哇，可惜了，是謝謝惠顧"
+next_event = "JUDGE_2"
+
+[[events]]
+id = "to_catch_fish"
+scene = "catch_fish"
+character = "shopkeeper"
+dialogue = "走過路過不要錯過,撈一次金魚只要5塊錢。"
+next_event = "tohka_want_to_catch_fish"
+
+[[events]]
+id = "tohka_want_to_catch_fish"
+scene = "catch_fish"
+character = "tohka"
+dialogue = "走吧，士道!我們一起撈金魚!"
+next_event = "catching"
+
+[[events]]
+id = "catching"
+scene = "catch_fish"
+character = "tohka"
+dialogue = "(專注ing)"
+next_event = "catching2"
+
+[[events]]
+id = "catching2"
+scene = "catch_fish"
+character = "tohka"
+dialogue = "哈!"
+next_event = "catching3"
+
+[[events]]
+id = "catching3"
+scene = "catch_fish"
+character = "tohka"
+dialogue = "抓到了!"
+next_event = "catching4"
+
+[[events]]
+id = "catching4"
+scene = "catch_fish"
+character = "shido"
+dialogue = "哇，十香，你真厲害。"
+next_event = "JUDGE_2"
+
+[[events]]
+id = "to_beat_drum"
+scene = "beat_drum"
+character = "shido"
+dialogue = "我們一起打太鼓達人吧!"
+next_event = "tohka_want_to_beat_drum"
+
+[[events]]
+id = "tohka_want_to_beat_drum"
+scene = "beat_drum"
+character = "tohka"
+dialogue = "恩恩!"
+next_event = "beating"
+
+[[events]]
+id = "beating"
+scene = "beat_drum"
+character = "tohka"
+dialogue = "(專注ing)"
+next_event = "beating2"
+
+[[events]]
+id = "beating2"
+scene = "beat_drum"
+character = "tohka"
+dialogue = "滿分~士道我很厲害吧"
+next_event = "beating3"
+
+[[events]]
+id = "beating3"
+scene = "beat_drum"
+character = "shido"
+dialogue = "十香最厲害了!"
+next_event = "JUDGE_2"
+
+[[events]]
+id = "JUDGE_2"
+scene = "shopping_street_afternoon"
+character = "tohka"
+dialogue = "好像是時候回家了~"
+judge_event = [
+    { next_event = "tohka_nice_ending", required_affection = 90, character_id = "tohka"},
+    { next_event = "tohka_normal_ending", required_affection = 0, character_id = "tohka"}
+]
+
+[[events]]
+id = "tohka_nice_ending"
+scene = "shopping_street_afternoon"
+character = "tohka"
+dialogue = "謝謝你，士道!今天是我人生中最棒的一天"
+next_event = "tohka_nice_ending2"
+
+[[events]]
+id = "tohka_nice_ending2"
+scene = "shopping_street_afternoon"
+character = "system"
+dialogue = "(恭喜你完成了十香的美好結局，遊戲結束，感謝遊玩!!)"
+next_event = "END"
+
+
+[[events]]
+id = "tohka_normal_ending"
+scene = "shopping_street_afternoon"
+character = "tohka"
+dialogue = "再見，士道~"
+next_event = "tohka_normal_ending2"
+
+[[events]]
+id = "tohka_normal_ending2"
+scene = "shopping_street_afternoon"
+character = "system"
+dialogue = "(恭喜你完成了十香的普通結局，遊戲結束，感謝遊玩!!)"
 next_event = "END"
