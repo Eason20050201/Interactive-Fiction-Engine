@@ -6,6 +6,7 @@
 typedef struct {
     SDL_Texture *current_image;
     SDL_Texture *character_image;
+    char *player_name;
     char *event;
     char *next_event;
     char *scene;    // image name
