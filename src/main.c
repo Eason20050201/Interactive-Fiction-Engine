@@ -94,6 +94,7 @@ int main(int argc, char *argv[]) {
     // initialize game_state
     GameState game_state;
     game_state.character = malloc(200);
+    game_state.character_name = malloc(200);
     game_state.choice_a = malloc(200);
     game_state.choice_b = malloc(200);
     game_state.choice_c = malloc(200);

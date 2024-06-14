@@ -131,6 +131,8 @@ void parse_events(toml_table_t* conf) {
         char* dialogue = NULL;
         char* next_event = NULL;
         char* id = NULL;
+        char* obtain_id = NULL;
+        int64_t obtain = 0;
 
         if (toml_rtos(toml_raw_in(event, "scene"), &scene) == 0 &&
             toml_rtos(toml_raw_in(event, "character"), &character) == 0 &&
@@ -140,6 +142,11 @@ void parse_events(toml_table_t* conf) {
             events[i].character = strdup(character);
             events[i].dialogue = strdup(dialogue);
             events[i].id = strdup(id);
+            if (toml_rtos(toml_raw_in(event, "obtain_id"), &obtain_id) == 0 &&
+                toml_rtoi(toml_raw_in(event, "obtain"), &obtain) == 0){
+                events[i].obtain_id = strdup(obtain_id);
+                events[i].obtain = obtain;
+            }
             if(strstr(events[i].id, "JUDGE") != NULL){
                 parse_judge_event(event, &events[i]);
             }
@@ -186,11 +193,9 @@ void parse_choices(toml_table_t* event, Event* evt) {
         char* text;
         char* next_event = NULL;
         char* character_id = NULL;
-        char* optain_id = NULL;
         char* required_id = NULL;
         int64_t affection_change = 0;
         int64_t required = 0;
-        int64_t optain = 0;
 
         if (toml_rtos(toml_raw_in(choice, "text"), &text) == 0 &&
             toml_rtos(toml_raw_in(choice, "next_event"), &next_event) == 0) {
@@ -215,16 +220,6 @@ void parse_choices(toml_table_t* event, Event* evt) {
                 evt->choices[j].required_id = strdup(required_id);
             } else {
                 evt->choices[j].required_id = NULL;
-            }
-            if (toml_rtoi(toml_raw_in(choice, "optain"), &optain) == 0) {
-                evt->choices[j].optain = optain;
-            } else {
-                evt->choices[j].optain = 0;
-            }
-            if (toml_rtos(toml_raw_in(choice, "optain_id"), &optain_id) == 0) {
-                evt->choices[j].optain_id = optain_id;
-            } else {
-                evt->choices[j].optain_id = NULL;
             }
         }
     }
