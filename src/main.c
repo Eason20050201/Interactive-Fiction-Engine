@@ -93,6 +93,7 @@ int main(int argc, char *argv[]) {
     // initialize game_state
     GameState game_state;
     game_state.character = malloc(200);
+    game_state.character_name = malloc(200);
     game_state.choice_a = malloc(200);
     game_state.choice_b = malloc(200);
     game_state.choice_c = malloc(200);
@@ -101,11 +102,16 @@ int main(int argc, char *argv[]) {
     game_state.option2_event = malloc(200);
     game_state.option3_event = malloc(200);
     game_state.player_name = malloc(200);
+    game_state.option1_required = 0;
+    game_state.option2_required = 0;
+    game_state.option3_required = 0;
+    game_state.option1_required_id = malloc(200);
+    game_state.option2_required_id = malloc(200);
+    game_state.option3_required_id = malloc(200);
     game_state.scene = malloc(200);
     game_state.next_event = malloc(200);
     game_state.have_choice = 0;
     game_state.inventory_visible = 0;
-    game_state.affect_change = 0;
 
     // Enter the main game loop
     main_loop(renderer, &game_state);

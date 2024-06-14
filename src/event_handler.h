@@ -10,6 +10,7 @@ typedef struct {
     char *next_event;
     char *scene;    // image name
     char *character; // image name
+    char *character_name; //角色名字
     char *choice_a;
     char *choice_b;
     char *choice_c;
@@ -18,10 +19,15 @@ typedef struct {
     char *option2_event;
     char *option3_event;
     char *player_name;
+    char *option1_required_id;
+    char *option2_required_id;
+    char *option3_required_id;
+    int option1_required;
+    int option2_required;
+    int option3_required;
 
     int have_choice;
     int inventory_visible;
-    int  affect_change;
 } GameState;
 
 

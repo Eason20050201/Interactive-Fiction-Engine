@@ -43,23 +43,40 @@ void render_texture_fullscreen(SDL_Texture *texture, SDL_Renderer *renderer, int
 // Function to render a dialog box
 void render_dialog_box(SDL_Renderer *renderer, const char *text, int x, int y, int w, int h) {
     // Set dialog box background color
-    SDL_SetRenderDrawColor(renderer, 0, 0, 128, 255); // Dark blue
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 180); // Dark black
     SDL_Rect dialog_box = {x, y, w, h};
     SDL_RenderFillRect(renderer, &dialog_box);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 180); // Dark black
+    SDL_RenderDrawRect(renderer, &dialog_box);
 
     // Render the text inside the dialog box
-    render_text(renderer, text, x + 10, y + 10, w - 20, h - 20);
+    render_text(renderer, text, x + 20, y + 10, w - 20, h - 20);
+}
+
+void render_name_box(SDL_Renderer *renderer, const char *name, int x, int y, int w, int h){
+    // Set dialog box background color
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 180); // Dark black
+    SDL_Rect dialog_box = {x, y, w, h};
+    SDL_RenderFillRect(renderer, &dialog_box);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 180); // Dark black
+    SDL_RenderDrawRect(renderer, &dialog_box);
+
+    // Render the text inside the dialog box
+    render_text(renderer, name, x + 10, y + 10, w - 20, h - 20);
 }
 
 // Function to render a button
 void render_button(SDL_Renderer *renderer, const char *text, int x, int y, int w, int h) {
     // Set button background color
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Blue
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 180); // Blue
     SDL_Rect button = {x, y, w, h};
     SDL_RenderFillRect(renderer, &button);
 
     // Set button border color
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // White
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 180); // White
     SDL_RenderDrawRect(renderer, &button);
 
     // Render the text inside the button

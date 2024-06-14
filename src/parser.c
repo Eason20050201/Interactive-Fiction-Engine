@@ -19,6 +19,7 @@ void parse_characters(toml_table_t* conf);
 void parse_items(toml_table_t* conf);
 void parse_events(toml_table_t* conf);
 void parse_choices(toml_table_t* event, Event* evt);
+void parse_judge_event(toml_table_t* event, Event* evt);
 void update_affection(const char* character_id, int affection_change);
 void handle_choice(Event* evt, int choice_index);
 
@@ -99,10 +100,10 @@ void parse_items(toml_table_t* conf) {
 
     for (int i = 0; i < item_count; i++) {
         toml_table_t* item = toml_table_at(items_arr, i);
-        char* id;
-        char* name;
-        char* icon;
-        int64_t quantity;
+        char* id = NULL;
+        char* name = NULL;
+        char* icon = NULL;
+        int64_t quantity = 0;
 
         if (toml_rtos(toml_raw_in(item, "id"), &id) == 0 &&
             toml_rtos(toml_raw_in(item, "name"), &name) == 0 &&
@@ -130,6 +131,13 @@ void parse_events(toml_table_t* conf) {
         char* dialogue = NULL;
         char* next_event = NULL;
         char* id = NULL;
+        char* obtain_id = NULL;
+        int64_t obtain = 0;
+        events[i].obtain_id = NULL;
+        events[i].obtain = 0;
+        events[i].choice_count = 0;
+        events[i].judge_event_count = 0;
+        events[i].next_event = NULL;
 
         if (toml_rtos(toml_raw_in(event, "scene"), &scene) == 0 &&
             toml_rtos(toml_raw_in(event, "character"), &character) == 0 &&
@@ -139,15 +147,41 @@ void parse_events(toml_table_t* conf) {
             events[i].character = strdup(character);
             events[i].dialogue = strdup(dialogue);
             events[i].id = strdup(id);
+            if (toml_rtos(toml_raw_in(event, "obtain_id"), &obtain_id) == 0 &&
+                toml_rtoi(toml_raw_in(event, "obtain"), &obtain) == 0){
+                events[i].obtain_id = strdup(obtain_id);
+                events[i].obtain = obtain;
+            }
             if(toml_rtos(toml_raw_in(event, "next_event"), &next_event) == 0){
                 events[i].next_event = strdup(next_event);
-                events[i].choice_count = 0;
+            }
+            else if(strstr(events[i].id, "JUDGE") != NULL){
+                parse_judge_event(event, &events[i]);
             }
             else{
-                events[i].next_event = NULL;
                 parse_choices(event, &events[i]);
             }
             
+        }
+    }
+}
+
+void parse_judge_event(toml_table_t* event, Event* evt){
+    toml_array_t* judge_event_arr = toml_array_in(event, "judge_event");
+    evt->judge_event_count = toml_array_nelem(judge_event_arr);
+    evt->judge_event = malloc(evt->judge_event_count * sizeof(Judge_Event));
+
+    for (int j = 0; j < evt->judge_event_count; j++) {
+        toml_table_t* judge_event = toml_table_at(judge_event_arr, j);
+        char* next_event = NULL;
+        char* character_id = NULL;
+        int64_t required_affection = 0;
+        if (toml_rtos(toml_raw_in(judge_event, "character_id"), &character_id) == 0 &&
+            toml_rtos(toml_raw_in(judge_event, "next_event"), &next_event) == 0 && 
+            toml_rtoi(toml_raw_in(judge_event, "required_affection"), &required_affection) == 0) {
+            evt->judge_event[j].character_id = strdup(character_id);
+            evt->judge_event[j].next_event = strdup(next_event);
+            evt->judge_event[j].required_affection = required_affection;
         }
     }
 }
@@ -162,11 +196,9 @@ void parse_choices(toml_table_t* event, Event* evt) {
         char* text;
         char* next_event = NULL;
         char* character_id = NULL;
-        char* optain_id = NULL;
         char* required_id = NULL;
         int64_t affection_change = 0;
         int64_t required = 0;
-        int64_t optain = 0;
 
         if (toml_rtos(toml_raw_in(choice, "text"), &text) == 0 &&
             toml_rtos(toml_raw_in(choice, "next_event"), &next_event) == 0) {
@@ -192,49 +224,6 @@ void parse_choices(toml_table_t* event, Event* evt) {
             } else {
                 evt->choices[j].required_id = NULL;
             }
-            if (toml_rtoi(toml_raw_in(choice, "optain"), &optain) == 0) {
-                evt->choices[j].optain = optain;
-            } else {
-                evt->choices[j].optain = 0;
-            }
-            if (toml_rtos(toml_raw_in(choice, "optain_id"), &optain_id) == 0) {
-                evt->choices[j].optain_id = optain_id;
-            } else {
-                evt->choices[j].optain_id = NULL;
-            }
         }
     }
 }
-
-/*void update_affection(const char* character_id, int affection_change) {
-    for (int i = 0; i < character_count; i++) {
-        if (strcmp(characters[i].id, character_id) == 0) {
-            characters[i].affection += affection_change;
-            break;
-        }
-    }
-}*/
-/*void update_item(const char* optain_id, int optain, const char* required_id, int required) {
-    for (int i = 0; i < item_count; i++) {
-        if (strcmp(items[i].id, required_id) == 0) {
-            items[i].quantity -= required;
-            break;
-        }
-        if (strcmp(items[i].id, optain_id) == 0) {
-            items[i].quantity += optain;
-            break;
-        }
-    }
-}*/
-
-/*void handle_choice(Event* evt, int choice_index) {
-    Choice* choice = &evt->choices[choice_index];
-    if (choice->character_id) {
-        update_affection(choice->character_id, choice->affection_change);
-    }
-    if (choice->required_id != NULL || choice->optain_id != NULL) {
-        update_item(choice->optain_id, choice->optain, choice->required_id, choice->required); 
-    }
-    // 跳转到下一个事件
-    // next_event(choice->next_event);
-}*/
