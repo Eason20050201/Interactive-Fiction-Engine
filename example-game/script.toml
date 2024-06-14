@@ -142,30 +142,35 @@ affection = -1  # 乞丐的初始好感度
 id = "great_cup"
 name = "高級馬克杯"
 icon = "great_cup_icon.png"
+description = "這個馬克杯很高級，真的很高級，但似乎不是好禮物。"
 quantity = 0
 
 [[items]]
 id = "cat_toy"
 name = "小貓玩偶"
 icon = "cat_toy_icon.png"
+description = "可愛的貓咪玩偶，狂三最愛的就是貓咪了，感覺很適合送狂三。"
 quantity = 0
 
 [[items]]
 id = "money"
 name = "錢幣"
 icon = "money_icon.png"
+description = "可以用來購物的錢幣。"
 quantity = 10
 
 [[items]]
 id = "flintlock"
 name = "玩具燧發槍"
 icon = "flintlock_icon.png"
+description = "狂三的武器玩具，但看起來威力很弱，似乎可以做紀念。"
 quantity = 0
 
 [[items]]
 id = "ticket"
 name = "抽獎券"
 icon = "ticket_icon.png"
+description = "好像可以用來抽獎。"
 quantity = 0
 
 # 劇情設置

@@ -5,6 +5,7 @@
 #include "graphics.h"
 #include "event_handler.h"
 #include "gamming.h"
+#include "player.h"
 
 // Function to handle events
 void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Renderer *renderer, GameState *game_state) {
@@ -19,9 +20,10 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                     if (y >= 200 && y <= 250) {
                         // Handle settings option
                     } else if (y >= 300 && y <= 350) {
+                        set_player_name(renderer, game_state->player_name);     
+                        *current_screen = SCREEN_NEW_GAME;
                         // new game
                         game_state->event = "START";
-                        *current_screen = SCREEN_NEW_GAME;
                         render_game_screen(renderer, game_state);
                     } else if (y >= 400 && y <= 450) {
                         // continue game
@@ -33,8 +35,8 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                 if( strcmp(game_state->event, "END") == 0 ) {
                     *current_screen = SCREEN_END;
                 }
-                if (x >= 10 && x <= 60 && y >= WINDOW_HEIGHT - 60 && y <= WINDOW_HEIGHT - 10) {
-                    // handle_inventory_icon_click(renderer, game_state);
+                if (x >= 1180 && x <= 1255 && y >= 20 && y <= 95) {
+                    handle_inventory_icon_click(renderer, game_state);
                 } else if( !game_state->inventory_visible ) {
                     render_game_screen(renderer, game_state);
                     handle_option_buttons(renderer, event, game_state);
@@ -47,7 +49,8 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
 void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
        
     search_event( game_state );
-        
+    replaceSubstring(game_state->dialogue_text, "士道", game_state->player_name);
+
     // get the image of scene
     game_state->current_image = load_texture(game_state->scene, renderer);
     game_state->character_image = load_texture(game_state->character, renderer);
@@ -65,7 +68,7 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
         render_button(renderer, game_state->choice_b, 350, 300, 600, 50);
         render_button(renderer, game_state->choice_c, 350, 400, 600, 50);
     }
-    render_inventory_icon(renderer, 10, WINDOW_HEIGHT - 60); // Render inventory icon
+    render_inventory_icon(renderer, 1180, 20); // Render inventory icon
     
     // not yet
     // if (game_state->inventory_visible) {
@@ -201,20 +204,11 @@ void handle_inventory_icon_click(SDL_Renderer *renderer, GameState *game_state) 
     game_state->inventory_visible = !game_state->inventory_visible; // Toggle visibility
 
     if (game_state->inventory_visible) {
-        const char *items[] = {"道具1", "道具2", "道具3"};
-        int num_items = sizeof(items) / sizeof(items[0]);
-        render_inventory(renderer, 100, 100, 400, 300, items, num_items); // Example position and size
+        render_inventory(renderer, 290, 10, 400, 300, 5); // Example position and size
     }
-    // else {
-    //     // Redraw game screen without inventory
-    //     render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
-    //     
-    //     render_inventory_icon(renderer, 10, WINDOW_HEIGHT - 60); // Render inventory icon
-    //     render_dialog_box(renderer, game_state->dialogue_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
-    //     render_button(renderer, game_state->choice_a, 340, 100, 200, 50);
-    //     render_button(renderer, game_state->choice_b, 540, 100, 200, 50);
-    //     render_button(renderer, game_state->choice_c, 740, 100, 200, 50);
-    // }
+    else {
+        render_game_screen(renderer, game_state);
+    }
 
     SDL_RenderPresent(renderer);
-}
+}    
