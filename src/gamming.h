@@ -6,17 +6,14 @@
 #include "parser.h"
 
 typedef struct {
-    // SDL_Texture *current_scene;
-    // SDL_Texture *character;
     char *event;
-    char *next_event;
     char *scene;    // image name
     char *character; // image name
-    int affect_change;
+    char *dialogue_text;
+    char *next_event;
     char *choice_a;
     char *choice_b;
     char *choice_c;
-    char *dialogue_text;
     char *option1_event;
     char *option2_event;
     char *option3_event;
