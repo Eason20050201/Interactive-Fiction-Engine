@@ -6,7 +6,6 @@
 typedef struct {
     char* id;
     char* background;
-    char* description;
 } Scene;
 
 typedef struct {
@@ -29,9 +28,7 @@ typedef struct {
     char* next_event;
     char* character_id;
     char* required_id;
-    char* optain_id;
     int required;
-    int optain;
     int affection_change;
 } Choice;
 
@@ -47,6 +44,8 @@ typedef struct {
     char* character;
     char* dialogue;
     char* next_event;
+    char* obtain_id;
+    int obtain;
     Choice* choices;
     Judge_Event* judge_event;
     int choice_count;

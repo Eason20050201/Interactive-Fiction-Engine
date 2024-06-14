@@ -10,6 +10,7 @@ typedef struct {
     char *next_event;
     char *scene;    // image name
     char *character; // image name
+    char *character_name; //角色名字
     char *choice_a;
     char *choice_b;
     char *choice_c;

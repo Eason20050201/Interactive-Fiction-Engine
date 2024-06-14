@@ -7,6 +7,7 @@ void search_event( GameState *game_state ) {
             for(int j = 0; j < character_count; j++ ) {
                 if(strcmp(events[i].character, characters[j].id) == 0) {
                     strcpy(game_state->character, characters[j].sprite);
+                    strcpy(game_state->character_name, characters[j].name);
                     break;
                 }
             }

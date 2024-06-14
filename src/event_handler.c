@@ -58,6 +58,7 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
     render_texture_fullscreen(game_state->character_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
     
     render_dialog_box(renderer, game_state->dialogue_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
+    render_name_box(renderer, game_state->character_name, 60, WINDOW_HEIGHT - 220, 150, 60);
     
     if( game_state->have_choice ) {
         render_button(renderer, game_state->choice_a, 340, WINDOW_HEIGHT - 200, 200, 50);

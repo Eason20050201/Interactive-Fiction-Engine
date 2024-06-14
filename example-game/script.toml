@@ -103,6 +103,13 @@ avatar = "lost_kid_avatar.png"
 sprite = "lost_kid_sprite.png"
 affection = -1  # 小孩的初始好感度
 
+[[characters]]
+id = "system"
+name = "系統"
+avatar = "shido_sprite.png"
+sprite = "shido_sprite.png"
+affection = -1  # 系統的初始好感度
+
 # 物品設置
 [[items]]
 id = "great_cup"
@@ -334,10 +341,10 @@ id = "rest"
 scene = "flycar"
 character = "shido"
 dialogue = "你沒事吧!我帶你去休息"
-next_event = "thanks"
+next_event = "thanks_for_help"
 
 [[events]]
-id = "thanks"
+id = "thanks_for_help"
 scene = "flycar"
 character = "kurumi"
 dialogue = "謝謝你呀...(難受)"
@@ -348,7 +355,7 @@ id = "medicine"
 scene = "flycar"
 character = "shido"
 dialogue = "我去買藥給你吃!"
-next_event = "thanks"
+next_event = "thanks_for_help"
 
 [[events]]
 id = "laugh"
@@ -423,10 +430,44 @@ scene = "amusement_shop"
 character = "shopkeeper"
 dialogue = "這裡有三樣熱賣商品喔，有高級馬克杯、小貓玩偶、和玩具燧發槍。先生你想要什麼呢?"
 choices = [
-    { text = "高級馬克杯(需要6錢幣)", next_event = "three", required = 6, required_id = "money", optain = 1, optains_id = "great_cup"},
-    { text = "小貓玩偶(需要4錢幣)", next_event = "three", required = 4, required_id = "money", optain = 1, optains_id = "cat_toy"},
-    { text = "玩具燧發槍(需要5錢幣)", next_event = "three", required = 5, required_id = "money", optain = 1, optains_id = "flintlock"}
+    { text = "高級馬克杯(需要6錢幣)", next_event = "obtain_great_cup", required = 6, required_id = "money"},
+    { text = "小貓玩偶(需要4錢幣)", next_event = "obtain_cat_toy", required = 4, required_id = "money"},
+    { text = "玩具燧發槍(需要5錢幣)", next_event = "obtain_flintlock", required = 5, required_id = "money"}
 ]
+
+[[events]]
+id = "obtain_great_cup"
+scene = "amusement_shop"
+character = "system"
+dialogue = "(獲得1個高級馬克杯)"
+next_event = "three"
+obtain = 1
+obtain_id = "great_cup"
+
+[[events]]
+id = "obtain_cat_toy"
+scene = "amusement_shop"
+character = "system"
+dialogue = "(獲得1個小貓玩偶)"
+next_event = "three"
+obtain = 1
+obtain_id = "cat_toy"
+
+[[events]]
+id = "obtain_flintlock"
+scene = "amusement_shop"
+character = "system"
+dialogue = "(獲得1個玩具燧發槍)"
+next_event = "three"
+obtain = 1
+obtain_id = "flintlock"
+
+[[events]]
+id = "three"
+scene = "amusement_shop"
+character = "shopkeeper"
+dialogue = "感謝你的惠顧，歡迎再次光臨!"
+next_event = "goback_to_kurumi"
 
 [[events]]
 id = "three"
