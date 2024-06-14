@@ -17,6 +17,7 @@ typedef struct {
     char *option1_event;
     char *option2_event;
     char *option3_event;
+    char *player_name;
 
     int have_choice;
     int inventory_visible;
