@@ -103,15 +103,18 @@ void parse_items(toml_table_t* conf) {
         char* id;
         char* name;
         char* icon;
+        char* description;
         int64_t quantity;
 
         if (toml_rtos(toml_raw_in(item, "id"), &id) == 0 &&
             toml_rtos(toml_raw_in(item, "name"), &name) == 0 &&
             toml_rtos(toml_raw_in(item, "icon"), &icon) == 0 &&
-            toml_rtoi(toml_raw_in(item, "quantity"), &quantity) == 0) {
+            toml_rtoi(toml_raw_in(item, "quantity"), &quantity) == 0 &&
+            toml_rtos(toml_raw_in(item, "description"), &description) == 0) {
             items[i].id = strdup(id);
             items[i].name = strdup(name);
             items[i].icon = strdup(icon);
+            items[i].description = strdup(description);
             items[i].quantity = quantity;
         } else {
             items[i].quantity = 0;
@@ -197,7 +200,7 @@ void parse_choices(toml_table_t* event, Event* evt) {
         char* next_event = NULL;
         char* character_id = NULL;
         char* required_id = NULL;
-        int64_t affection_change = 0;
+        int64_t affection_changes = 0;
         int64_t required = 0;
 
         if (toml_rtos(toml_raw_in(choice, "text"), &text) == 0 &&
@@ -209,10 +212,10 @@ void parse_choices(toml_table_t* event, Event* evt) {
             } else {
                 evt->choices[j].character_id = NULL;
             }
-            if (toml_rtoi(toml_raw_in(choice, "affection_change"), &affection_change) == 0) {
-                evt->choices[j].affection_change = affection_change;
+            if (toml_rtoi(toml_raw_in(choice, "affection_changes"), &affection_changes) == 0) {
+                evt->choices[j].affection_changes = affection_changes;
             } else {
-                evt->choices[j].affection_change = 0;
+                evt->choices[j].affection_changes = 0;
             }
             if (toml_rtoi(toml_raw_in(choice, "required"), &required) == 0) {
                 evt->choices[j].required = required;
