@@ -880,12 +880,11 @@ next_event = "get_ticket2"
 [[events]]
 id = "get_ticket2"
 scene = "shopping_street"
-character = "shido"
+character = "system"
 dialogue = "(獲得了1張抽獎券)"
 obtain = 1
 obtain_id = "ticket"
 next_event = "thanks"
-
 
 [[events]]
 id = "good_mood"
@@ -941,7 +940,7 @@ dialogue = "拜託拜託一定要中獎~"
 choices = [
     { text = "轉1圈", next_event = "nothing" },
     { text = "轉2圈", next_event = "nothing" },
-    { text = "轉3圈", next_event = "winning_prize", affection_changes = 20 , character_id = "tohka", obtain = 5, obtain_id = "money" }
+    { text = "轉3圈", next_event = "winning_prize", affection_changes = 20 , character_id = "tohka" }
 ]
 
 [[events]]
@@ -1032,7 +1031,7 @@ next_event = "beating2"
 id = "beating2"
 scene = "beat_drum"
 character = "tohka"
-dialogue = "滿分~士道我很厲害吧"
+dialogue = "滿分~士道我很厲害吧!"
 next_event = "beating3"
 
 [[events]]
@@ -1045,7 +1044,7 @@ next_event = "JUDGE_2"
 [[events]]
 id = "JUDGE_2"
 scene = "shopping_street_afternoon"
-character = "tohka"
+character = "shido"
 dialogue = "好像是時候回家了~"
 judge_event = [
     { next_event = "tohka_nice_ending", required_affection = 90, character_id = "tohka"},

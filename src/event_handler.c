@@ -57,13 +57,13 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
     render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
     render_texture_fullscreen(game_state->character_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
     
-    render_dialog_box(renderer, game_state->dialogue_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 100);
+    render_dialog_box(renderer, game_state->dialogue_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 150);
     render_name_box(renderer, game_state->character_name, 60, WINDOW_HEIGHT - 220, 150, 60);
     
     if( game_state->have_choice ) {
-        render_button(renderer, game_state->choice_a, 340, WINDOW_HEIGHT - 200, 200, 50);
-        render_button(renderer, game_state->choice_b, 540, WINDOW_HEIGHT - 200, 200, 50);
-        render_button(renderer, game_state->choice_c, 740, WINDOW_HEIGHT - 200, 200, 50);
+        render_button(renderer, game_state->choice_a, 350, 200, 600, 50);
+        render_button(renderer, game_state->choice_b, 350, 300, 600, 50);
+        render_button(renderer, game_state->choice_c, 350, 400, 600, 50);
     }
     render_inventory_icon(renderer, 10, WINDOW_HEIGHT - 60); // Render inventory icon
     
@@ -108,15 +108,15 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
         print( game_state);
         printf("---\n");
         
-        if (x >= 340 && x <= 540 && y >= WINDOW_HEIGHT - 200 && y <= WINDOW_HEIGHT - 150 && game_state->have_choice) {
+        if (x >= 350 && x <= 950 && y >= 200 && y <= 250 && game_state->have_choice) {
             change_event = 1;
             // strcpy(game_state->event, game_state->option1_event);
             game_state->event = game_state->option1_event;
-        } else if (x >= 540 && x <= 740 && y >= WINDOW_HEIGHT - 200 && y <= WINDOW_HEIGHT - 150 && game_state->have_choice) {
+        } else if (x >= 350 && x <= 950 && y >= 300 && y <= 350 && game_state->have_choice) {
             change_event = 1;
             // strcpy(game_state->event, game_state->option2_event);
             game_state->event = game_state->option2_event;
-        } else if (x >= 740 && x <= 940 && y >= WINDOW_HEIGHT - 200 && y <= WINDOW_HEIGHT - 150 && game_state->have_choice) {
+        } else if (x >= 350 && x <= 950 && y >= 400 && y <= 450 && game_state->have_choice) {
             change_event = 1;
             // strcpy(game_state->event, game_state->option3_event);
             game_state->event = game_state->option3_event;
