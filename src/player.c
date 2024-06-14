@@ -35,7 +35,7 @@ void set_player_name(SDL_Renderer *renderer, char *player_name) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // 黑色背景
         SDL_RenderClear(renderer);
 
-        render_text(renderer, inputText, 200, 200, 400, 50);
+        render_text(renderer, inputText, 200, 200, 400, 50, 255, 255, 255);
 
         SDL_RenderPresent(renderer);
     }
