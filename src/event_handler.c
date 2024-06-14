@@ -5,6 +5,7 @@
 #include "graphics.h"
 #include "event_handler.h"
 #include "gamming.h"
+#include "player.h"
 
 // Function to handle events
 void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Renderer *renderer, GameState *game_state) {
@@ -19,9 +20,10 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                     if (y >= 200 && y <= 250) {
                         // Handle settings option
                     } else if (y >= 300 && y <= 350) {
+                        set_player_name(renderer, game_state->player_name);     
+                        *current_screen = SCREEN_NEW_GAME;
                         // new game
                         game_state->event = "START";
-                        *current_screen = SCREEN_NEW_GAME;
                         render_game_screen(renderer, game_state);
                     } else if (y >= 400 && y <= 450) {
                         // continue game
@@ -47,7 +49,8 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
 void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
        
     search_event( game_state );
-        
+    replaceSubstring(game_state->dialogue_text, "士道", game_state->player_name);
+
     // get the image of scene
     game_state->current_image = load_texture(game_state->scene, renderer);
     game_state->character_image = load_texture(game_state->character, renderer);
@@ -86,7 +89,7 @@ void print( GameState *game_state) {
     printf("next_event: %s\n", game_state->next_event);
     printf("scene: %s\n", game_state->scene);
     printf("character: %s\n", game_state->character);
-    printf("affect_change: %d\n", game_state->affect_change);
+    //printf("affect_change: %d\n", game_state->affect_change);
     printf("choice_a: %s\n", game_state->choice_a);
     printf("choice_b: %s\n", game_state->choice_b);
     printf("choice_c: %s\n", game_state->choice_c);

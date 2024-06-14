@@ -6,6 +6,7 @@
 typedef struct {
     SDL_Texture *current_image;
     SDL_Texture *character_image;
+    char *player_name;
     char *event;
     char *next_event;
     char *scene;    // image name
@@ -18,10 +19,15 @@ typedef struct {
     char *option1_event;
     char *option2_event;
     char *option3_event;
+    char *option1_required_id;
+    char *option2_required_id;
+    char *option3_required_id;
+    int option1_required;
+    int option2_required;
+    int option3_required;
 
     int have_choice;
     int inventory_visible;
-    int  affect_change;
 } GameState;
 
 
