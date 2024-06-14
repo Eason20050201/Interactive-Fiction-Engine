@@ -133,6 +133,11 @@ void parse_events(toml_table_t* conf) {
         char* id = NULL;
         char* obtain_id = NULL;
         int64_t obtain = 0;
+        events[i].obtain_id = NULL;
+        events[i].obtain = 0;
+        events[i].choice_count = 0;
+        events[i].judge_event_count = 0;
+        events[i].next_event = NULL;
 
         if (toml_rtos(toml_raw_in(event, "scene"), &scene) == 0 &&
             toml_rtos(toml_raw_in(event, "character"), &character) == 0 &&
@@ -149,14 +154,11 @@ void parse_events(toml_table_t* conf) {
             }
             if(toml_rtos(toml_raw_in(event, "next_event"), &next_event) == 0){
                 events[i].next_event = strdup(next_event);
-                events[i].choice_count = 0;
             }
             else if(strstr(events[i].id, "JUDGE") != NULL){
-                events[i].choice_count = 0;
                 parse_judge_event(event, &events[i]);
             }
             else{
-                events[i].next_event = NULL;
                 parse_choices(event, &events[i]);
             }
             
@@ -225,36 +227,3 @@ void parse_choices(toml_table_t* event, Event* evt) {
         }
     }
 }
-
-/*void update_affection(const char* character_id, int affection_change) {
-    for (int i = 0; i < character_count; i++) {
-        if (strcmp(characters[i].id, character_id) == 0) {
-            characters[i].affection += affection_change;
-            break;
-        }
-    }
-}*/
-/*void update_item(const char* optain_id, int optain, const char* required_id, int required) {
-    for (int i = 0; i < item_count; i++) {
-        if (strcmp(items[i].id, required_id) == 0) {
-            items[i].quantity -= required;
-            break;
-        }
-        if (strcmp(items[i].id, optain_id) == 0) {
-            items[i].quantity += optain;
-            break;
-        }
-    }
-}*/
-
-/*void handle_choice(Event* evt, int choice_index) {
-    Choice* choice = &evt->choices[choice_index];
-    if (choice->character_id) {
-        update_affection(choice->character_id, choice->affection_change);
-    }
-    if (choice->required_id != NULL || choice->optain_id != NULL) {
-        update_item(choice->optain_id, choice->optain, choice->required_id, choice->required); 
-    }
-    // 跳转到下一个事件
-    // next_event(choice->next_event);
-}*/
