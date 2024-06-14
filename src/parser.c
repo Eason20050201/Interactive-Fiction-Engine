@@ -100,10 +100,10 @@ void parse_items(toml_table_t* conf) {
 
     for (int i = 0; i < item_count; i++) {
         toml_table_t* item = toml_table_at(items_arr, i);
-        char* id;
-        char* name;
-        char* icon;
-        int64_t quantity;
+        char* id = NULL;
+        char* name = NULL;
+        char* icon = NULL;
+        int64_t quantity = 0;
 
         if (toml_rtos(toml_raw_in(item, "id"), &id) == 0 &&
             toml_rtos(toml_raw_in(item, "name"), &name) == 0 &&
@@ -133,6 +133,11 @@ void parse_events(toml_table_t* conf) {
         char* id = NULL;
         char* obtain_id = NULL;
         int64_t obtain = 0;
+        events[i].obtain_id = NULL;
+        events[i].obtain = 0;
+        events[i].choice_count = 0;
+        events[i].judge_event_count = 0;
+        events[i].next_event = NULL;
 
         if (toml_rtos(toml_raw_in(event, "scene"), &scene) == 0 &&
             toml_rtos(toml_raw_in(event, "character"), &character) == 0 &&
@@ -147,15 +152,13 @@ void parse_events(toml_table_t* conf) {
                 events[i].obtain_id = strdup(obtain_id);
                 events[i].obtain = obtain;
             }
-            if(strstr(events[i].id, "JUDGE") != NULL){
-                parse_judge_event(event, &events[i]);
-            }
             if(toml_rtos(toml_raw_in(event, "next_event"), &next_event) == 0){
                 events[i].next_event = strdup(next_event);
-                events[i].choice_count = 0;
+            }
+            else if(strstr(events[i].id, "JUDGE") != NULL){
+                parse_judge_event(event, &events[i]);
             }
             else{
-                events[i].next_event = NULL;
                 parse_choices(event, &events[i]);
             }
             

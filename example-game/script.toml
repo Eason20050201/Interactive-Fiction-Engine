@@ -142,31 +142,31 @@ affection = -1  # 乞丐的初始好感度
 id = "great_cup"
 name = "高級馬克杯"
 icon = "great_cup_icon.png"
-quality = 0
+quantity = 0
 
 [[items]]
 id = "cat_toy"
 name = "小貓玩偶"
 icon = "cat_toy_icon.png"
-quality = 0
+quantity = 0
 
 [[items]]
 id = "money"
 name = "錢幣"
 icon = "money_icon.png"
-quality = 10
+quantity = 10
 
 [[items]]
 id = "flintlock"
 name = "玩具燧發槍"
 icon = "flintlock_icon.png"
-quality = 0
+quantity = 0
 
 [[items]]
 id = "ticket"
 name = "抽獎券"
 icon = "ticket_icon.png"
-quality = 0
+quantity = 0
 
 # 劇情設置
 [[events]]
@@ -885,7 +885,6 @@ dialogue = "(獲得了1張抽獎券)"
 obtain = 1
 obtain_id = "ticket"
 next_event = "thanks"
-
 
 [[events]]
 id = "good_mood"

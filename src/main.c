@@ -1,19 +1,12 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
+#include "macro.h"
 #include "init.h"
+#include "parser.h"
 #include "graphics.h"
 #include "event_handler.h"
-
-// Screen identifiers
-#define SCREEN_LOGIN 0
-#define SCREEN_NEW_GAME 1
-#define SCREEN_CONTINUE_GAME 2
-#define SCREEN_GAME_LOOP 3
-
-// Define window width and height as macros
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
+#include "gamming.h"
 
 // Function to render the login screen
 void render_login_screen(SDL_Renderer *renderer) {
@@ -41,37 +34,38 @@ void render_login_screen(SDL_Renderer *renderer) {
 }
 
 // Main game loop
-void main_loop(SDL_Renderer *renderer) {
+void main_loop(SDL_Renderer *renderer, GameState *game_state) {
     int running = 1;
     int current_screen = SCREEN_LOGIN;
     SDL_Event event;
-    GameState game_state = {0};
-    game_state.inventory_visible = 0;
 
+    
     // Render the login screen initially
     render_login_screen(renderer);
 
     while (running) {
-        handle_events(&event, &running, &current_screen, renderer, &game_state);
+        handle_events(&event, &running, &current_screen, renderer, game_state);
 
         if (current_screen == SCREEN_LOGIN) {
             render_login_screen(renderer);
         } else if (current_screen == SCREEN_NEW_GAME) {
-            render_game_screen(renderer, &game_state);
+            render_game_screen(renderer, game_state);
             // render_new_game_screen(renderer, &game_state);
             current_screen = SCREEN_GAME_LOOP;
         } else if (current_screen == SCREEN_CONTINUE_GAME) {
-            render_game_screen(renderer, &game_state);
+            render_game_screen(renderer, game_state);
             // render_continue_game_screen(renderer, &game_state);
             current_screen = SCREEN_GAME_LOOP;
         } else if (current_screen == SCREEN_GAME_LOOP) {
-            handle_option_buttons(renderer, &event, &game_state);
+            handle_option_buttons(renderer, &event, game_state);
+        } else if (current_screen == SCREEN_END ) {
+            running = 0;
         }
     }
 
     // Clean up resources
-    if (game_state.current_image) {
-        SDL_DestroyTexture(game_state.current_image);
+    if (game_state->current_image) {
+        SDL_DestroyTexture(game_state->current_image);
     }
 }
 
@@ -90,9 +84,37 @@ int main(int argc, char *argv[]) {
         cleanup(window, renderer);
         return 1;
     }
+    
+    int parsed = parse_toml("example-game/script.toml");
+    if (parsed != 0) {
+        fprintf(stderr, "Error parsing TOML file\n");
+        return 1;
+    }
+
+    // initialize game_state
+    GameState game_state;
+    game_state.character = malloc(200);
+    game_state.character_name = malloc(200);
+    game_state.choice_a = malloc(200);
+    game_state.choice_b = malloc(200);
+    game_state.choice_c = malloc(200);
+    game_state.dialogue_text = malloc(200);
+    game_state.option1_event = malloc(200);
+    game_state.option2_event = malloc(200);
+    game_state.option3_event = malloc(200);
+    game_state.option1_required = 0;
+    game_state.option2_required = 0;
+    game_state.option3_required = 0;
+    game_state.option1_required_id = malloc(200);
+    game_state.option2_required_id = malloc(200);
+    game_state.option3_required_id = malloc(200);
+    game_state.scene = malloc(200);
+    game_state.next_event = malloc(200);
+    game_state.have_choice = 0;
+    game_state.inventory_visible = 0;
 
     // Enter the main game loop
-    main_loop(renderer);
+    main_loop(renderer, &game_state);
 
     // Clean up resources and quit
     TTF_Quit();
