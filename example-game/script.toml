@@ -698,7 +698,7 @@ next_event = "good_ending_3"
 [[events]]
 id = "good_ending_3"
 scene = "amusement_park_gate_afternoon"
-character = "shido"
+character = "system"
 dialogue = "(恭喜你完成了好結局1，遊戲結束，感謝遊玩!!)"
 next_event = "END"
 
@@ -719,6 +719,6 @@ next_event = "bad_ending_3"
 [[events]]
 id = "good_ending_3"
 scene = "amusement_park_gate_afternoon"
-character = "shido"
+character = "system"
 dialogue = "(恭喜你完成了壞結局1，遊戲結束，感謝遊玩!!)"
 next_event = "END"
