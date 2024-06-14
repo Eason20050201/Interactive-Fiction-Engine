@@ -46,12 +46,8 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
 
 void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
        
-    // next event_id
-    int is_find = search_event( game_state );
-    // if( !is_find ){
-    //     printf("not find next event\n");
-    // }
-    
+    search_event( game_state );
+        
     // get the image of scene
     game_state->current_image = load_texture(game_state->scene, renderer);
     game_state->character_image = load_texture(game_state->character, renderer);
