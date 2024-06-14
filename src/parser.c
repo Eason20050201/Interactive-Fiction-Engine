@@ -19,6 +19,7 @@ void parse_characters(toml_table_t* conf);
 void parse_items(toml_table_t* conf);
 void parse_events(toml_table_t* conf);
 void parse_choices(toml_table_t* event, Event* evt);
+void parse_judge_event(toml_table_t* event, Event* evt);
 void update_affection(const char* character_id, int affection_change);
 void handle_choice(Event* evt, int choice_index);
 
@@ -139,6 +140,9 @@ void parse_events(toml_table_t* conf) {
             events[i].character = strdup(character);
             events[i].dialogue = strdup(dialogue);
             events[i].id = strdup(id);
+            if(strstr(events[i].id, "JUDGE") != NULL){
+                parse_judge_event(event, &events[i]);
+            }
             if(toml_rtos(toml_raw_in(event, "next_event"), &next_event) == 0){
                 events[i].next_event = strdup(next_event);
                 events[i].choice_count = 0;
@@ -148,6 +152,26 @@ void parse_events(toml_table_t* conf) {
                 parse_choices(event, &events[i]);
             }
             
+        }
+    }
+}
+
+void parse_judge_event(toml_table_t* event, Event* evt){
+    toml_array_t* judge_event_arr = toml_array_in(event, "judge_event");
+    evt->judge_event_count = toml_array_nelem(judge_event_arr);
+    evt->judge_event = malloc(evt->judge_event_count * sizeof(Judge_Event));
+
+    for (int j = 0; j < evt->judge_event_count; j++) {
+        toml_table_t* judge_event = toml_table_at(judge_event_arr, j);
+        char* next_event = NULL;
+        char* character_id = NULL;
+        int64_t required_affection = 0;
+        if (toml_rtos(toml_raw_in(judge_event, "character_id"), &character_id) == 0 &&
+            toml_rtos(toml_raw_in(judge_event, "next_event"), &next_event) == 0 && 
+            toml_rtoi(toml_raw_in(judge_event, "required_affection"), &required_affection) == 0) {
+            evt->judge_event[j].character_id = strdup(character_id);
+            evt->judge_event[j].next_event = strdup(next_event);
+            evt->judge_event[j].required_affection = required_affection;
         }
     }
 }

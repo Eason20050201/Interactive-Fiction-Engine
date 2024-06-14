@@ -36,13 +36,21 @@ typedef struct {
 } Choice;
 
 typedef struct {
+    char* character_id;
+    int required_affection;
+    char* next_event;
+}Judge_Event;
+
+typedef struct {
     char* id;
     char* scene;
     char* character;
     char* dialogue;
     char* next_event;
     Choice* choices;
+    Judge_Event* judge_event;
     int choice_count;
+    int judge_event_count;
 } Event;
 
 extern Scene* scenes;

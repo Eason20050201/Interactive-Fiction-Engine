@@ -20,7 +20,7 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                         // Handle settings option
                     } else if (y >= 300 && y <= 350) {
                         // new game
-                        game_state->event = "start";
+                        game_state->event = "START";
                         *current_screen = SCREEN_NEW_GAME;
                         render_game_screen(renderer, game_state);
                     } else if (y >= 400 && y <= 450) {
@@ -30,7 +30,7 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                     }
                 }
             } else if (*current_screen == SCREEN_GAME_LOOP) {
-                if( strcmp(game_state->event, "end") == 0 ) {
+                if( strcmp(game_state->event, "END") == 0 ) {
                     *current_screen = SCREEN_END;
                 }
                 if (x >= 10 && x <= 60 && y >= WINDOW_HEIGHT - 60 && y <= WINDOW_HEIGHT - 10) {
