@@ -70,12 +70,13 @@ void render_name_box(SDL_Renderer *renderer, const char *name, int x, int y, int
 // Function to render a button
 void render_button(SDL_Renderer *renderer, const char *text, int x, int y, int w, int h) {
     // Set button background color
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Blue
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 180); // Blue
     SDL_Rect button = {x, y, w, h};
     SDL_RenderFillRect(renderer, &button);
 
     // Set button border color
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // White
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 180); // White
     SDL_RenderDrawRect(renderer, &button);
 
     // Render the text inside the button

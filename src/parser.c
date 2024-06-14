@@ -147,12 +147,13 @@ void parse_events(toml_table_t* conf) {
                 events[i].obtain_id = strdup(obtain_id);
                 events[i].obtain = obtain;
             }
-            if(strstr(events[i].id, "JUDGE") != NULL){
-                parse_judge_event(event, &events[i]);
-            }
             if(toml_rtos(toml_raw_in(event, "next_event"), &next_event) == 0){
                 events[i].next_event = strdup(next_event);
                 events[i].choice_count = 0;
+            }
+            else if(strstr(events[i].id, "JUDGE") != NULL){
+                events[i].choice_count = 0;
+                parse_judge_event(event, &events[i]);
             }
             else{
                 events[i].next_event = NULL;
