@@ -24,6 +24,18 @@ void search_event( GameState *game_state ) {
                 strcpy(game_state->option1_event, events[i].choices[0].next_event);
                 strcpy(game_state->option2_event, events[i].choices[1].next_event);
                 strcpy(game_state->option3_event, events[i].choices[2].next_event);
+                if(events[i].choices[0].required > 0) {
+                    game_state->option1_required = events[i].choices[0].required;
+                    strcpy(game_state->option1_required_id, events[i].choices[0].required_id);
+                }
+                if(events[i].choices[1].required > 0) {
+                    game_state->option2_required = events[i].choices[1].required;
+                    strcpy(game_state->option2_required_id, events[i].choices[1].required_id);
+                }
+                if(events[i].choices[2].required > 0) {
+                    game_state->option3_required = events[i].choices[2].required;
+                    strcpy(game_state->option3_required_id, events[i].choices[2].required_id);
+                }
             }
             else if(events[i].judge_event_count > 0) {
                 int character_id_index[events[i].judge_event_count];
