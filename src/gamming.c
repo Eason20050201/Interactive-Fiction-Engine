@@ -25,11 +25,46 @@ void search_event( GameState *game_state ) {
                 strcpy(game_state->option2_event, events[i].choices[1].next_event);
                 strcpy(game_state->option3_event, events[i].choices[2].next_event);
             }
+            else if(events[i].judge_event_count > 0) {
+                int character_id_index[events[i].judge_event_count];
+                for(int j = 0; j < events[i].judge_event_count; j++) {
+                    for(int k = j + 1; k < events[i].judge_event_count; k++) {
+                        if(events[i].judge_event[j].required_affection < events[i].judge_event[k].required_affection)
+                        {
+                            Judge_Event temp = events[i].judge_event[j];
+                            events[i].judge_event[j] = events[i].judge_event[k];
+                            events[i].judge_event[k] = temp;
+                        }
+                    }
+                    for(int k = 0; k < character_count; k++) {
+                        if(strcmp(events[i].judge_event[j].character_id, characters[k].id) == 0) {
+                            character_id_index[j] = k;
+                            break;
+                        }
+                    }
+                }
+                for(int j = 0; j < events[i].judge_event_count; j++ ) {
+                    if( characters[character_id_index[j]].affection >= events[i].judge_event[j].required_affection)
+                    {
+                        strcpy(game_state->next_event, events[i].judge_event[j].next_event);
+                        game_state->have_choice = 0;
+                        break;
+                    }
+                }
+            }
             else {
                 strcpy(game_state->next_event, events[i].next_event);
                 game_state->have_choice = 0;
             }
-            game_state->affect_change = 50;
+
+            if(events[i].obtain > 0) {
+                for(int j = 0; j < item_count; j++) {
+                    if(strcmp(events[i].obtain_id, items[j].id) == 0) {
+                        items[j].quantity += events[i].obtain;
+                        break;
+                    }
+                }
+            }
 
             break;
         }
