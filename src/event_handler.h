@@ -5,19 +5,30 @@
 
 typedef struct {
     SDL_Texture *current_image;
+    SDL_Texture *character_image;
     char *event;
+    char *next_event;
+    char *scene;    // image name
+    char *character; // image name
+    char *character_name; //角色名字
     char *choice_a;
     char *choice_b;
     char *choice_c;
-    char *dialog_text;
-    char *option1_text;
-    char *option2_text;
-    char *option3_text;
-    char *next_image1;
-    char *next_image2;
-    char *next_image3;
+    char *dialogue_text;
+    char *option1_event;
+    char *option2_event;
+    char *option3_event;
+    char *option1_required_id;
+    char *option2_required_id;
+    char *option3_required_id;
+    int option1_required;
+    int option2_required;
+    int option3_required;
+
+    int have_choice;
     int inventory_visible;
 } GameState;
+
 
 // Function declarations
 void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Renderer *renderer, GameState *game_state);
