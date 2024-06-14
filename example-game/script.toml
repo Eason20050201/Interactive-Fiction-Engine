@@ -41,7 +41,7 @@ background = "bathroom.png"
 
 [[scenes]]
 id = "MRT"
-background = "MRT_bg.png"
+background = "MRT.png"
 
 [[scenes]]
 id = "amusement_park_gate"
