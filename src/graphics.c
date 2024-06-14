@@ -147,6 +147,12 @@ void render_inventory(SDL_Renderer *renderer, int x, int y, int w, int h, int nu
     SDL_DestroyTexture(backpack);
     // Render each item
     for (int i = 0; i < have_item_count ; i++) {
+        char buffer[50];
+        char x[] = "x";
+        // 將數字轉換為字串並存儲在 buffer 中
+        sprintf(buffer, "%d", items[item_choose[i]].quantity);
+        // 合併字串
+        strcat(buffer, x);
         SDL_Rect inventory_box = {x + 240, y + 130 + i * 178, 390, 135};
         SDL_Texture *some_item = load_texture(items[item_choose[i]].icon, renderer);
         SDL_Rect item_dest = {x + 84, y + 120 + i * 178, 153, 153}; // Example size, adjust as needed
@@ -154,6 +160,7 @@ void render_inventory(SDL_Renderer *renderer, int x, int y, int w, int h, int nu
         SDL_DestroyTexture(some_item);
         render_text(renderer, items[item_choose[i]].name, x + 245, y + 125 + i * 178, 390, 135, 0, 0, 0);
         render_text(renderer, items[item_choose[i]].description, x + 245, y + 175 + i * 178, 390, 135, 0, 0, 0);
+        render_text(renderer, buffer, x + 180, y + 225 + i * 178, 390, 135, 0, 0, 0);
     }
 }
 
