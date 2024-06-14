@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "macro.h"
 #include "graphics.h"
+#include "parser.h"
 
 // Function to load a texture from a file
 SDL_Texture* load_texture(const char *file, SDL_Renderer *renderer) {
@@ -51,7 +52,7 @@ void render_dialog_box(SDL_Renderer *renderer, const char *text, int x, int y, i
     SDL_RenderDrawRect(renderer, &dialog_box);
 
     // Render the text inside the dialog box
-    render_text(renderer, text, x + 20, y + 10, w - 20, h - 20);
+    render_text(renderer, text, x + 20, y + 10, w - 20, h - 20, 255, 255, 255);
 }
 
 void render_name_box(SDL_Renderer *renderer, const char *name, int x, int y, int w, int h){
@@ -64,7 +65,7 @@ void render_name_box(SDL_Renderer *renderer, const char *name, int x, int y, int
     SDL_RenderDrawRect(renderer, &dialog_box);
 
     // Render the text inside the dialog box
-    render_text(renderer, name, x + 10, y + 10, w - 20, h - 20);
+    render_text(renderer, name, x + 10, y + 10, w - 20, h - 20, 255, 255, 255);
 }
 
 // Function to render a button
@@ -80,17 +81,17 @@ void render_button(SDL_Renderer *renderer, const char *text, int x, int y, int w
     SDL_RenderDrawRect(renderer, &button);
 
     // Render the text inside the button
-    render_text(renderer, text, x + 10, y + 10, w - 20, h - 20);
+    render_text(renderer, text, x + 10, y + 10, w - 20, h - 20, 255, 255, 255);
 }
 
 // Function to render text using SDL_ttf
-void render_text(SDL_Renderer *renderer, const char *text, int x, int y, int w, int h) {
+void render_text(SDL_Renderer *renderer, const char *text, int x, int y, int w, int h, int R, int G, int B) {
     TTF_Font *font = TTF_OpenFont("example-game/assets/NotoSansCJKtc-Regular.ttf", 24); // Load a font with size 24
     if (!font) {
         printf("Failed to load font: %s\n", TTF_GetError());
         return;
     }
-    SDL_Color color = {255, 255, 255, 255}; // White color
+    SDL_Color color = {R, G, B, 255}; // White color
     SDL_Surface *surface = TTF_RenderUTF8_Blended_Wrapped(font, text, color, w);
     if (!surface) {
         printf("Failed to create text surface: %s\n", TTF_GetError());
@@ -120,20 +121,49 @@ void render_inventory_icon(SDL_Renderer *renderer, int x, int y) {
         return;
     }
 
-    SDL_Rect dest = {x, y, 50, 50}; // Example size, adjust as needed
+    SDL_Rect dest = {x, y, 75, 75}; // Example size, adjust as needed
     SDL_RenderCopy(renderer, icon, NULL, &dest);
     SDL_DestroyTexture(icon);
 }
 
-void render_inventory(SDL_Renderer *renderer, int x, int y, int w, int h, const char **items, int num_items) {
+void render_inventory(SDL_Renderer *renderer, int x, int y, int w, int h, int num_items) {
     // Render inventory background
-    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255); // Dark grey background
-    SDL_Rect inventory_box = {x, y, w, h};
-    SDL_RenderFillRect(renderer, &inventory_box);
-
+    int32_t item_choose[3] = {0};
+    int32_t have_item_count = 0;
+    for(int32_t i = 0 ; i < item_count ; i ++){
+        if(items[i].quantity > 0){
+            item_choose[have_item_count] = i;
+            have_item_count ++;
+        }
+    }
+    SDL_Texture *backpack = load_texture("backpack.png", renderer);
+    if (!backpack) {
+        printf("Error: Could not load inventory_icon.png\n");
+        return;
+    }
+    
+    SDL_Rect dest = {x, y, 700, 700}; // Example size, adjust as needed
+    SDL_RenderCopy(renderer, backpack, NULL, &dest);
+    SDL_DestroyTexture(backpack);
     // Render each item
-    for (int i = 0; i < num_items; ++i) {
-        render_text(renderer, items[i], x + 10, y + 10 + i * 30, w - 20, 30);
+    for (int i = 0; i < have_item_count ; i++) {
+        char buffer[50];
+        char x_char[10] = "x";
+        // 將數字轉換為字串並存儲在 buffer 中
+        sprintf(buffer, "%d", items[item_choose[i]].quantity);
+        snprintf(buffer, sizeof(buffer), "%s", "x");
+        // 將數字轉換為字串並追加到 buffer 中
+        snprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), "%d", items[item_choose[i]].quantity);
+        // 合併字串
+        const char *constBuffer = buffer;
+        SDL_Rect inventory_box = {x + 240, y + 130 + i * 178, 390, 135};
+        SDL_Texture *some_item = load_texture(items[item_choose[i]].icon, renderer);
+        SDL_Rect item_dest = {x + 84, y + 120 + i * 178, 153, 153}; // Example size, adjust as needed
+        SDL_RenderCopy(renderer, some_item, NULL, &item_dest);
+        SDL_DestroyTexture(some_item);
+        render_text(renderer, items[item_choose[i]].name, x + 245, y + 125 + i * 178, 390, 135, 0, 0, 0);
+        render_text(renderer, items[item_choose[i]].description, x + 245, y + 175 + i * 178, 390, 135, 0, 0, 0);
+        render_text(renderer, constBuffer, x + 190, y + 230 + i * 178, 390, 135, 0, 0, 0);
     }
 }
 

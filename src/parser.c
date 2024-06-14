@@ -100,18 +100,21 @@ void parse_items(toml_table_t* conf) {
 
     for (int i = 0; i < item_count; i++) {
         toml_table_t* item = toml_table_at(items_arr, i);
-        char* id = NULL;
-        char* name = NULL;
-        char* icon = NULL;
-        int64_t quantity = 0;
+        char* id;
+        char* name;
+        char* icon;
+        char* description;
+        int64_t quantity;
 
         if (toml_rtos(toml_raw_in(item, "id"), &id) == 0 &&
             toml_rtos(toml_raw_in(item, "name"), &name) == 0 &&
             toml_rtos(toml_raw_in(item, "icon"), &icon) == 0 &&
-            toml_rtoi(toml_raw_in(item, "quantity"), &quantity) == 0) {
+            toml_rtoi(toml_raw_in(item, "quantity"), &quantity) == 0 &&
+            toml_rtos(toml_raw_in(item, "description"), &description) == 0) {
             items[i].id = strdup(id);
             items[i].name = strdup(name);
             items[i].icon = strdup(icon);
+            items[i].description = strdup(description);
             items[i].quantity = quantity;
         } else {
             items[i].quantity = 0;
@@ -197,7 +200,7 @@ void parse_choices(toml_table_t* event, Event* evt) {
         char* next_event = NULL;
         char* character_id = NULL;
         char* required_id = NULL;
-        int64_t affection_change = 0;
+        int64_t affection_changes = 0;
         int64_t required = 0;
 
         if (toml_rtos(toml_raw_in(choice, "text"), &text) == 0 &&
@@ -209,8 +212,8 @@ void parse_choices(toml_table_t* event, Event* evt) {
             } else {
                 evt->choices[j].character_id = NULL;
             }
-            if (toml_rtoi(toml_raw_in(choice, "affection_changes"), &affection_change) == 0) {
-                evt->choices[j].affection_changes = affection_change;
+            if (toml_rtoi(toml_raw_in(choice, "affection_changes"), &affection_changes) == 0) {
+                evt->choices[j].affection_changes = affection_changes;
             } else {
                 evt->choices[j].affection_changes = 0;
             }
@@ -227,36 +230,3 @@ void parse_choices(toml_table_t* event, Event* evt) {
         }
     }
 }
-
-/*void update_affection(const char* character_id, int affection_change) {
-    for (int i = 0; i < character_count; i++) {
-        if (strcmp(characters[i].id, character_id) == 0) {
-            characters[i].affection += affection_change;
-            break;
-        }
-    }
-}*/
-/*void update_item(const char* optain_id, int optain, const char* required_id, int required) {
-    for (int i = 0; i < item_count; i++) {
-        if (strcmp(items[i].id, required_id) == 0) {
-            items[i].quantity -= required;
-            break;
-        }
-        if (strcmp(items[i].id, optain_id) == 0) {
-            items[i].quantity += optain;
-            break;
-        }
-    }
-}*/
-
-/*void handle_choice(Event* evt, int choice_index) {
-    Choice* choice = &evt->choices[choice_index];
-    if (choice->character_id) {
-        update_affection(choice->character_id, choice->affection_change);
-    }
-    if (choice->required_id != NULL || choice->optain_id != NULL) {
-        update_item(choice->optain_id, choice->optain, choice->required_id, choice->required); 
-    }
-    // 跳转到下一个事件
-    // next_event(choice->next_event);
-}*/
