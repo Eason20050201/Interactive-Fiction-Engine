@@ -10,7 +10,7 @@ void search_event( GameState *game_state ) {
                 }
             }
             for(int j = 0; j < scene_count; j++) {
-                if(strcmp(events[j].scene, scenes[j].id) == 0) {
+                if(strcmp(events[i].scene, scenes[j].id) == 0) {
                     strcpy(game_state->scene, scenes[j].background);
                     break;
                 }
