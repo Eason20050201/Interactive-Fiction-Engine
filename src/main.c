@@ -7,6 +7,7 @@
 #include "graphics.h"
 #include "event_handler.h"
 #include "gamming.h"
+#include "player.h"
 
 // Function to render the login screen
 void render_login_screen(SDL_Renderer *renderer) {
@@ -49,15 +50,12 @@ void main_loop(SDL_Renderer *renderer, GameState *game_state) {
         if (current_screen == SCREEN_LOGIN) {
             render_login_screen(renderer);
         } else if (current_screen == SCREEN_NEW_GAME) {
-            render_game_screen(renderer, game_state);
-            // render_new_game_screen(renderer, &game_state);
             current_screen = SCREEN_GAME_LOOP;
         } else if (current_screen == SCREEN_CONTINUE_GAME) {
             render_game_screen(renderer, game_state);
-            // render_continue_game_screen(renderer, &game_state);
             current_screen = SCREEN_GAME_LOOP;
         } else if (current_screen == SCREEN_GAME_LOOP) {
-            handle_option_buttons(renderer, &event, game_state);
+            // handle_option_buttons(renderer, &event, game_state);
         } else if (current_screen == SCREEN_END ) {
             running = 0;
         }
@@ -93,6 +91,7 @@ int main(int argc, char *argv[]) {
 
     // initialize game_state
     GameState game_state;
+    game_state.player_name = malloc(200);
     game_state.character = malloc(200);
     game_state.character_name = malloc(200);
     game_state.choice_a = malloc(200);
