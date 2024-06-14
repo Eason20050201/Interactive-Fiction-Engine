@@ -86,7 +86,7 @@ void print( GameState *game_state) {
     printf("next_event: %s\n", game_state->next_event);
     printf("scene: %s\n", game_state->scene);
     printf("character: %s\n", game_state->character);
-    printf("affect_change: %d\n", game_state->affect_change);
+    //printf("affect_change: %d\n", game_state->affect_change);
     printf("choice_a: %s\n", game_state->choice_a);
     printf("choice_b: %s\n", game_state->choice_b);
     printf("choice_c: %s\n", game_state->choice_c);
