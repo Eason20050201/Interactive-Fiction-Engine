@@ -29,7 +29,7 @@ typedef struct {
     char* character_id;
     char* required_id;
     int required;
-    int affection_change;
+    int affection_changes;
 } Choice;
 
 typedef struct {

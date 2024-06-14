@@ -24,6 +24,12 @@ typedef struct {
     int option1_required;
     int option2_required;
     int option3_required;
+    char *option1_character_id;
+    char *option2_character_id;
+    char *option3_character_id;
+    int option1_affection_change;
+    int option2_affection_change;
+    int option3_affection_change;
 
     int have_choice;
     int inventory_visible;

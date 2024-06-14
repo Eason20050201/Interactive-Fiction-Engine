@@ -209,10 +209,10 @@ void parse_choices(toml_table_t* event, Event* evt) {
             } else {
                 evt->choices[j].character_id = NULL;
             }
-            if (toml_rtoi(toml_raw_in(choice, "affection_change"), &affection_change) == 0) {
-                evt->choices[j].affection_change = affection_change;
+            if (toml_rtoi(toml_raw_in(choice, "affection_changes"), &affection_change) == 0) {
+                evt->choices[j].affection_changes = affection_change;
             } else {
-                evt->choices[j].affection_change = 0;
+                evt->choices[j].affection_changes = 0;
             }
             if (toml_rtoi(toml_raw_in(choice, "required"), &required) == 0) {
                 evt->choices[j].required = required;

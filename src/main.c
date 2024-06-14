@@ -108,6 +108,12 @@ int main(int argc, char *argv[]) {
     game_state.option1_required_id = malloc(200);
     game_state.option2_required_id = malloc(200);
     game_state.option3_required_id = malloc(200);
+    game_state.option1_affection_change = 0;
+    game_state.option2_affection_change = 0;
+    game_state.option3_affection_change = 0;
+    game_state.option1_character_id = malloc(200);
+    game_state.option2_character_id = malloc(200);
+    game_state.option3_character_id = malloc(200);
     game_state.scene = malloc(200);
     game_state.next_event = malloc(200);
     game_state.have_choice = 0;

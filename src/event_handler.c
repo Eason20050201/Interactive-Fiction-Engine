@@ -109,17 +109,77 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
         printf("---\n");
         
         if (x >= 350 && x <= 950 && y >= 200 && y <= 250 && game_state->have_choice) {
-            change_event = 1;
-            // strcpy(game_state->event, game_state->option1_event);
-            game_state->event = game_state->option1_event;
+            if(game_state->option1_affection_change != 0) {
+                for(int i = 0; i < character_count; i++) {
+                    if(strcmp(game_state->option1_character_id, characters[i].id) == 0) {
+                        characters[i].affection += game_state->option1_affection_change;
+                        break;
+                    }
+                }
+            }
+            if(game_state->option1_required > 0) {
+                for(int i = 0; i < item_count; i++) {
+                    if(strcmp(game_state->option1_required_id, items[i].id) == 0 && items[i].quantity >= game_state->option1_required) {
+                        items[i].quantity -= game_state->option1_required;
+                        change_event = 1;
+                        game_state->event = game_state->option1_event;
+                        break;
+                    }
+                }
+            }
+            else {
+                change_event = 1;
+                // strcpy(game_state->event, game_state->option1_event);
+                game_state->event = game_state->option1_event;
+            }
         } else if (x >= 350 && x <= 950 && y >= 300 && y <= 350 && game_state->have_choice) {
-            change_event = 1;
-            // strcpy(game_state->event, game_state->option2_event);
-            game_state->event = game_state->option2_event;
+            if(game_state->option2_affection_change != 0) {
+                for(int i = 0; i < character_count; i++) {
+                    if(strcmp(game_state->option2_character_id, characters[i].id) == 0) {
+                        characters[i].affection += game_state->option2_affection_change;
+                        break;
+                    }
+                }
+            }
+            if(game_state->option2_required > 0) {
+                for(int i = 0; i < item_count; i++) {
+                    if(strcmp(game_state->option2_required_id, items[i].id) == 0 && items[i].quantity >= game_state->option2_required) {
+                        items[i].quantity -= game_state->option2_required;
+                        change_event = 1;
+                        game_state->event = game_state->option2_event;
+                        break;
+                    }
+                }
+            }
+            else {
+                change_event = 1;
+                // strcpy(game_state->event, game_state->option2_event);
+                game_state->event = game_state->option2_event;
+            }
         } else if (x >= 350 && x <= 950 && y >= 400 && y <= 450 && game_state->have_choice) {
-            change_event = 1;
-            // strcpy(game_state->event, game_state->option3_event);
-            game_state->event = game_state->option3_event;
+            if(game_state->option3_affection_change != 0) {
+                for(int i = 0; i < character_count; i++) {
+                    if(strcmp(game_state->option3_character_id, characters[i].id) == 0) {
+                        characters[i].affection += game_state->option3_affection_change;
+                        break;
+                    }
+                }
+            }
+            if(game_state->option3_required > 0) {
+                for(int i = 0; i < item_count; i++) {
+                    if(strcmp(game_state->option3_required_id, items[i].id) == 0 && items[i].quantity >= game_state->option3_required) {
+                        items[i].quantity -= game_state->option3_required;
+                        change_event = 1;
+                        game_state->event = game_state->option3_event;
+                        break;
+                    }
+                }
+            }
+            else {
+                change_event = 1;
+                // strcpy(game_state->event, game_state->option3_event);
+                game_state->event = game_state->option3_event;
+            }
         }
         else if ( !game_state->have_choice ) {
             change_event = 1;

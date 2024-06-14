@@ -38,6 +38,18 @@ void search_event( GameState *game_state ) {
                     game_state->option3_required = events[i].choices[2].required;
                     strcpy(game_state->option3_required_id, events[i].choices[2].required_id);
                 }
+                if(events[i].choices[0].affection_changes != 0) {
+                    game_state->option1_affection_change = events[i].choices[0].affection_changes;
+                    strcpy(game_state->option1_character_id, events[i].choices[0].character_id);
+                }
+                if(events[i].choices[1].affection_changes != 0) {
+                    game_state->option2_affection_change = events[i].choices[1].affection_changes;
+                    strcpy(game_state->option2_character_id, events[i].choices[1].character_id);
+                }
+                if(events[i].choices[2].affection_changes != 0) {
+                    game_state->option3_affection_change = events[i].choices[2].affection_changes;
+                    strcpy(game_state->option3_character_id, events[i].choices[2].character_id);
+                }
             }
             else if(events[i].judge_event_count > 0) {
                 int character_id_index[events[i].judge_event_count];
