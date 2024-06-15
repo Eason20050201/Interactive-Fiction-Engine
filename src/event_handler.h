@@ -41,6 +41,7 @@ typedef struct {
 void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Renderer *renderer, GameState *game_state);
 
 void render_game_screen(SDL_Renderer *renderer, GameState *game_state);
+void refresh_game_screen(SDL_Renderer *renderer, GameState *game_state);
 
 // void render_new_game_screen(SDL_Renderer *renderer, GameState *game_state);
 // void render_continue_game_screen(SDL_Renderer *renderer, GameState *game_state);
