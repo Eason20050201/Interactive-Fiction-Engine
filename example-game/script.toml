@@ -1,6 +1,7 @@
 # 初始設置
-[[setting]]
-enter_background = "enter_background.png"
+#[[setting]]
+#enter_background = "enter_background.png"
+#enter_name_background = ""
 
 # 場景設置
 [[scenes]]
@@ -104,14 +105,14 @@ id = "tohka"
 name = "夜刀神十香"
 avatar = "tohka_avatar.png"
 sprite = "tohka_sprite.png"
-affection = -1  # 十香的初始好感度
+affection = 50  # 十香的初始好感度
 
 [[characters]]
 id = "kurumi"
 name = "時崎狂三"
 avatar = "kurumi_avatar.png"
 sprite = "kurumi_sprite.png"
-affection = -1  # 狂三的初始好感度
+affection = 50  # 狂三的初始好感度
 
 [[characters]]
 id = "shopkeeper"
@@ -184,8 +185,8 @@ scene = "home"
 character = "shido"
 dialogue = "今天要去哪裡玩呢?"
 choices = [
-    { text = "遊樂園", next_event = "to_universal" , affection_changes = 51 , character_id = "kurumi"},
-    { text = "商店街", next_event = "to_shopping_street" , affection_changes = 51 , character_id = "tohka"},
+    { text = "遊樂園", next_event = "to_universal" },
+    { text = "商店街", next_event = "to_shopping_street" },
     { text = "什麼出去玩，我宅男在家睡。", next_event = "sleep_ending" } #還沒寫
 ]
 
@@ -841,8 +842,8 @@ scene = "shopping_street"
 character = "tohka"
 dialogue = "肚子好餓喔，{玩家}你想吃什麼啊?"
 choices = [
-    { text = "黃豆粉麵包(需要4錢幣)", next_event = "very_delicious", affection_changes = 10 , character_id = "tohka", required = 2, required_id = "money" },
-    { text = "咖哩拌飯(需要5錢幣)", next_event = "normal_delicious", affection_changes = -5 , character_id = "tohka", required = -5, required_id = "money" },
+    { text = "黃豆粉麵包(需要4錢幣)", next_event = "very_delicious", affection_changes = 10 , character_id = "tohka", required = 4, required_id = "money" },
+    { text = "咖哩拌飯(需要5錢幣)", next_event = "normal_delicious", affection_changes = -5 , character_id = "tohka", required = 5, required_id = "money" },
     { text = "章魚燒(需要3錢幣)", next_event = "normal_delicious", affection_changes = 5 , character_id = "tohka", required = 3, required_id = "money" }
 ]
 
