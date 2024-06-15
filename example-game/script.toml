@@ -1,3 +1,7 @@
+# 初始設置
+[[setting]]
+enter_background = "enter_background.png"
+
 # 場景設置
 [[scenes]]
 id = "amusement_park"
@@ -90,10 +94,10 @@ background = "beat_drum.png"
 # 人物設置
 [[characters]]
 id = "shido"
-name = "五河士道"
+name = "{玩家}"
 avatar = "shido_avatar.png"
 sprite = "shido_sprite.png"
-affection = -1  # 士道的初始好感度
+affection = -1  # 玩家的初始好感度
 
 [[characters]]
 id = "tohka"
@@ -257,7 +261,7 @@ choices = [
 id = "meet_kurumi_scary"
 scene = "amusement_park_gate"
 character = "kurumi"
-dialogue = "啊!!!，原來是士道啊，突然出現嚇我一跳，你今天也來環球嗎!這麼巧的話那要不我們一起玩?"
+dialogue = "啊!!!，原來是{玩家}啊，突然出現嚇我一跳，你今天也來環球嗎!這麼巧的話那要不我們一起玩?"
 choices = [
     { text = "毫不猶豫就說好啊!", next_event = "yes_fast", affection_changes = 5, character_id = "kurumi"},
     { text = "思考個10秒才說好", next_event = "yes_long", affection_changes = -5, character_id = "kurumi"},
@@ -289,7 +293,7 @@ next_event = "continue_universal_with_kurumi"
 id = "avoid_kurumi_but_meet"
 scene = "amusement_park_gate"
 character = "kurumi"
-dialogue = "哦？士道!真巧啊，你今天也來環球影城呀!我剛剛明明就看到你看到我，居然直接忽視啊...怎麼樣要跟我同行嗎?"
+dialogue = "哦？{玩家}!真巧啊，你今天也來環球影城呀!我剛剛明明就看到你看到我，居然直接忽視啊...怎麼樣要跟我同行嗎?"
 choices = [
     { text = "毫不猶豫就說好啊!", next_event = "yes_fast", affection_changes = 5, character_id = "kurumi"},
     { text = "思考個10秒才說好", next_event = "yes_long", affection_changes = -5, character_id = "kurumi"},
@@ -311,7 +315,7 @@ choices = [
 id = "horse"
 scene = "horse"
 character = "kurumi"
-dialogue = "旋轉木馬很無聊耶，但既然士道想要玩那也沒辦法了..."
+dialogue = "旋轉木馬很無聊耶，但既然{玩家}想要玩那也沒辦法了..."
 next_event = "horse1"
 
 [[events]]
@@ -346,7 +350,7 @@ next_event = "ghost2"
 id = "ghost2"
 scene = "ghost_house"
 character = "kurumi"
-dialogue = "士道怎麼這麼膽小呢，哈哈哈"
+dialogue = "{玩家}怎麼這麼膽小呢，哈哈哈"
 next_event = "go_lunch"
 
 [[events]]
@@ -536,14 +540,14 @@ next_event = "find_a_lost_kid"
 id = "give_cat_toy"
 scene = "bathroom"
 character = "kurumi"
-dialogue = "這是你送我的禮物?!太好了吧!你怎麼知道我最喜歡小貓了!!謝謝士道!"
+dialogue = "這是你送我的禮物?!太好了吧!你怎麼知道我最喜歡小貓了!!謝謝{玩家}!"
 next_event = "find_a_lost_kid"
 
 [[events]]
 id = "give_gun"
 scene = "bathroom"
 character = "kurumi"
-dialogue = "這是你送我的禮物?!太好了吧!謝謝士道~"
+dialogue = "這是你送我的禮物?!太好了吧!謝謝{玩家}~"
 next_event = "find_a_lost_kid"
 
 [[events]]
@@ -705,7 +709,7 @@ next_event = "after_play"
 id = "after_play"
 scene = "service_place"
 character = "kurumi"
-dialogue = "今天也玩得差不多了，是時候到別分開了，士道...(準備走去門口)"
+dialogue = "今天也玩得差不多了，是時候到別分開了，{玩家}...(準備走去門口)"
 next_event = "JUDGE_end_1"
 
 [[events]]
@@ -713,7 +717,6 @@ id = "JUDGE_end_1"
 scene = "amusement_park_gate_afternoon"
 character = "kurumi"
 dialogue = "在分別之前我必須跟你說一些實話..."
-next_event = ""
 judge_event = [
     { next_event = "good_ending_1", required_affection = 60, character_id = "kurumi"},
     { next_event = "bad_ending_1", required_affection = 0, character_id = "kurumi"},
@@ -755,7 +758,7 @@ dialogue = "好吧，那我也不能說什麼。再見了，狂三。"
 next_event = "bad_ending_3"
 
 [[events]]
-id = "good_ending_3"
+id = "bad_ending_3"
 scene = "amusement_park_gate_afternoon"
 character = "system"
 dialogue = "(恭喜你完成了壞結局1，遊戲結束，感謝遊玩!!)"
@@ -797,11 +800,11 @@ next_event = "whether_invite_tohka"
 id = "whether_invite_tohka"
 scene = "shopping_street_entry"
 character = "tohka"
-dialogue = "士道!你也在這逛街嗎?"
+dialogue = "{玩家}!你也在這逛街嗎?"
 choices = [
     { text = "恩恩，十香你要不要跟我一起逛。", next_event = "tohka_answer1", affection_changes = 5 , character_id = "tohka" },
     { text = "我已經提前預知到你會逛街了，所以我來陪你了。", next_event = "tohka_answer2", affection_changes = 10 , character_id = "tohka" },
-    { text = "(...)", next_event = "tohka_invite", affection_changes = -5 , character_id = "tohka" }
+    { text = "(...)", next_event = "tohka_invite", affection_changes = -10 , character_id = "tohka" }
 ]
 
 [[events]]
@@ -836,10 +839,10 @@ next_event = "front_stores"
 id = "front_stores"
 scene = "shopping_street"
 character = "tohka"
-dialogue = "肚子好餓喔，士道你想吃什麼啊?"
+dialogue = "肚子好餓喔，{玩家}你想吃什麼啊?"
 choices = [
     { text = "黃豆粉麵包(需要4錢幣)", next_event = "very_delicious", affection_changes = 10 , character_id = "tohka", required = 2, required_id = "money" },
-    { text = "咖哩拌飯(需要5錢幣)", next_event = "normal_delicious", required = 5, required_id = "money" },
+    { text = "咖哩拌飯(需要5錢幣)", next_event = "normal_delicious", affection_changes = -5 , character_id = "tohka", required = -5, required_id = "money" },
     { text = "章魚燒(需要3錢幣)", next_event = "normal_delicious", affection_changes = 5 , character_id = "tohka", required = 3, required_id = "money" }
 ]
 
@@ -872,7 +875,7 @@ dialogue = "(他看起來好像很需要幫助)"
 choices = [
     { text = "捐2塊錢(需要2錢幣)", next_event = "get_ticket", affection_changes = 10 , character_id = "tohka", required = 2, required_id = "money" },
     { text = "捐1塊錢(需要1錢幣)", next_event = "good_mood", affection_changes = 5 , character_id = "tohka", required = 1, required_id = "money" },
-    { text = "當作沒看到，直接走過去", next_event = "where_to_play", affection_changes = -5 , character_id = "tohka" }
+    { text = "當作沒看到，直接走過去", next_event = "where_to_play", affection_changes = -10 , character_id = "tohka" }
 ]
 
 [[events]]
@@ -912,8 +915,8 @@ character = "shido"
 dialogue = "(那接下來要去哪裡呢?)"
 choices = [
     { text = "去抽獎(需要1抽獎券)", next_event = "to_lottery_machine", required = 1, required_id = "ticket" },
-    { text = "撈金魚(需要5錢幣)", next_event = "to_catch_fish", affection_changes = 5 , character_id = "tohka", required = 5, required_id = "money" },
-    { text = "打太鼓達人(需要3錢幣)", next_event = "to_beat_drum", required = 3, required_id = "money" }
+    { text = "撈金魚(需要5錢幣)", next_event = "to_catch_fish", affection_changes = 10 , character_id = "tohka", required = 5, required_id = "money" },
+    { text = "打太鼓達人(需要3錢幣)", next_event = "to_beat_drum", affection_changes = -5 , character_id = "tohka", required = 3, required_id = "money" }
 ]
 
 [[events]]
@@ -927,7 +930,7 @@ next_event = "tohka_want_to_lottery"
 id = "tohka_want_to_lottery"
 scene = "lottery_machine"
 character = "tohka"
-dialogue = "士道!我想要去抽獎!"
+dialogue = "{玩家}!我想要去抽獎!"
 next_event = "ok"
 
 [[events]]
@@ -980,7 +983,7 @@ next_event = "tohka_want_to_catch_fish"
 id = "tohka_want_to_catch_fish"
 scene = "catch_fish"
 character = "tohka"
-dialogue = "走吧，士道!我們一起撈金魚!"
+dialogue = "走吧，{玩家}!我們一起撈金魚!"
 next_event = "catching"
 
 [[events]]
@@ -1036,7 +1039,7 @@ next_event = "beating2"
 id = "beating2"
 scene = "beat_drum"
 character = "tohka"
-dialogue = "滿分~士道我很厲害吧!"
+dialogue = "滿分~{玩家}我很厲害吧!"
 next_event = "beating3"
 
 [[events]]
@@ -1052,7 +1055,7 @@ scene = "shopping_street_afternoon"
 character = "shido"
 dialogue = "好像是時候回家了~"
 judge_event = [
-    { next_event = "tohka_nice_ending", required_affection = 90, character_id = "tohka"},
+    { next_event = "tohka_nice_ending", required_affection = 80, character_id = "tohka"},
     { next_event = "tohka_normal_ending", required_affection = 0, character_id = "tohka"}
 ]
 
@@ -1060,7 +1063,7 @@ judge_event = [
 id = "tohka_nice_ending"
 scene = "shopping_street_afternoon"
 character = "tohka"
-dialogue = "謝謝你，士道!今天是我人生中最棒的一天"
+dialogue = "謝謝你，{玩家}!今天是我人生中最棒的一天"
 next_event = "tohka_nice_ending2"
 
 [[events]]
@@ -1075,7 +1078,7 @@ next_event = "END"
 id = "tohka_normal_ending"
 scene = "shopping_street_afternoon"
 character = "tohka"
-dialogue = "再見，士道~"
+dialogue = "再見，{玩家}~"
 next_event = "tohka_normal_ending2"
 
 [[events]]

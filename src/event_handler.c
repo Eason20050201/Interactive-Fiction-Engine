@@ -20,7 +20,7 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                     if (y >= 200 && y <= 250) {
                         // Handle settings option
                     } else if (y >= 300 && y <= 350) {
-                        set_player_name(renderer, game_state->player_name);     
+                        set_player_name(renderer, game_state->player_name);
                         *current_screen = SCREEN_NEW_GAME;
                         // new game
                         game_state->event = "START";
@@ -38,7 +38,7 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                 if (x >= 1180 && x <= 1255 && y >= 20 && y <= 95) {
                     handle_inventory_icon_click(renderer, game_state);
                 } else if( !game_state->inventory_visible ) {
-                    render_game_screen(renderer, game_state);
+                    //render_game_screen(renderer, game_state);
                     handle_option_buttons(renderer, event, game_state);
                 } 
             }
@@ -49,7 +49,8 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
 void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
        
     search_event( game_state );
-    replaceSubstring(game_state->dialogue_text, "士道", game_state->player_name);
+    replaceSubstring(game_state->character_name, "{玩家}", game_state->player_name);
+    replaceSubstring(game_state->dialogue_text, "{玩家}", game_state->player_name);
 
     // get the image of scene
     game_state->current_image = load_texture(game_state->scene, renderer);
@@ -84,6 +85,29 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
     SDL_RenderPresent(renderer);
 }
 
+void refresh_game_screen(SDL_Renderer *renderer, GameState *game_state) {
+    // get the image of scene
+    game_state->current_image = load_texture(game_state->scene, renderer);
+    game_state->character_image = load_texture(game_state->character, renderer);
+
+    SDL_RenderClear(renderer);  // Clear the renderer before drawing new content
+
+    render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
+    render_texture_fullscreen(game_state->character_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
+    
+    render_dialog_box(renderer, game_state->dialogue_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 150);
+    render_name_box(renderer, game_state->character_name, 60, WINDOW_HEIGHT - 220, 150, 60);
+    
+    if( game_state->have_choice ) {
+        render_button(renderer, game_state->choice_a, 350, 200, 600, 50);
+        render_button(renderer, game_state->choice_b, 350, 300, 600, 50);
+        render_button(renderer, game_state->choice_c, 350, 400, 600, 50);
+    }
+    render_inventory_icon(renderer, 1180, 20); // Render inventory icon
+
+    SDL_RenderPresent(renderer);
+}
+
 void print( GameState *game_state) {
     printf("event: %s\n", game_state->event);
     printf("next_event: %s\n", game_state->next_event);
@@ -97,6 +121,8 @@ void print( GameState *game_state) {
     printf("option1_event: %s\n", game_state->option1_event);
     printf("option2_event: %s\n", game_state->option2_event);
     printf("option3_event: %s\n", game_state->option3_event);
+    printf("character_id: %s\n", characters[1].id);
+    printf("affections: %d\n", characters[1].affection);
 }
 
 // Function to handle option buttons
@@ -116,6 +142,9 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
                 for(int i = 0; i < character_count; i++) {
                     if(strcmp(game_state->option1_character_id, characters[i].id) == 0) {
                         characters[i].affection += game_state->option1_affection_change;
+                        game_state->option1_affection_change = 0;
+                        game_state->option2_affection_change = 0;
+                        game_state->option3_affection_change = 0;
                         break;
                     }
                 }
@@ -124,6 +153,9 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
                 for(int i = 0; i < item_count; i++) {
                     if(strcmp(game_state->option1_required_id, items[i].id) == 0 && items[i].quantity >= game_state->option1_required) {
                         items[i].quantity -= game_state->option1_required;
+                        game_state->option1_required = 0;
+                        game_state->option2_required = 0;
+                        game_state->option3_required = 0;
                         change_event = 1;
                         game_state->event = game_state->option1_event;
                         break;
@@ -140,6 +172,9 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
                 for(int i = 0; i < character_count; i++) {
                     if(strcmp(game_state->option2_character_id, characters[i].id) == 0) {
                         characters[i].affection += game_state->option2_affection_change;
+                        game_state->option1_affection_change = 0;
+                        game_state->option2_affection_change = 0;
+                        game_state->option3_affection_change = 0;
                         break;
                     }
                 }
@@ -148,6 +183,9 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
                 for(int i = 0; i < item_count; i++) {
                     if(strcmp(game_state->option2_required_id, items[i].id) == 0 && items[i].quantity >= game_state->option2_required) {
                         items[i].quantity -= game_state->option2_required;
+                        game_state->option1_required = 0;
+                        game_state->option2_required = 0;
+                        game_state->option3_required = 0;
                         change_event = 1;
                         game_state->event = game_state->option2_event;
                         break;
@@ -164,6 +202,9 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
                 for(int i = 0; i < character_count; i++) {
                     if(strcmp(game_state->option3_character_id, characters[i].id) == 0) {
                         characters[i].affection += game_state->option3_affection_change;
+                        game_state->option1_affection_change = 0;
+                        game_state->option2_affection_change = 0;
+                        game_state->option3_affection_change = 0;
                         break;
                     }
                 }
@@ -172,6 +213,9 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
                 for(int i = 0; i < item_count; i++) {
                     if(strcmp(game_state->option3_required_id, items[i].id) == 0 && items[i].quantity >= game_state->option3_required) {
                         items[i].quantity -= game_state->option3_required;
+                        game_state->option1_required = 0;
+                        game_state->option2_required = 0;
+                        game_state->option3_required = 0;
                         change_event = 1;
                         game_state->event = game_state->option3_event;
                         break;
@@ -207,7 +251,7 @@ void handle_inventory_icon_click(SDL_Renderer *renderer, GameState *game_state) 
         render_inventory(renderer, 290, 10, 400, 300, 5); // Example position and size
     }
     else {
-        render_game_screen(renderer, game_state);
+        refresh_game_screen(renderer, game_state);
     }
 
     SDL_RenderPresent(renderer);
