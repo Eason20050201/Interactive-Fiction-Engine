@@ -20,7 +20,11 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                     if (y >= 200 && y <= 250) {
                         // Handle settings option
                     } else if (y >= 300 && y <= 350) {
-                        set_player_name(renderer, game_state->player_name);
+                        set_player_name(renderer, game_state->player_name, running);
+                        if( *running == 0 ) {
+                            return;
+                        }
+
                         *current_screen = SCREEN_NEW_GAME;
                         // new game
                         game_state->event = "START";
@@ -72,7 +76,6 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
     else {
         render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
     }
-    
 
     render_texture_fullscreen(game_state->character_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
     
