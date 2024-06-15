@@ -121,8 +121,6 @@ void print( GameState *game_state) {
     printf("option1_event: %s\n", game_state->option1_event);
     printf("option2_event: %s\n", game_state->option2_event);
     printf("option3_event: %s\n", game_state->option3_event);
-    printf("character_id: %s\n", characters[1].id);
-    printf("affections: %d\n", characters[1].affection);
 }
 
 // Function to handle option buttons
