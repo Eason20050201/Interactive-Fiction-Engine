@@ -1,6 +1,19 @@
 #include "player.h"
 #include "graphics.h"
 
+// 计算UTF-8字符串的字符数
+int utf8_strlen(const char *str) {
+    int count = 0;
+    const char *s = str;
+    while (*s) {
+        if ((*s & 0xc0) != 0x80) {
+            count++;
+        }
+        s++;
+    }
+    return count;
+}
+
 void set_player_name(SDL_Renderer *renderer, char *player_name) {
     // Initialize font
     TTF_Font *font = TTF_OpenFont("example-game/assets/NotoSansCJKtc-Regular.ttf", 24);
@@ -20,7 +33,10 @@ void set_player_name(SDL_Renderer *renderer, char *player_name) {
             if (e.type == SDL_QUIT) {
                 quit = 1;
             } else if (e.type == SDL_TEXTINPUT) {
-                strcat(inputText, e.text.text);
+                // 计算实际输入的字符数
+                if (utf8_strlen(inputText) < utf8_strlen("Enter your name: ") + 10) {  // 10 characters limit
+                    strcat(inputText, e.text.text);
+                }
             } else if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.sym == SDLK_BACKSPACE && strlen(inputText) > strlen("Enter your name: ")) {
                     inputText[strlen(inputText) - 1] = '\0';
@@ -35,7 +51,7 @@ void set_player_name(SDL_Renderer *renderer, char *player_name) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // 黑色背景
         SDL_RenderClear(renderer);
 
-        render_text(renderer, inputText, 200, 200, 400, 50, 255, 255, 255);
+        render_text(renderer, inputText, 200, 200, 600, 50, 255, 255, 255);
 
         SDL_RenderPresent(renderer);
     }

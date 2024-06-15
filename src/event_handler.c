@@ -47,7 +47,10 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
 }
 
 void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
-       
+    SDL_Texture *old_texture = game_state->current_image;
+    char last_scene[200];
+    strcpy(last_scene, game_state->scene);
+
     search_event( game_state );
     replaceSubstring(game_state->character_name, "{玩家}", game_state->player_name);
     replaceSubstring(game_state->dialogue_text, "{玩家}", game_state->player_name);
@@ -58,7 +61,19 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
 
     SDL_RenderClear(renderer);  // Clear the renderer before drawing new content
 
-    render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
+    if ( strcmp( last_scene, game_state->scene ) != 0 ) {
+        fade_out(renderer, old_texture, 50);
+        SDL_DestroyTexture(old_texture);
+        fade_in(renderer, game_state->current_image, 50);
+
+        // crossfade(renderer, old_texture, game_state->current_image, 50);
+        // SDL_DestroyTexture(old_texture);
+    }
+    else {
+        render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
+    }
+    
+
     render_texture_fullscreen(game_state->character_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
     
     render_dialog_box(renderer, game_state->dialogue_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 150);
