@@ -309,3 +309,16 @@ void render_character_affinity(SDL_Renderer *renderer, const char *image_path, i
     TTF_CloseFont(font);
     SDL_DestroyTexture(texture);
 }
+
+void render_home_icon(SDL_Renderer *renderer, int x, int y) {
+    SDL_Texture *icon = load_texture("home_icon.png", renderer);
+    if (!icon) {
+        printf("Error: Could not load home_icon.png\n");
+        return;
+    }
+
+    SDL_Rect dest = {x, y, 75, 75}; // Example size, adjust as needed
+    SDL_RenderCopy(renderer, icon, NULL, &dest);
+    SDL_DestroyTexture(icon);
+}
+

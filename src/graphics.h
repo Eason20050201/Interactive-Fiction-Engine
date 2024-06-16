@@ -16,5 +16,6 @@ void fade_in(SDL_Renderer *renderer, SDL_Texture *texture, int duration);
 void fade_out(SDL_Renderer *renderer, SDL_Texture *texture, int duration);
 void crossfade(SDL_Renderer *renderer, SDL_Texture *old_texture, SDL_Texture *new_texture, int duration);
 void render_text_slowly(SDL_Renderer *renderer, const char *text, int x, int y, int w, int h, int delay);
+void render_home_icon(SDL_Renderer *renderer, int x, int y);
 
 #endif // GRAPHICS_H
