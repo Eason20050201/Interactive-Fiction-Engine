@@ -143,6 +143,9 @@ void print( GameState *game_state) {
 
 // Function to handle option buttons
 void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *game_state) {
+    Mix_Chunk *choice_effect = load_sound("choice.mp3");
+    Mix_Chunk *space_effect = load_sound("space.mp3");
+
     int x, y;
     SDL_GetMouseState(&x, &y);
 
@@ -154,6 +157,8 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
         printf("---\n");
         
         if (x >= 350 && x <= 950 && y >= 200 && y <= 250 && game_state->have_choice) {
+            play_sound(choice_effect);
+
             if(game_state->option1_affection_change != 0) {
                 for(int i = 0; i < character_count; i++) {
                     if(strcmp(game_state->option1_character_id, characters[i].id) == 0) {
@@ -184,6 +189,8 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
                 game_state->event = game_state->option1_event;
             }
         } else if (x >= 350 && x <= 950 && y >= 300 && y <= 350 && game_state->have_choice) {
+            play_sound(choice_effect);
+
             if(game_state->option2_affection_change != 0) {
                 for(int i = 0; i < character_count; i++) {
                     if(strcmp(game_state->option2_character_id, characters[i].id) == 0) {
@@ -214,6 +221,8 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
                 game_state->event = game_state->option2_event;
             }
         } else if (x >= 350 && x <= 950 && y >= 400 && y <= 450 && game_state->have_choice) {
+            play_sound(choice_effect);
+
             if(game_state->option3_affection_change != 0) {
                 for(int i = 0; i < character_count; i++) {
                     if(strcmp(game_state->option3_character_id, characters[i].id) == 0) {
@@ -245,6 +254,8 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
             }
         }
         else if ( !game_state->have_choice ) {
+            play_sound(space_effect);         
+
             change_event = 1;
             // strcpy(game_state->event, game_state->next_event);
             game_state->event = game_state->next_event;
