@@ -1,7 +1,3 @@
-#初始設置
-[[setting]]
-enter_background = "enter_background.png"
-
 # 場景設置
 [[scenes]]
 id = "amusement_park"
