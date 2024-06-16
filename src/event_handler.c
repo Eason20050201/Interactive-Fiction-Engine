@@ -12,6 +12,7 @@
 void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Renderer *renderer, GameState *game_state) {
     while (SDL_PollEvent(event)) {
         if (event->type == SDL_QUIT) {
+            save_game("record.txt", game_state);
             *running = 0;
         } else if (event->type == SDL_MOUSEBUTTONDOWN) {
             int x, y;
@@ -21,18 +22,27 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                     if (y >= 200 && y <= 250) {
                         // Handle settings option
                     } else if (y >= 300 && y <= 350) {
+                        *current_screen = SCREEN_NEW_GAME;
+
+                        int parsed = parse_toml("example-game/script.toml");
+                        if (parsed != 0) {
+                            fprintf(stderr, "Error parsing TOML file\n");
+                            return;
+                        }
+
                         set_player_name(renderer, game_state->player_name, running);
                         if( *running == 0 ) {
                             return;
                         }
-
-                        *current_screen = SCREEN_NEW_GAME;
                         // new game
                         game_state->event = "START";
                         render_game_screen(renderer, game_state);
                     } else if (y >= 400 && y <= 450) {
                         // continue game
                         *current_screen = SCREEN_CONTINUE_GAME;
+                        is_continue = 2;
+                        load_game("record.txt", game_state);
+                        game_state->event = save_event_id;
                         render_game_screen(renderer, game_state);
                     }
                 }
@@ -45,6 +55,7 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                     SDL_DestroyTexture(game_state->current_image);
                     fade_in(renderer, load_texture("enter_background.png", renderer), 50);
                     stop_music();
+                    save_game("record.txt", game_state);
                     *current_screen = SCREEN_LOGIN;
                 } else if (x >= 1180 && x <= 1255 && y >= 20 && y <= 95) {
                     handle_inventory_icon_click(renderer, game_state);
