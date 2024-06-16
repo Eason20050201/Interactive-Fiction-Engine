@@ -1,3 +1,16 @@
+[[settings]]
+enter_name = "enter_name.png"
+enter_background = "enter_background.png"
+home_icon = "home_icon.png"
+backpack = "backpack.png"
+choice = "choice.mp3"
+close_bag = "close_bag.mp3"
+gaming_bgm = "gaming_bgm.mp3"
+login_bgm = "login_bgm.mp3"
+open_bag = "open_bag.mp3"
+space = "space.mp3"
+inventory_icon = "inventory_icon.png"
+
 # 場景設置
 [[scenes]]
 id = "amusement_park"
@@ -86,10 +99,6 @@ background = "catch_fish.png"
 [[scenes]]
 id = "beat_drum"
 background = "beat_drum.png"
-#judge_event = [
-    #{ next_event = "tohka_nice_ending", required_affection = 80, character_id = "tohka"},
-    #{ next_event = "tohka_normal_ending", required_affection = 0, character_id = "tohka"}
-#]
 # 人物設置
 [[characters]]
 id = "shido"
@@ -106,14 +115,14 @@ affection = 100  # 玩家的初始好感度
 id = "tohka"
 name = "夜刀神十香"
 avatar = [
-    { avatar_id = "tohka_happy_avatar.png", required_affection = 70, character_id = "tohka"},
-    { avatar_id = "tohka_normal_avatar.png", required_affection = 40, character_id = "tohka"},
-    { avatar_id = "tohka_angry_avatar.png", required_affection = 0, character_id = "tohka"}
+    { avatar_id = "tohka_happy_avatar.png", required_affection = 70},
+    { avatar_id = "tohka_normal_avatar.png", required_affection = 40},
+    { avatar_id = "tohka_angry_avatar.png", required_affection = 0}
 ]
 sprite = [
-    { sprite_id = "tohka_happy_sprite.png", required_affection = 70, character_id = "tohka"},
-    { sprite_id = "tohka_normal_sprite.png", required_affection = 40, character_id = "tohka"},
-    { sprite_id = "tohka_angry_sprite.png", required_affection = 0, character_id = "tohka"}
+    { sprite_id = "tohka_happy_sprite.png", required_affection = 70},
+    { sprite_id = "tohka_normal_sprite.png", required_affection = 40},
+    { sprite_id = "tohka_angry_sprite.png", required_affection = 0}
 ]
 affection = 50  # 十香的初始好感度
 
@@ -121,14 +130,14 @@ affection = 50  # 十香的初始好感度
 id = "kurumi"
 name = "時崎狂三"
 avatar = [
-    { avatar_id = "kurumi_happy_avatar.png", required_affection = 70, character_id = "kurumi"},
-    { avatar_id = "kurumi_normal_avatar.png", required_affection = 40, character_id = "kurumi"},
-    { avatar_id = "kurumi_angry_avatar.png", required_affection = 0, character_id = "kurumi"}
+    { avatar_id = "kurumi_happy_avatar.png", required_affection = 70},
+    { avatar_id = "kurumi_normal_avatar.png", required_affection = 40},
+    { avatar_id = "kurumi_angry_avatar.png", required_affection = 0}
 ]
 sprite = [
-    { sprite_id = "kurumi_happy_sprite.png", required_affection = 70, character_id = "kurumi"},
-    { sprite_id = "kurumi_normal_sprite.png", required_affection = 40, character_id = "kurumi"},
-    { sprite_id = "kurumi_angry_sprite.png", required_affection = 0, character_id = "kurumi"}
+    { sprite_id = "kurumi_happy_sprite.png", required_affection = 70},
+    { sprite_id = "kurumi_normal_sprite.png", required_affection = 40},
+    { sprite_id = "kurumi_angry_sprite.png", required_affection = 0}
 ]
 affection = 50  # 狂三的初始好感度
 

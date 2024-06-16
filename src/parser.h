@@ -4,18 +4,30 @@
 #include "toml.h"
 
 typedef struct {
+    char* enter_name;
+    char* enter_background;
+    char* home_icon;
+    char* backpack;
+    char* choice;
+    char* close_bag;
+    char* gaming_bgm;
+    char* login_bgm;
+    char* open_bag;
+    char* space;
+    char* inventory_icon;
+} Setting;
+
+typedef struct {
     char* id;
     char* background;
 } Scene;
 
 typedef struct {
-    char* character_id;
     int required_affection;
     char* avatar_id;
 } Avatar;
 
 typedef struct {
-    char* character_id;
     int required_affection;
     char* sprite_id;
 } Sprite;
@@ -75,6 +87,8 @@ extern Item* items;
 extern int item_count;
 extern Event* events;
 extern int event_count;
+extern Setting* settings;
+extern int setting_count;
 
 int parse_toml(const char* filename);
 

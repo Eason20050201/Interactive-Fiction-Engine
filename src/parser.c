@@ -12,8 +12,11 @@ Item* items;
 int item_count;
 Event* events;
 int event_count;
+Setting* settings;
+int setting_count;
 
 // 函數原型
+void parse_settings(toml_table_t* conf);
 void parse_scenes(toml_table_t* conf);
 void parse_characters(toml_table_t* conf);
 void parse_items(toml_table_t* conf);
@@ -45,9 +48,75 @@ int parse_toml(const char* filename) {
     parse_characters(conf);
     parse_items(conf);
     parse_events(conf);
+    parse_settings(conf);
 
     toml_free(conf);
     return 0;
+}
+
+void parse_settings(toml_table_t* conf) {
+    toml_array_t* settings_arr = toml_array_in(conf, "settings");
+    setting_count = toml_array_nelem(settings_arr);
+    settings = malloc(setting_count * sizeof(Setting));
+
+    for (int i = 0; i < setting_count; i++) {
+        toml_table_t* setting = toml_table_at(settings_arr, i);
+        char* enter_name;
+        char* enter_background;
+        char* home_icon;
+        char* backpack;
+        char* choice;
+        char* close_bag;
+        char* gaming_bgm;
+        char* login_bgm;
+        char* open_bag;
+        char* space;
+        char* inventory_icon;
+        settings[i].backpack = NULL;
+        settings[i].choice = NULL;
+        settings[i].close_bag = NULL;
+        settings[i].gaming_bgm = NULL;
+        settings[i].login_bgm = NULL;
+        settings[i].open_bag = NULL;
+        settings[i].space = NULL;
+        settings[i].enter_background = NULL;
+        settings[i].enter_name = NULL;
+        settings[i].home_icon = NULL;
+
+        if (toml_rtos(toml_raw_in(setting, "enter_name"), &enter_name) == 0){
+            settings[i].enter_name = strdup(enter_name);
+        }
+        if (toml_rtos(toml_raw_in(setting, "enter_background"), &enter_background) == 0){
+            settings[i].enter_background = strdup(enter_background);
+        }
+        if (toml_rtos(toml_raw_in(setting, "home_icon"), &home_icon) == 0){
+            settings[i].home_icon = strdup(home_icon);
+        }
+        if (toml_rtos(toml_raw_in(setting, "backpack"), &backpack) == 0){
+            settings[i].backpack = strdup(backpack);
+        }
+        if (toml_rtos(toml_raw_in(setting, "choice"), &choice) == 0){
+            settings[i].choice = strdup(choice);
+        }
+        if (toml_rtos(toml_raw_in(setting, "close_bag"), &close_bag) == 0){
+            settings[i].close_bag = strdup(close_bag);
+        }
+        if (toml_rtos(toml_raw_in(setting, "gaming_bgm"), &gaming_bgm) == 0){
+            settings[i].gaming_bgm = strdup(gaming_bgm);
+        }
+        if (toml_rtos(toml_raw_in(setting, "login_bgm"), &login_bgm) == 0){
+            settings[i].login_bgm = strdup(login_bgm);
+        }
+        if (toml_rtos(toml_raw_in(setting, "open_bag"), &open_bag) == 0){
+            settings[i].open_bag = strdup(open_bag);
+        }
+        if (toml_rtos(toml_raw_in(setting, "space"), &space) == 0){
+            settings[i].space = strdup(space);
+        }
+        if (toml_rtos(toml_raw_in(setting, "inventory_icon"), &inventory_icon) == 0){
+            settings[i].inventory_icon = strdup(inventory_icon);
+        }
+    }
 }
 
 void parse_scenes(toml_table_t* conf) {
@@ -197,14 +266,9 @@ void parse_avatar_characters(toml_table_t* characters, Character* cha){
     for (int j = 0; j < cha->avater_count; j++) {
         toml_table_t* avatar_parse = toml_table_at(characters_arr, j);
         char* avatar_id = NULL;
-        char* character_id = NULL;
         int64_t required_affection = 0;
-        cha->avater_struct[j].character_id = "aa";
-        cha->avater_struct[j].avatar_id = "aa";
+        cha->avater_struct[j].avatar_id = NULL;
         cha->avater_struct[j].required_affection = 0;
-        if(toml_rtos(toml_raw_in(avatar_parse, "character_id"), &character_id) == 0){
-            cha->avater_struct[j].character_id = strdup(character_id);
-        }
         if(toml_rtos(toml_raw_in(avatar_parse, "avatar_id"), &avatar_id) == 0){
             cha->avater_struct[j].avatar_id = strdup(avatar_id);
         }
@@ -223,14 +287,9 @@ void parse_sprite_characters(toml_table_t* characters, Character* cha){
     for (int j = 0; j < cha->sprite_count; j++) {
         toml_table_t* sprite_parse = toml_table_at(characters_arr, j);
         char* sprite_id = NULL;
-        char* character_id = NULL;
         int64_t required_affection = 0;
-        cha->sprite_struct[j].character_id = "aa";
-        cha->sprite_struct[j].sprite_id = "aa";
+        cha->sprite_struct[j].sprite_id = NULL;
         cha->sprite_struct[j].required_affection = 0;
-        if(toml_rtos(toml_raw_in(sprite_parse, "character_id"), &character_id) == 0){
-            cha->sprite_struct[j].character_id = strdup(character_id);
-        }
         if(toml_rtos(toml_raw_in(sprite_parse, "sprite_id"), &sprite_id) == 0){
             cha->sprite_struct[j].sprite_id = strdup(sprite_id);
         }

@@ -1,6 +1,7 @@
 #include "player.h"
 #include "graphics.h"
 #include "macro.h"
+#include "parser.h"
 #include <ctype.h>
 
 int utf8_strlen(const char *str) {
@@ -62,7 +63,6 @@ void set_player_name(SDL_Renderer *renderer, char *player_name, int *running) {
                     } else {
                         strcpy(player_name, tempName);                     }
 
-                    printf("User input: %s\n", player_name);
                     inputComplete = 1; 
                 }
             }
@@ -70,7 +70,7 @@ void set_player_name(SDL_Renderer *renderer, char *player_name, int *running) {
 
         SDL_RenderClear(renderer);
 
-        SDL_Texture *texture = load_texture("enter_name.png", renderer);
+        SDL_Texture *texture = load_texture(settings[0].enter_name, renderer);
         render_texture_fullscreen(texture, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
         render_name_box(renderer, inputText, 300, 300, 700, 50);
 
