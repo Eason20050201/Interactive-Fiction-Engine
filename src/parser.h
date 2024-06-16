@@ -9,10 +9,24 @@ typedef struct {
 } Scene;
 
 typedef struct {
+    char* character_id;
+    int required_affection;
+    char* avatar_id;
+} Avatar;
+
+typedef struct {
+    char* character_id;
+    int required_affection;
+    char* sprite_id;
+} Sprite;
+
+typedef struct {
     char* id;
     char* name;
-    char* avatar;
-    char* sprite;
+    Avatar* avater_struct;
+    Sprite* sprite_struct;
+    int avater_count;
+    int sprite_count;
     int affection;
 } Character;
 
@@ -37,7 +51,7 @@ typedef struct {
     char* character_id;
     int required_affection;
     char* next_event;
-}Judge_Event;
+} Judge_Event;
 
 typedef struct {
     char* id;

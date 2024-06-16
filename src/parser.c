@@ -20,6 +20,8 @@ void parse_items(toml_table_t* conf);
 void parse_events(toml_table_t* conf);
 void parse_choices(toml_table_t* event, Event* evt);
 void parse_judge_event(toml_table_t* event, Event* evt);
+void parse_avatar_characters(toml_table_t* characters, Character* cha);
+void parse_sprite_characters(toml_table_t* characters, Character* cha);
 void update_affection(const char* character_id, int affection_change);
 void handle_choice(Event* evt, int choice_index);
 
@@ -81,14 +83,12 @@ void parse_characters(toml_table_t* conf) {
 
         if (toml_rtos(toml_raw_in(character, "id"), &id) == 0 &&
             toml_rtos(toml_raw_in(character, "name"), &name) == 0 &&
-            toml_rtos(toml_raw_in(character, "avatar"), &avatar) == 0 &&
-            toml_rtos(toml_raw_in(character, "sprite"), &sprite) == 0 &&
             toml_rtoi(toml_raw_in(character, "affection"), &affection) == 0) {
             characters[i].id = strdup(id);
             characters[i].name = strdup(name);
-            characters[i].avatar = strdup(avatar);
-            characters[i].sprite = strdup(sprite);
             characters[i].affection = affection;
+            parse_avatar_characters(character, &characters[i]);
+            parse_sprite_characters(character, &characters[i]);
         }
     }
 }
@@ -185,6 +185,57 @@ void parse_judge_event(toml_table_t* event, Event* evt){
             evt->judge_event[j].character_id = strdup(character_id);
             evt->judge_event[j].next_event = strdup(next_event);
             evt->judge_event[j].required_affection = required_affection;
+        }
+    }
+}
+
+void parse_avatar_characters(toml_table_t* characters, Character* cha){
+    toml_array_t* characters_arr = toml_array_in(characters, "avatar");
+    cha->avater_count = toml_array_nelem(characters_arr);
+    cha->avater_struct = malloc(cha->avater_count * sizeof(Avatar));
+
+    for (int j = 0; j < cha->avater_count; j++) {
+        toml_table_t* avatar_parse = toml_table_at(characters_arr, j);
+        char* avatar_id = NULL;
+        char* character_id = NULL;
+        int64_t required_affection = 0;
+        cha->avater_struct[j].character_id = "aa";
+        cha->avater_struct[j].avatar_id = "aa";
+        cha->avater_struct[j].required_affection = 0;
+        if(toml_rtos(toml_raw_in(avatar_parse, "character_id"), &character_id) == 0){
+            cha->avater_struct[j].character_id = strdup(character_id);
+        }
+        if(toml_rtos(toml_raw_in(avatar_parse, "avatar_id"), &avatar_id) == 0){
+            cha->avater_struct[j].avatar_id = strdup(avatar_id);
+        }
+        if(toml_rtoi(toml_raw_in(avatar_parse, "required_affection"), &required_affection) == 0){
+            cha->avater_struct[j].required_affection = required_affection;
+        }
+
+    }
+}
+
+void parse_sprite_characters(toml_table_t* characters, Character* cha){
+    toml_array_t* characters_arr = toml_array_in(characters, "sprite");
+    cha->sprite_count = toml_array_nelem(characters_arr);
+    cha->sprite_struct = malloc(cha->sprite_count * sizeof(Avatar));
+
+    for (int j = 0; j < cha->sprite_count; j++) {
+        toml_table_t* sprite_parse = toml_table_at(characters_arr, j);
+        char* sprite_id = NULL;
+        char* character_id = NULL;
+        int64_t required_affection = 0;
+        cha->sprite_struct[j].character_id = "aa";
+        cha->sprite_struct[j].sprite_id = "aa";
+        cha->sprite_struct[j].required_affection = 0;
+        if(toml_rtos(toml_raw_in(sprite_parse, "character_id"), &character_id) == 0){
+            cha->sprite_struct[j].character_id = strdup(character_id);
+        }
+        if(toml_rtos(toml_raw_in(sprite_parse, "sprite_id"), &sprite_id) == 0){
+            cha->sprite_struct[j].sprite_id = strdup(sprite_id);
+        }
+        if(toml_rtoi(toml_raw_in(sprite_parse, "required_affection"), &required_affection) == 0){
+            cha->sprite_struct[j].required_affection = required_affection;
         }
     }
 }

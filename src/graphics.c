@@ -52,7 +52,7 @@ void render_dialog_box(SDL_Renderer *renderer, const char *text, int x, int y, i
     SDL_RenderDrawRect(renderer, &dialog_box);
 
     // Render the text inside the dialog box
-    render_text(renderer, text, x + 20, y + 10, w - 20, h - 20, 255, 255, 255);
+    render_text(renderer, text, x + 160, y + 10, w - 180, h - 20, 255, 255, 255);
 }
 
 void render_name_box(SDL_Renderer *renderer, const char *name, int x, int y, int w, int h){
@@ -124,6 +124,18 @@ void render_inventory_icon(SDL_Renderer *renderer, int x, int y) {
     SDL_Rect dest = {x, y, 75, 75}; // Example size, adjust as needed
     SDL_RenderCopy(renderer, icon, NULL, &dest);
     SDL_DestroyTexture(icon);
+}
+
+void render_avatar(SDL_Renderer *renderer, int x, int y, const char* avatar_id) {
+    SDL_Texture *avatar = load_texture(avatar_id, renderer);
+    if (!avatar) {
+        printf("Error: Could not load %s\n", avatar_id);
+        return;
+    }
+
+    SDL_Rect dest = {x, y, 135, 135}; // Example size, adjust as needed
+    SDL_RenderCopy(renderer, avatar, NULL, &dest);
+    SDL_DestroyTexture(avatar);
 }
 
 void render_inventory(SDL_Renderer *renderer, int x, int y, int w, int h, int num_items) {
