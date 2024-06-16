@@ -24,9 +24,9 @@ void render_login_screen(SDL_Renderer *renderer) {
     render_texture_fullscreen(background, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     // Render buttons
-    render_button(renderer, "設定", 540, 200, 200, 50);
-    render_button(renderer, "新遊戲", 540, 300, 200, 50);
-    render_button(renderer, "繼續遊戲", 540, 400, 200, 50);
+    // render_button(renderer, "設定", 540, 200, 200, 50);
+    render_button(renderer, "新遊戲", 540, 500, 200, 50);
+    render_button(renderer, "繼續遊戲", 540, 600, 200, 50);
 
     // Update the screen
     SDL_RenderPresent(renderer);

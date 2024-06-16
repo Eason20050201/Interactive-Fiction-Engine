@@ -19,9 +19,7 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
             SDL_GetMouseState(&x, &y);
             if (*current_screen == SCREEN_LOGIN) {
                 if (x >= 540 && x <= 740) {
-                    if (y >= 200 && y <= 250) {
-                        // Handle settings option
-                    } else if (y >= 300 && y <= 350) {
+                    if (y >= 500 && y <= 550) {
                         *current_screen = SCREEN_NEW_GAME;
 
                         int parsed = parse_toml("example-game/script.toml");
@@ -37,7 +35,7 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                         // new game
                         game_state->event = "START";
                         render_game_screen(renderer, game_state);
-                    } else if (y >= 400 && y <= 450) {
+                    } else if (y >= 600 && y <= 650) {
                         // continue game
                         *current_screen = SCREEN_CONTINUE_GAME;
                         is_continue = 2;
