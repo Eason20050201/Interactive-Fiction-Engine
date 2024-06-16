@@ -273,6 +273,14 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
 
 // not yet
 void handle_inventory_icon_click(SDL_Renderer *renderer, GameState *game_state) {
+    Mix_Chunk *open_bag_effect = load_sound("open_bag.mp3");
+    Mix_Chunk *close_bag_effect = load_sound("close_bag.mp3");
+
+    if( game_state->inventory_visible == 0 )
+        play_sound(open_bag_effect);
+    else
+        play_sound(close_bag_effect);
+
     game_state->inventory_visible = !game_state->inventory_visible; // Toggle visibility
 
     if (game_state->inventory_visible) {

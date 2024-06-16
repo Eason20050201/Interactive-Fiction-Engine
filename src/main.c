@@ -8,6 +8,7 @@
 #include "event_handler.h"
 #include "gamming.h"
 #include "player.h"
+#include "music.h"
 
 // Function to render the login screen
 void render_login_screen(SDL_Renderer *renderer) {
