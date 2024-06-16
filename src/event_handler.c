@@ -132,7 +132,7 @@ void refresh_game_screen(SDL_Renderer *renderer, GameState *game_state) {
     }
     render_inventory_icon(renderer, 1180, 20); // Render inventory icon
     
-    render_home_icon(renderer, 100, 20); // Render hom icon
+    render_home_icon(renderer, 25, 20); // Render hom icon
 
     SDL_RenderPresent(renderer);
 }
