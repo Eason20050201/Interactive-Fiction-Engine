@@ -6,6 +6,7 @@
 #include "event_handler.h"
 #include "gamming.h"
 #include "player.h"
+#include "music.h"
 
 // Function to handle events
 void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Renderer *renderer, GameState *game_state) {
@@ -20,7 +21,11 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                     if (y >= 200 && y <= 250) {
                         // Handle settings option
                     } else if (y >= 300 && y <= 350) {
-                        set_player_name(renderer, game_state->player_name);
+                        set_player_name(renderer, game_state->player_name, running);
+                        if( *running == 0 ) {
+                            return;
+                        }
+
                         *current_screen = SCREEN_NEW_GAME;
                         // new game
                         game_state->event = "START";
@@ -47,7 +52,10 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
 }
 
 void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
-       
+    SDL_Texture *old_texture = game_state->current_image;
+    char last_scene[200];
+    strcpy(last_scene, game_state->scene);
+
     search_event( game_state );
     replaceSubstring(game_state->character_name, "{玩家}", game_state->player_name);
     replaceSubstring(game_state->dialogue_text, "{玩家}", game_state->player_name);
@@ -58,7 +66,18 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
 
     SDL_RenderClear(renderer);  // Clear the renderer before drawing new content
 
-    render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
+    if ( strcmp( last_scene, game_state->scene ) != 0 ) {
+        fade_out(renderer, old_texture, 50);
+        SDL_DestroyTexture(old_texture);
+        fade_in(renderer, game_state->current_image, 50);
+
+        // crossfade(renderer, old_texture, game_state->current_image, 50);
+        // SDL_DestroyTexture(old_texture);
+    }
+    else {
+        render_texture_fullscreen(game_state->current_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
+    }
+
     render_texture_fullscreen(game_state->character_image, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
     
     render_dialog_box(renderer, game_state->dialogue_text, 50, WINDOW_HEIGHT - 150, WINDOW_WIDTH - 100, 150);
@@ -125,6 +144,9 @@ void print( GameState *game_state) {
 
 // Function to handle option buttons
 void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *game_state) {
+    Mix_Chunk *choice_effect = load_sound("choice.mp3");
+    Mix_Chunk *space_effect = load_sound("space.mp3");
+
     int x, y;
     SDL_GetMouseState(&x, &y);
 
@@ -136,6 +158,8 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
         printf("---\n");
         
         if (x >= 350 && x <= 950 && y >= 200 && y <= 250 && game_state->have_choice) {
+            play_sound(choice_effect);
+
             if(game_state->option1_affection_change != 0) {
                 for(int i = 0; i < character_count; i++) {
                     if(strcmp(game_state->option1_character_id, characters[i].id) == 0) {
@@ -166,6 +190,8 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
                 game_state->event = game_state->option1_event;
             }
         } else if (x >= 350 && x <= 950 && y >= 300 && y <= 350 && game_state->have_choice) {
+            play_sound(choice_effect);
+
             if(game_state->option2_affection_change != 0) {
                 for(int i = 0; i < character_count; i++) {
                     if(strcmp(game_state->option2_character_id, characters[i].id) == 0) {
@@ -196,6 +222,8 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
                 game_state->event = game_state->option2_event;
             }
         } else if (x >= 350 && x <= 950 && y >= 400 && y <= 450 && game_state->have_choice) {
+            play_sound(choice_effect);
+
             if(game_state->option3_affection_change != 0) {
                 for(int i = 0; i < character_count; i++) {
                     if(strcmp(game_state->option3_character_id, characters[i].id) == 0) {
@@ -227,6 +255,8 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
             }
         }
         else if ( !game_state->have_choice ) {
+            play_sound(space_effect);         
+
             change_event = 1;
             // strcpy(game_state->event, game_state->next_event);
             game_state->event = game_state->next_event;
@@ -243,6 +273,14 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
 
 // not yet
 void handle_inventory_icon_click(SDL_Renderer *renderer, GameState *game_state) {
+    Mix_Chunk *open_bag_effect = load_sound("open_bag.mp3");
+    Mix_Chunk *close_bag_effect = load_sound("close_bag.mp3");
+
+    if( game_state->inventory_visible == 0 )
+        play_sound(open_bag_effect);
+    else
+        play_sound(close_bag_effect);
+
     game_state->inventory_visible = !game_state->inventory_visible; // Toggle visibility
 
     if (game_state->inventory_visible) {

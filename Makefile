@@ -14,7 +14,7 @@ EXECUTABLE = $(BINDIR)/interactive_novel_engine
 
 # Flags
 CFLAGS = -I$(SRCDIR) -I$(THIRDPARTYDIR)
-LDFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
+LDFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
 # Default target
 all: $(EXECUTABLE)
