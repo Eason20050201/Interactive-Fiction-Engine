@@ -3,7 +3,6 @@
 #include "macro.h"
 #include <ctype.h>
 
-// 计算UTF-8字符串的字符数
 int utf8_strlen(const char *str) {
     int count = 0;
     const char *s = str;
@@ -16,16 +15,15 @@ int utf8_strlen(const char *str) {
     return count;
 }
 
-// 检查字符串是否为空或仅包含空白字符
 int is_empty_or_whitespace(const char *str) {
     const char *s = str;
     while (*s) {
         if (!isspace((unsigned char)*s)) {
-            return 0; // 字符串包含非空白字符
+            return 0; 
         }
         s++;
     }
-    return 1; // 字符串为空或仅包含空白字符
+    return 1; 
 }
 
 void set_player_name(SDL_Renderer *renderer, char *player_name, int *running) {
@@ -48,9 +46,8 @@ void set_player_name(SDL_Renderer *renderer, char *player_name, int *running) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT) {
                 quit = 1;
-                *running = 0; // 终止程序运行
+                *running = 0; 
             } else if (e.type == SDL_TEXTINPUT) {
-                // 计算实际输入的字符数
                 if (utf8_strlen(inputText) < utf8_strlen(prompt) + 5) {  // 5 characters limit
                     strcat(inputText, e.text.text);
                 }
@@ -58,18 +55,15 @@ void set_player_name(SDL_Renderer *renderer, char *player_name, int *running) {
                 if (e.key.keysym.sym == SDLK_BACKSPACE && strlen(inputText) > strlen(prompt)) {
                     inputText[strlen(inputText) - 1] = '\0';
                 } else if (e.key.keysym.sym == SDLK_RETURN) {
-                    char tempName[256] = ""; // 清空临时变量
-                    sscanf(inputText + strlen(prompt), "%255s", tempName); // 将输入文本复制到临时变量，限制最大长度
-
-                    // 检查是否为空或仅包含空白字符
+                    char tempName[256] = ""; 
+                    sscanf(inputText + strlen(prompt), "%255s", tempName); 
                     if (is_empty_or_whitespace(tempName)) {
-                        strcpy(player_name, "纪博文"); // 设置默认名称
+                        strcpy(player_name, "博文"); 
                     } else {
-                        strcpy(player_name, tempName); // 使用用户输入的名称
-                    }
+                        strcpy(player_name, tempName);                     }
 
                     printf("User input: %s\n", player_name);
-                    inputComplete = 1; // 停止输入
+                    inputComplete = 1; 
                 }
             }
         }
@@ -89,7 +83,7 @@ void set_player_name(SDL_Renderer *renderer, char *player_name, int *running) {
 }
 
 void replaceSubstring(char *source, const char *target, const char *replacement) {
-    char buffer[1024]; // 临时缓冲区
+    char buffer[1024]; 
     char *insertPoint = &buffer[0];
     const char *temp = source;
     size_t targetLen = strlen(target);
@@ -98,24 +92,19 @@ void replaceSubstring(char *source, const char *target, const char *replacement)
     while (1) {
         const char *p = strstr(temp, target);
 
-        // 如果找不到目标子字符串
         if (p == NULL) {
             strcpy(insertPoint, temp);
             break;
         }
 
-        // 复制目标子字符串之前的部分
         memcpy(insertPoint, temp, p - temp);
         insertPoint += p - temp;
 
-        // 复制替换字符串
         memcpy(insertPoint, replacement, replacementLen);
         insertPoint += replacementLen;
 
-        // 移动到目标子字符串之后
         temp = p + targetLen;
     }
 
-    // 将结果复制回源字符串
     strcpy(source, buffer);
 }
