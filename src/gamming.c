@@ -1,9 +1,13 @@
 #include "event_handler.h"
 #include "gamming.h"
 
+char *save_event_id;
+int is_continue = 0;
+
 void search_event( GameState *game_state ) {
     for(int i = 0; i < event_count; i++) {
         if(strcmp(game_state->event, events[i].id) == 0) {
+            save_event_id = strdup(events[i].id);
             for(int j = 0; j < character_count; j++ ) {
                 if(strcmp(events[i].character, characters[j].id) == 0) {
                     for(int m = 0; m < characters[j].avater_count ; m++) {
@@ -117,7 +121,7 @@ void search_event( GameState *game_state ) {
             }
 
             
-            if(events[i].obtain > 0) {
+            if(events[i].obtain > 0 && is_continue == 0) {
                 for(int j = 0; j < item_count; j++) {
                     if(strcmp(events[i].obtain_id, items[j].id) == 0) {
                         items[j].quantity += events[i].obtain;
@@ -125,8 +129,94 @@ void search_event( GameState *game_state ) {
                     }
                 }
             }
+            else if(is_continue > 0) {
+                is_continue--;
+            }
 
             break;
         }
     }
+}
+
+void save_game(const char *filename, GameState *game_state) {
+    FILE *file = fopen(filename, "w");
+    if (!file) {
+        perror("Unable to open file for writing");
+        return;
+    }
+
+    // 儲存事件 ID
+    fprintf(file, "event_id: %s\n", save_event_id);
+    fprintf(file, "player_name: %s\n", game_state->player_name);
+
+    // 儲存角色資料
+    fprintf(file, "characters:\n");
+    for (int i = 0; i < character_count; i++) {
+        fprintf(file, "  - id: %s\n    affection: %d\n", characters[i].id, characters[i].affection);
+    }
+
+    // 儲存物品資料
+    fprintf(file, "items:\n");
+    for (int i = 0; i < item_count; i++) {
+        fprintf(file, "  - id: %s\n    quantity: %d\n", items[i].id, items[i].quantity);
+    }
+
+    fclose(file);
+}
+
+void load_game(const char *filename, GameState *game_state) {
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        perror("Unable to open file for reading");
+        return;
+    }
+
+    char line[256];
+    int save_character_count = 0;
+    int save_item_count = 0;
+    int in_character = 0;
+    int in_item = 0;
+
+    while (fgets(line, sizeof(line), file)) {
+        if (strncmp(line, "event_id:", 9) == 0) {
+            save_event_id = strdup(line + 10);
+            save_event_id[strcspn(save_event_id, "\n")] = '\0'; // 移除換行符號
+        }
+        else if (strncmp(line, "player_name:", 12) == 0) {
+            game_state->player_name = strdup(line + 13);
+            game_state->player_name[strcspn(game_state->player_name, "\n")] = '\0'; // 移除換行符號
+        }
+        else if (strncmp(line, "characters:", 11) == 0) {
+            in_character = 1;
+        }
+        else if (in_character == 1) {
+            if(save_character_count < character_count && strstr(line, "  - id: ")) {
+                characters[save_character_count].id = strdup(line + 8);
+                characters[save_character_count].id[strcspn(characters[save_character_count].id, "\n")] = '\0'; // 移除換行符號
+                fgets(line, sizeof(line), file);
+                sscanf(line, "    affection: %d", &characters[save_character_count].affection);
+                save_character_count++;
+            }
+            if(save_character_count == character_count) {
+                in_character = 0;
+            }
+        }
+        else if (strncmp(line, "items:", 6) == 0) {
+            in_item = 1;
+        }
+        else if (in_item == 1) {
+            if (save_item_count < item_count && strstr(line, "  - id: ")) {
+                items[save_item_count].id = strdup(line + 8);
+                items[save_item_count].id[strcspn(items[save_item_count].id, "\n")] = '\0'; // 移除換行符號
+                fgets(line, sizeof(line), file);
+                sscanf(line, "    quantity: %d", &items[save_item_count].quantity);
+                save_item_count++;
+            }
+            if (save_item_count == item_count) {
+                in_item = 0;
+            }
+        }
+    }
+
+    fclose(file);
 }
