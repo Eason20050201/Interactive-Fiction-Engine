@@ -89,6 +89,7 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
         render_button(renderer, game_state->choice_c, 350, 400, 600, 50);
     }
     render_inventory_icon(renderer, 1180, 20); // Render inventory icon
+    render_avatar(renderer, 60, WINDOW_HEIGHT - 140, game_state->character_avatar);// Render avatar
     
     // not yet
     // if (game_state->inventory_visible) {

@@ -6,7 +6,40 @@ void search_event( GameState *game_state ) {
         if(strcmp(game_state->event, events[i].id) == 0) {
             for(int j = 0; j < character_count; j++ ) {
                 if(strcmp(events[i].character, characters[j].id) == 0) {
-                    strcpy(game_state->character, characters[j].sprite);
+                    for(int m = 0; m < characters[j].avater_count ; m++) {
+                        for(int k = m + 1; k < characters[j].avater_count ; k++) {
+                            if(characters[j].avater_struct[m].required_affection < characters[j].avater_struct[k].required_affection)
+                            {
+                                Avatar temp = characters[j].avater_struct[m];
+                                characters[j].avater_struct[m] = characters[j].avater_struct[k];
+                                characters[j].avater_struct[k] = temp;
+                            }
+                        }
+                    }
+                    for(int m = 0; m < characters[j].avater_count ; m++ ) {
+                        if( characters[j].affection >= characters[j].avater_struct[m].required_affection)
+                        {
+                            strcpy(game_state->character_avatar, characters[j].avater_struct[m].avatar_id);
+                            break;
+                        }
+                    }
+                    for(int m = 0; m < characters[j].sprite_count ; m++) {
+                        for(int k = m + 1; k < characters[j].sprite_count ; k++) {
+                            if(characters[j].sprite_struct[m].required_affection < characters[j].sprite_struct[k].required_affection)
+                            {
+                                Sprite temp = characters[j].sprite_struct[m];
+                                characters[j].sprite_struct[m] = characters[j].sprite_struct[k];
+                                characters[j].sprite_struct[k] = temp;
+                            }
+                        }
+                    }
+                    for(int m = 0; m < characters[j].sprite_count ; m++ ) {
+                        if( characters[j].affection >= characters[j].sprite_struct[m].required_affection)
+                        {
+                            strcpy(game_state->character, characters[j].sprite_struct[m].sprite_id);
+                            break;
+                        }
+                    }
                     strcpy(game_state->character_name, characters[j].name);
                     break;
                 }

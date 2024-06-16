@@ -1,4 +1,4 @@
-# 初始設置
+#初始設置
 [[setting]]
 enter_background = "enter_background.png"
 
@@ -90,56 +90,95 @@ background = "catch_fish.png"
 [[scenes]]
 id = "beat_drum"
 background = "beat_drum.png"
-
+#judge_event = [
+    #{ next_event = "tohka_nice_ending", required_affection = 80, character_id = "tohka"},
+    #{ next_event = "tohka_normal_ending", required_affection = 0, character_id = "tohka"}
+#]
 # 人物設置
 [[characters]]
 id = "shido"
 name = "{玩家}"
-avatar = "shido_avatar.png"
-sprite = "shido_sprite.png"
-affection = -1  # 玩家的初始好感度
+avatar = [
+    { avatar_id = "shido_avatar.png" }
+]
+sprite = [
+    { sprite_id = "shido_sprite.png" }
+]
+affection = 100  # 玩家的初始好感度
 
 [[characters]]
 id = "tohka"
 name = "夜刀神十香"
-avatar = "tohka_avatar.png"
-sprite = "tohka_sprite.png"
-affection = -1  # 十香的初始好感度
+avatar = [
+    { avatar_id = "tohka_happy_avatar.png", required_affection = 70, character_id = "tohka"},
+    { avatar_id = "tohka_normal_avatar.png", required_affection = 40, character_id = "tohka"},
+    { avatar_id = "tohka_angry_avatar.png", required_affection = 0, character_id = "tohka"}
+]
+sprite = [
+    { sprite_id = "tohka_happy_sprite.png", required_affection = 70, character_id = "tohka"},
+    { sprite_id = "tohka_normal_sprite.png", required_affection = 40, character_id = "tohka"},
+    { sprite_id = "tohka_angry_sprite.png", required_affection = 0, character_id = "tohka"}
+]
+affection = 50  # 十香的初始好感度
 
 [[characters]]
 id = "kurumi"
 name = "時崎狂三"
-avatar = "kurumi_avatar.png"
-sprite = "kurumi_sprite.png"
-affection = -1  # 狂三的初始好感度
+avatar = [
+    { avatar_id = "kurumi_happy_avatar.png", required_affection = 70, character_id = "kurumi"},
+    { avatar_id = "kurumi_normal_avatar.png", required_affection = 40, character_id = "kurumi"},
+    { avatar_id = "kurumi_angry_avatar.png", required_affection = 0, character_id = "kurumi"}
+]
+sprite = [
+    { sprite_id = "kurumi_happy_sprite.png", required_affection = 70, character_id = "kurumi"},
+    { sprite_id = "kurumi_normal_sprite.png", required_affection = 40, character_id = "kurumi"},
+    { sprite_id = "kurumi_angry_sprite.png", required_affection = 0, character_id = "kurumi"}
+]
+affection = 50  # 狂三的初始好感度
 
 [[characters]]
 id = "shopkeeper"
 name = "商人"
-avatar = "shopkeeper_avatar.png"
-sprite = "shopkeeper_sprite.png"
-affection = -1  # 商人的初始好感度
+avatar = [
+    { avatar_id = "shopkeeper_avatar.png"}
+]
+sprite = [
+    { sprite_id = "shopkeeper_sprite.png"}
+]
+affection = 100  # 商人的初始好感度
 
 [[characters]]
 id = "lost_kid"
 name = "迷路的小孩"
-avatar = "lost_kid_avatar.png"
-sprite = "lost_kid_sprite.png"
-affection = -1  # 小孩的初始好感度
+avatar = [
+    { avatar_id = "lost_kid_avatar.png"}
+]
+sprite = [
+    { sprite_id = "lost_kid_sprite.png"}
+]
+affection = 100  # 小孩的初始好感度
 
 [[characters]]
 id = "system"
 name = "系統"
-avatar = "shido_sprite.png"
-sprite = "shido_sprite.png"
-affection = -1  # 系統的初始好感度
+avatar = [
+    { avatar_id = "shido_avatar.png" }
+]
+sprite = [
+    { sprite_id = "shido_sprite.png" }
+]
+affection = 100  # 系統的初始好感度
 
 [[characters]]
 id = "beggar"
 name = "年老的乞丐"
-avatar = "beggar_avatar.png"
-sprite = "beggar_sprite.png"
-affection = -1  # 乞丐的初始好感度
+avatar = [
+    { avatar_id = "beggar_avatar.png" }
+]
+sprite = [
+    { sprite_id = "beggar_sprite.png" }
+]
+affection = 100  # 乞丐的初始好感度
 
 # 物品設置
 [[items]]
@@ -184,9 +223,9 @@ scene = "home"
 character = "shido"
 dialogue = "今天要去哪裡玩呢?"
 choices = [
-    { text = "遊樂園", next_event = "to_universal" , affection_changes = 51 , character_id = "kurumi"},
-    { text = "商店街", next_event = "to_shopping_street" , affection_changes = 51 , character_id = "tohka"},
-    { text = "什麼出去玩，我宅男在家睡。", next_event = "sleep_ending" } #還沒寫
+    { text = "遊樂園", next_event = "to_universal"},
+    { text = "商店街", next_event = "to_shopping_street"},
+    { text = "什麼出去玩，我宅男在家睡。", next_event = "sleep_ending" }
 ]
 
 [[events]]
@@ -243,7 +282,7 @@ choices = [
 id = "meet_kurumi_directly"
 scene = "amusement_park_gate"
 character = "shido"
-dialogue = "狂三!是你嗎~你今天也來遊樂園玩喔!"
+dialogue = "狂三!是你嗎?你今天也來遊樂園玩喔!"
 next_event = "meet_kurumi_directly1"
 
 [[events]]
@@ -253,7 +292,7 @@ character = "kurumi"
 dialogue = "對呀，居然能在這碰到你，真的是好巧阿!這麼巧的話那要不我們一起玩?"
 choices = [
     { text = "毫不猶豫就說好啊!", next_event = "yes_fast", affection_changes = 5, character_id = "kurumi"},
-    { text = "思考個10秒才說好", next_event = "yes_long", affection_changes = -5, character_id = "kurumi"},
+    { text = "思考很久才說好", next_event = "yes_long", affection_changes = -5, character_id = "kurumi"},
     { text = "...", next_event = "noreaction", affection_changes = -5, character_id = "kurumi"}
 ]
 
@@ -261,10 +300,10 @@ choices = [
 id = "meet_kurumi_scary"
 scene = "amusement_park_gate"
 character = "kurumi"
-dialogue = "啊!!!，原來是{玩家}啊，突然出現嚇我一跳，你今天也來環球嗎!這麼巧的話那要不我們一起玩?"
+dialogue = "啊!!!，原來是{玩家}啊，突然出現嚇我一跳，你今天也來遊樂園嗎!這麼巧的話那要不我們一起玩?"
 choices = [
     { text = "毫不猶豫就說好啊!", next_event = "yes_fast", affection_changes = 5, character_id = "kurumi"},
-    { text = "思考個10秒才說好", next_event = "yes_long", affection_changes = -5, character_id = "kurumi"},
+    { text = "思考很久才說好", next_event = "yes_long", affection_changes = -5, character_id = "kurumi"},
     { text = "...", next_event = "noreaction", affection_changes = -5, character_id = "kurumi"}
 ]
 
@@ -293,10 +332,10 @@ next_event = "continue_universal_with_kurumi"
 id = "avoid_kurumi_but_meet"
 scene = "amusement_park_gate"
 character = "kurumi"
-dialogue = "哦？{玩家}!真巧啊，你今天也來環球影城呀!我剛剛明明就看到你看到我，居然直接忽視啊...怎麼樣要跟我同行嗎?"
+dialogue = "哦？{玩家}!真巧啊，你今天也來遊樂園呀!我剛剛明明就看到你看到我，居然直接忽視啊...怎麼樣要跟我同行嗎?"
 choices = [
     { text = "毫不猶豫就說好啊!", next_event = "yes_fast", affection_changes = 5, character_id = "kurumi"},
-    { text = "思考個10秒才說好", next_event = "yes_long", affection_changes = -5, character_id = "kurumi"},
+    { text = "思考很久才說好", next_event = "yes_long", affection_changes = -5, character_id = "kurumi"},
     { text = "...", next_event = "noreaction", affection_changes = -5, character_id = "kurumi"}
 ]
 
@@ -304,7 +343,7 @@ choices = [
 id = "continue_universal_with_kurumi"
 scene = "amusement_park"
 character = "kurumi"
-dialogue = "那我們應該要先去哪裡玩呢?要去玩鬼屋還是雲霄飛車?"
+dialogue = "那我們應該要先去哪裡玩呢?要去鬼屋還是去玩雲霄飛車?"
 choices = [
     { text = "雲霄飛車", next_event = "flycar", affection_changes = 5, character_id = "kurumi"},
     { text = "鬼屋", next_event = "ghost", affection_changes = 5, character_id = "kurumi"},
@@ -350,7 +389,7 @@ next_event = "ghost2"
 id = "ghost2"
 scene = "ghost_house"
 character = "kurumi"
-dialogue = "{玩家}怎麼這麼膽小呢，哈哈哈"
+dialogue = "{玩家}怎麼這麼膽小呢!哈哈哈"
 next_event = "go_lunch"
 
 [[events]]
@@ -410,7 +449,7 @@ next_event = "mad"
 id = "mad"
 scene = "flycar"
 character = "kurumi"
-dialogue = "我都這麼難受你還有心情笑...傻眼"
+dialogue = "我都這麼難受了你還有心情笑...傻眼"
 next_event = "say_sorry"
 
 [[events]]
@@ -422,7 +461,7 @@ next_event = "go_lunch"
 
 [[events]]
 id = "go_lunch"
-scene = "flycar"
+scene = "amusement_park"
 character = "kurumi"
 dialogue = "剛剛排完隊玩完遊樂設施，時間也不早了，我們去吃飯吧!"
 next_event = "arrive_lunch_place"
@@ -463,7 +502,7 @@ next_event = "stomach_ache"
 id = "stomach_ache"
 scene = "bathroom"
 character = "kurumi"
-dialogue = "吃完午餐肚子有點痛，我先去上個廁所你自己先去附近逛逛。"
+dialogue = "吃完午餐，我肚子有點痛，我先去上個廁所你自己先去附近逛逛。"
 next_event = "buy_gifts"
 
 [[events]]
@@ -503,13 +542,6 @@ dialogue = "(獲得1個玩具燧發槍)"
 next_event = "three"
 obtain = 1
 obtain_id = "flintlock"
-
-[[events]]
-id = "three"
-scene = "amusement_shop"
-character = "shopkeeper"
-dialogue = "感謝你的惠顧，歡迎再次光臨!"
-next_event = "goback_to_kurumi"
 
 [[events]]
 id = "three"
@@ -572,7 +604,7 @@ next_event = "shido_say_something"
 id = "shido_say_something"
 scene = "amusement_park2"
 character = "shido"
-dialogue = "只是想要趁遊樂園打烊前，多玩一點而已。"
+dialogue = "我只是想要趁遊樂園打烊前，多玩一點而已。"
 next_event = "continue_play"
 
 [[events]]
@@ -625,7 +657,7 @@ next_event = "secret2"
 id = "secret2"
 scene = "secret"
 character = "kurumi"
-dialogue = "(玩完後)這個解謎難度挺難的耶，我們也花很久時間才成功逃脫。"
+dialogue = "(玩完後)這個解謎難度挺難的耶，我們也花很久時間才成功逃脫，但每個解謎都好有創意喔!"
 next_event = "secret3"
 
 [[events]]
@@ -688,7 +720,7 @@ next_event = "children_talk3"
 id = "children_talk3"
 scene = "amusement_park2"
 character = "shido"
-dialogue = "我們帶她去遊客服務中心吧，讓那邊的人幫忙找她的家長。"
+dialogue = "我們帶她去遊客服務中心吧，請服務人員幫忙找她的家長。"
 next_event = "children_talk4"
 
 [[events]]
@@ -702,14 +734,14 @@ next_event = "children_talk5"
 id = "children_talk5"
 scene = "service_place"
 character = "kurumi"
-dialogue = "(處理完之後看了手錶) 哇，時間過得好快遊樂園已經快要打烊了"
+dialogue = "(處理完之後看了手錶) 哇，時間過得好快，遊樂園已經快要打烊了"
 next_event = "after_play"
 
 [[events]]
 id = "after_play"
 scene = "service_place"
 character = "kurumi"
-dialogue = "今天也玩得差不多了，是時候到別分開了，{玩家}...(準備走去門口)"
+dialogue = "今天也玩得差不多了，是時候道別分開了，{玩家}...(準備走去門口)"
 next_event = "JUDGE_end_1"
 
 [[events]]
