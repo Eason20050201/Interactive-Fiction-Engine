@@ -40,7 +40,13 @@ void main_loop(SDL_Renderer *renderer, GameState *game_state) {
     int current_screen = SCREEN_LOGIN;
     SDL_Event event;
 
-    
+    // Load music files
+    Mix_Music *login_bgm = load_music("login_bgm.mp3");
+    Mix_Music *gaming_bgm = load_music("gaming_bgm.mp3");
+
+     // Play login music initially
+    play_music(login_bgm);
+
     // Render the login screen initially
     render_login_screen(renderer);
 
@@ -48,18 +54,28 @@ void main_loop(SDL_Renderer *renderer, GameState *game_state) {
         handle_events(&event, &running, &current_screen, renderer, game_state);
 
         if (current_screen == SCREEN_LOGIN) {
+            if (Mix_PlayingMusic() == 0) {
+                play_music(login_bgm); 
+            }
             render_login_screen(renderer);
         } else if (current_screen == SCREEN_NEW_GAME) {
+            stop_music();
             current_screen = SCREEN_GAME_LOOP;
         } else if (current_screen == SCREEN_CONTINUE_GAME) {
+            stop_music();
             render_game_screen(renderer, game_state);
             current_screen = SCREEN_GAME_LOOP;
         } else if (current_screen == SCREEN_GAME_LOOP) {
+            play_music(gaming_bgm); 
             // handle_option_buttons(renderer, &event, game_state);
         } else if (current_screen == SCREEN_END ) {
             running = 0;
         }
     }
+
+    // Clean up music
+    Mix_FreeMusic(login_bgm);
+    Mix_FreeMusic(gaming_bgm);
 
     // Clean up resources
     if (game_state->current_image) {
