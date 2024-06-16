@@ -34,8 +34,12 @@ $(OBJDIR)/%.o: $(THIRDPARTYDIR)/%.c
 	@mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+# Run the executable
+run: $(EXECUTABLE)
+	./$(EXECUTABLE)
+
 # Clean up generated files
 clean:
 	rm -rf $(OBJDIR) $(BINDIR)
 
-.PHONY: all clean
+.PHONY: all clean run
