@@ -60,9 +60,11 @@ void main_loop(SDL_Renderer *renderer, GameState *game_state) {
             }
             render_login_screen(renderer);
         } else if (current_screen == SCREEN_NEW_GAME) {
+            game_state->inventory_visible = 0;
             stop_music();
             current_screen = SCREEN_GAME_LOOP;
         } else if (current_screen == SCREEN_CONTINUE_GAME) {
+            game_state->inventory_visible = 0;       
             stop_music();
             render_game_screen(renderer, game_state);
             current_screen = SCREEN_GAME_LOOP;
