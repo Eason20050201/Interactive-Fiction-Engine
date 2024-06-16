@@ -6,6 +6,7 @@
 #include "event_handler.h"
 #include "gamming.h"
 #include "player.h"
+#include "music.h"
 
 // Function to handle events
 void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Renderer *renderer, GameState *game_state) {
