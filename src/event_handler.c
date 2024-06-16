@@ -40,7 +40,13 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                 if( strcmp(game_state->event, "END") == 0 ) {
                     *current_screen = SCREEN_END;
                 }
-                if (x >= 1180 && x <= 1255 && y >= 20 && y <= 95) {
+                if (x >= 100 && x <= 175 && y >= 20 && y <= 95) {
+                    fade_out(renderer, game_state->current_image, 50);
+                    SDL_DestroyTexture(game_state->current_image);
+                    fade_in(renderer, load_texture("enter_background.png", renderer), 50);
+                    stop_music();
+                    *current_screen = SCREEN_LOGIN;
+                } else if (x >= 1180 && x <= 1255 && y >= 20 && y <= 95) {
                     handle_inventory_icon_click(renderer, game_state);
                 } else if( !game_state->inventory_visible ) {
                     //render_game_screen(renderer, game_state);
@@ -100,6 +106,7 @@ void render_game_screen(SDL_Renderer *renderer, GameState *game_state) {
     // Render character affinity in the top left corner
     // render_character_affinity(renderer, "A.png", game_state->affect_change, 10, 10, 50);
 
+    render_home_icon(renderer, 100, 20); // Render hom icon
 
     SDL_RenderPresent(renderer);
 }
@@ -123,6 +130,8 @@ void refresh_game_screen(SDL_Renderer *renderer, GameState *game_state) {
         render_button(renderer, game_state->choice_c, 350, 400, 600, 50);
     }
     render_inventory_icon(renderer, 1180, 20); // Render inventory icon
+    
+    render_home_icon(renderer, 100, 20); // Render hom icon
 
     SDL_RenderPresent(renderer);
 }
