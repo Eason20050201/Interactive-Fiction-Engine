@@ -13,7 +13,7 @@
 // Function to render the login screen
 void render_login_screen(SDL_Renderer *renderer) {
     // Load the background image
-    SDL_Texture *background = load_texture("enter_background.png", renderer);
+    SDL_Texture *background = load_texture(settings[0].enter_background, renderer);
     if (!background) {
         // Exit the program if the background image cannot be loaded
         printf("Error: Could not load enter_background.png\n");
@@ -42,8 +42,8 @@ void main_loop(SDL_Renderer *renderer, GameState *game_state) {
     SDL_Event event;
 
     // Load music files
-    Mix_Music *login_bgm = load_music("login_bgm.mp3");
-    Mix_Music *gaming_bgm = load_music("gaming_bgm.mp3");
+    Mix_Music *login_bgm = load_music(settings[0].login_bgm);
+    Mix_Music *gaming_bgm = load_music(settings[0].gaming_bgm);
 
      // Play login music initially
     play_music(login_bgm);

@@ -115,7 +115,7 @@ void render_text(SDL_Renderer *renderer, const char *text, int x, int y, int w, 
 }
 
 void render_inventory_icon(SDL_Renderer *renderer, int x, int y) {
-    SDL_Texture *icon = load_texture("inventory_icon.png", renderer);
+    SDL_Texture *icon = load_texture(settings[0].inventory_icon, renderer);
     if (!icon) {
         printf("Error: Could not load inventory_icon.png\n");
         return;
@@ -148,9 +148,9 @@ void render_inventory(SDL_Renderer *renderer, int x, int y, int w, int h, int nu
             have_item_count ++;
         }
     }
-    SDL_Texture *backpack = load_texture("backpack.png", renderer);
+    SDL_Texture *backpack = load_texture(settings[0].backpack, renderer);
     if (!backpack) {
-        printf("Error: Could not load inventory_icon.png\n");
+        printf("Error: Could not load backpack.png\n");
         return;
     }
     
@@ -323,7 +323,7 @@ void render_character_affinity(SDL_Renderer *renderer, const char *image_path, i
 }
 
 void render_home_icon(SDL_Renderer *renderer, int x, int y) {
-    SDL_Texture *icon = load_texture("home_icon.png", renderer);
+    SDL_Texture *icon = load_texture(settings[0].home_icon, renderer);
     if (!icon) {
         printf("Error: Could not load home_icon.png\n");
         return;

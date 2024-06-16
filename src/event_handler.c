@@ -51,7 +51,7 @@ void handle_events(SDL_Event *event, int *running, int *current_screen, SDL_Rend
                 if (x >= 25 && x <= 100 && y >= 20 && y <= 95) {
                     fade_out(renderer, game_state->current_image, 50);
                     SDL_DestroyTexture(game_state->current_image);
-                    fade_in(renderer, load_texture("enter_background.png", renderer), 50);
+                    fade_in(renderer, load_texture(settings[0].enter_background, renderer), 50);
                     stop_music();
                     save_game("record.txt", game_state);
                     *current_screen = SCREEN_LOGIN;
@@ -147,35 +147,16 @@ void refresh_game_screen(SDL_Renderer *renderer, GameState *game_state) {
     SDL_RenderPresent(renderer);
 }
 
-void print( GameState *game_state) {
-    printf("event: %s\n", game_state->event);
-    printf("next_event: %s\n", game_state->next_event);
-    printf("scene: %s\n", game_state->scene);
-    printf("character: %s\n", game_state->character);
-    //printf("affect_change: %d\n", game_state->affect_change);
-    printf("choice_a: %s\n", game_state->choice_a);
-    printf("choice_b: %s\n", game_state->choice_b);
-    printf("choice_c: %s\n", game_state->choice_c);
-    printf("dialogue_text: %s\n", game_state->dialogue_text);
-    printf("option1_event: %s\n", game_state->option1_event);
-    printf("option2_event: %s\n", game_state->option2_event);
-    printf("option3_event: %s\n", game_state->option3_event);
-}
-
 // Function to handle option buttons
 void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *game_state) {
-    Mix_Chunk *choice_effect = load_sound("choice.mp3");
-    Mix_Chunk *space_effect = load_sound("space.mp3");
+    Mix_Chunk *choice_effect = load_sound(settings[0].choice);
+    Mix_Chunk *space_effect = load_sound(settings[0].space);
 
     int x, y;
     SDL_GetMouseState(&x, &y);
 
     if (event->type == SDL_MOUSEBUTTONDOWN ) {
         int change_event = 0;
-
-        printf("before:\n");
-        print( game_state);
-        printf("---\n");
         
         if (x >= 350 && x <= 950 && y >= 200 && y <= 250 && game_state->have_choice) {
             play_sound(choice_effect);
@@ -284,17 +265,14 @@ void handle_option_buttons(SDL_Renderer *renderer, SDL_Event *event, GameState *
 
         if (change_event) {
             render_game_screen(renderer, game_state);
-            printf("after\n");
-            print( game_state );
-            printf("---\n");
         }
     }
 }
 
 // not yet
 void handle_inventory_icon_click(SDL_Renderer *renderer, GameState *game_state) {
-    Mix_Chunk *open_bag_effect = load_sound("open_bag.mp3");
-    Mix_Chunk *close_bag_effect = load_sound("close_bag.mp3");
+    Mix_Chunk *open_bag_effect = load_sound(settings[0].open_bag);
+    Mix_Chunk *close_bag_effect = load_sound(settings[0].close_bag);
 
     if( game_state->inventory_visible == 0 )
         play_sound(open_bag_effect);
