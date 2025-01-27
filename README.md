@@ -34,16 +34,16 @@
 ---
 
 ## 🎮 遊戲遊玩畫面展示
-（插入遊戲畫面截圖）
 
-<img src="遊戲畫面路徑" alt="遊戲畫面" width="600">
+<img src="example-game/assets/遊戲畫面.png" alt="遊戲畫面" width="600">
 
 ---
 
 ## 🤝 開發團隊
-- **成員 A**：主要負責遊戲邏輯實現。
-- **成員 B**：專注於圖形化界面開發。
-- **成員 C**：負責劇本檔設計與數據處理。
+- **成員 王翊鑫：主要負責遊戲邏輯實現、遊戲渲染函示。
+- **成員 林楷杰：劇本黨設計、遊戲介面排版、所有遊戲內圖片。
+- **成員 李韋達：負責劇本檔設計與遊戲劇情顯示。
+- 足以提及的是，有些地方的小問題，我們都會互相協助，處理掉 bug。
 
 ---
 
@@ -55,8 +55,14 @@
 ---
 
 ## 📦 專案執行
-### 安裝依賴
+### 安裝
 請確認已安裝 SDL 並設定開發環境。
+在 Ubuntu 系統環境下執行。
+下載檔案後，進入資料夾，路徑下有 Makefile ，可以直接打上 `make run` 便可開始遊玩。
 
+套件安裝：
 ```bash
 sudo apt-get install libsdl2-dev
+sudo apt install libsdl2-ttf-dev
+sudo apt install libsdl2-mixer-dev
+sudo apt install libsdl2-image-dev
