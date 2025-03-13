@@ -37,21 +37,19 @@
 本專案內建一款範例互動式遊戲，以人氣作品《約會大作戰》為基礎改編而成，玩家可透過簡單選擇與不同角色展開互動，每次決定都會影響劇情走向，帶來多樣化的遊戲體驗。
 
 🔹 簡單直覺的遊玩方式，輕鬆享受劇情
+
 🔹 多種互動選擇，帶來不同的結局
+
 🔹 還原原作風格，提供粉絲熟悉的遊戲感受
 
 你的每個選擇，都將決定最後的故事發展！
 
 ---
-
-## 🎮 遊戲畫面展示
-
-<img src="example-game/assets/遊戲畫面.png" alt="遊戲畫面展示" width="600">
-
----
 ## 📽️ 遊戲影片展示
-[![Interactive Fiction Engine demo 1（一種結局展示）](https://img.youtube.com/vi/EYNlMCSCNp7kW-GU/maxresdefault.jpg)](https://youtu.be/0ItmGbNH_2g?si=EYNlMCSCNp7kW-GU)
-[![Interactive Fiction Engine demo 2（另一種結局與存擋功能展示）](https://img.youtube.com/vi/sWRCgIb8StLft9Gp/maxresdefault.jpg)](https://youtu.be/WbrB6stzet8?si=sWRCgIb8StLft9Gp)
+### Interactive Fiction Engine demo 1（一種結局展示）（點擊圖片跳轉至 youtube 觀看影片）
+[![遊戲展示影片1](https://img.youtube.com/vi/0ItmGbNH_2g/0.jpg)](https://youtu.be/0ItmGbNH_2g?si=tJtY69pmGriEsHsZ)
+### Interactive Fiction Engine demo 2（另一種結局與存擋功能展示）（點擊圖片跳轉至 youtube 觀看影片）
+[![遊戲展示影片2](https://img.youtube.com/vi/WbrB6stzet8/0.jpg)](https://youtu.be/WbrB6stzet8?si=y0C8kzHQM6hA9RV2)
 ---
 
 ## 🤝 開發團隊
